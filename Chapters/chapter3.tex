@@ -6,6 +6,96 @@
 %% Chapter with a short latex tutorial and examples
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+
+
+\chapter{Challenges and Requirements for a Configurable Code Generator}
+\label{chap:challenges_and_requirements}
+
+\epigraph{
+	Effective code generation requires not only automation but also adaptability to project-specific demands.
+}
+
+\section{Current Issues with RAMSES Code Generation}
+\label{sec:current_issues}
+
+RAMSES is a powerful tool for automatic source code generation from AADL models, yet it faces significant limitations:
+
+\begin{itemize}
+	\item \textbf{Hardcoded Transformation Logic:} RAMSES' code generation policies—naming conventions, API selection, and coding style—are strongly embedded in the transformation rules themselves. This makes any alteration difficult and prone to errors.
+	\item \textbf{Lack of User-Defined Customization:} The generated code is not straightforward for developers to alter in order to fit project-specific requirements, like:
+	\begin{itemize}
+		\item Naming conventions (e.g., camelCase, snake\_case).
+		\item Integration with existing company APIs or legacy libraries.
+		\item Coding styles or compliance with internal guidelines.
+		\item A couple more [tbd]
+	\end{itemize}
+\end{itemize}
+
+This rigidity creates barriers to adoption in diverse industrial contexts where flexible code generation is critical.
+
+\section{Industrial Requirements}
+\label{sec:industrial_requirements}
+
+Embedded systems development in industry imposes stringent requirements on generated code:
+
+\begin{itemize}
+	\item \textbf{Coding Best Practices and Standards:} Many companies enforce strict internal coding guidelines or industry standards (such as MISRA C/C++). These rules affect naming conventions, code layout, error handling, and more.
+	\item \textbf{Reuse of Legacy APIs and Libraries:} Projects often rely on existing software assets—proprietary libraries, hardware abstraction layers, or middleware. Seamless integration with these components is mandatory.
+	\item \textbf{Maintainability and Readability:} Generated code must be readable and maintainable by developers, supporting debugging, auditing, and certification processes.
+	\item \textbf{Adaptability to Target Platforms:} Different embedded targets may have varied constraints requiring code generation adjustments (e.g., memory management strategies, concurrency models).
+\end{itemize}
+
+Addressing these needs requires a more flexible and user-driven generation process as industrial embedded software development demands code generators that are not “one size fits all” but configurable to reflect evolving project requirements and standards.
+
+
+
+\section{Defining a Configuration Language}
+\label{sec:config_language_definition}
+
+To overcome the identified challenges and satisfy industrial requirements, a dedicated configuration language for RAMSES code generation is proposed.
+
+Key considerations for this language include:
+
+\begin{itemize}
+	\item \textbf{Scope of Configurability:} The language should enable customization of:
+	\begin{itemize}
+		\item Naming conventions (variable, function, type names).
+		\item Code structure and style (indentation(?), braces style(?), comments).
+		\item Legacy code integration.
+		\item Memory handling options.
+	\end{itemize}
+	
+	\item \textbf{Specification Mechanism:} Configurations should be specified in a declarative, human-readable format that:
+	\begin{itemize}
+		\item Is easy to learn and use by developers.
+		\item Integrates seamlessly with the RAMSES generation workflow.
+		\item Allows inheritance or layering of configurations for reuse and extension.
+	\end{itemize}
+	
+	\item \textbf{Extensibility and Maintainability:} The language and its implementation must support:
+	\begin{itemize}
+		\item Easy addition of new configuration options.
+		\item Clear separation between generation logic and configuration.
+		\item Support for validation and error checking of configuration files.
+	\end{itemize}
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!10, colframe=green!50!black, title=Goal of the Configuration Language]
+	Provide a flexible and structured way of accommodating RAMSES' code generation mechanism to a broad spectrum of industrial needs without changing its internal transformation logic.
+\end{tcolorbox}
+
+
+
+
+
+
+
+
+% examples to give guidance
+
+
+
 \typeout{NT FILE chapter3.tex}%
 
 \makeatletter
@@ -15,7 +105,7 @@
 \makeatother
 
 
-\chapter{A Short \LaTeX\ Tutorial with Examples}
+\chapter{A Short \LaTeX\ Tutorial with Examples, i will delete this late on}
 \label{cha:a_short_latex_tutorial_with_examples}
 
 This Chapter aims at exemplifying how to do common stuff with \LaTeX. We also show some stuff which is not that common! ;)

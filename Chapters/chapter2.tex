@@ -191,6 +191,30 @@ As we integrate configurable generation facilities into RAMSES, we shall ensure 
 
 
 
+\bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{xltabular}{\textwidth}{Xccccc}
+	\caption{Code gen configuration feature comparison over multiple tools.}
+	\label{tab:hla:results1}\\
+	\toprule
+	\rowcolor{Gainsboro}%
+	Feature   & Simulink  & OpenModelica  & Temp   & Temp            & RAMSES \\
+	\midrule
+	Identifiers\footnote{Names of Functions, Classes, Variables, etc}     & Yes       & No          & 1          & 1              & No \\
+	Optimization~\cite{Artho03}   & 1        & 4          & 1          & \emph{2B, 1C}          & 0 \\
+	Legacy Code Integration    & 1        & 2          & 1          & \emph{A}              & 0 \\
+	NASA~\cite{Artho03}              & 1        & 1          & 1          & ---                    & 0 \\
+	Coordinates'04~\cite{Artho04}    & 1        & 4          & 1          & \emph{3C}              & 0 \\
+	Buffer~\cite{Artho04}            & 0        & 7          & 0          & \emph{2A, 1B, 2C, 2D}  & 0 \\
+	Double-Check~\cite{Artho04}      & 0        & 2          & 0          & \emph{1A, 1B}          & 0 \\
+	StringBuffer~\cite{Flanagan04}  & 1        & 0          & 0          & ---                    & 1 \\
+	\bottomrule
+\end{xltabular}
+\egroup
+
+
+
+
 %
 % Please note that
 % \begin{center}

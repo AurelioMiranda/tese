@@ -13,12 +13,15 @@
 
 
 %change this maybe
-\epigraph{ \textit{“The more you automate, the more you can focus on design, not on mechanics.”}\ — Some Systems Engineer }
+\epigraph{ \textit{In this chapter we will explore various tools related to the goal of this thesis: code generation configuration. While also explaining Acceleo, the main development tool used.}}
 
 
 \section{Model-Based Engineering (MBE) and AADL} \label{sec:mbe_and_aadl}
 
 Model-Based Engineering (MBE) has become a central methodology for the design of complex embedded systems. By putting high-level abstractions at the center, MBE enables engineers to manage system complexity through formal models rather than low-level code from the start. This abstraction is particularly critical in embedded systems, where hardware constraints and timing requirements must be closely integrated with software behavior.
+\par
+Several tool-supported methodologies, like NDT-Suite~\cite{garcia2014ndt}, show even more how MBE can be applied to real-world software engineering projects by offering methodological guidance and model-driven automation.
+
 \par
 In the context of embedded systems, MBE facilitates early validation of design decisions, much earlier than hardware exists or code is written. Engineers can model interactions, analyze performance bottlenecks, and verify compliance with safety and reliability standards — all at the model level.
 \par
@@ -64,7 +67,7 @@ While RAMSES plays a central role in the AADL toolset, it is by no means the onl
 % maybe include a sub about ocarina?
 
 
-\subsection*{Simulink Code Generation}
+\subsection*{Simulink Code Generation For Embedded Systems}
 
 Simulink is a flagship Model-Based Design solution, particularly in control systems engineering, developed by MathWorks. In comparison with the tightly integrated AADL-inherent RAMSES, Simulink is backed by a graphic modeling framework of dynamic systems, and the production of code becomes straightforward with software like Simulink Coder and Embedded Coder.
 
@@ -77,30 +80,50 @@ Key aspects of Simulink code generation are:
 
 Simulink is especially well-suited for rapid prototyping and tight integration with hardware-in-the-loop testing, and thus it is a favorite among automotive and aerospace industries.
 
+\subsection*{OpenModelica: Modelica-Based Code Generation for System Simulation}
 
-\subsection*{AUTOSAR: Automotive Industry Standard}
+OpenModelica is an open-source Modelica language-based modeling, simulation, and code generation software used intensively for system and physical modeling~\cite{openmodelica-home}. It generates simulation binaries and C code that precisely represent Modelica models and support complex system dynamics and numerical analysis~\cite{openmodelica-codegen}.
 
-AUTOSAR (AUTomotive Open System ARchitecture) is an open, standardized automotive embedded system software architecture. Unlike RAMSES and Simulink, AUTOSAR is more than a code generation tool - it is an entire methodology and collection of specifications.
+Configuration options are available through Modelica annotations and compiler flags, allowing control over simulation parameters and some aspects of code generation. These are, however, mostly simulation-related settings and not related to control of the level of source code organization, naming, and coding style.
 
-Highlights of AUTOSAR include: 
-\begin{itemize} 
-	\item \textbf{Industry Standardization:} Strongly accepted across the automotive industry for interoperability and reliability.
-	\item \textbf{High Configurability:} Facilitates extensive parameterization and reusable software components. 
-	\item \textbf{Tool Integration:} AUTOSAR-tool-supporting tools mechanize configuration, validation, and code generation tasks. 
-\end{itemize}
-
-\begin{tcolorbox}[colback=green!5, colframe=green!40!black] AUTOSAR’s configurability contrasts with RAMSES, which currently relies on hardcoded transformations, limiting its flexibility. \end{tcolorbox}
+Code generation in OpenModelica prioritizes the correctness and performance of the resulting simulation code and provides little support for adherence to a given coding standard or legacy code base~\cite{openmodelica-performance}. The major facility of the tool is to create efficient executable simulation models rather than to be highly configurable with respect to code generation output.
 
 
-\subsection*{RAMSES vs. Simulink/TargetLink: A Comparison}
+\subsection*{OpenAPI Generator: Configurable Code Generation Beyond Embedded Systems}
 
-It is important to mention a fundamental distinction: 
-\begin{itemize} 
-	\item \textbf{RAMSES} automates the model-to-code transformation for AADL but struggles with configurability. 
-	\item \textbf{Simulink and TargetLink} (a MathWorks partner product) offer multivariant configuration support, enabling developers to generate optimized code for a variety of targets from the same model.
-\end{itemize}
+OpenAPI Generator is an open-source tool that generates client SDKs, server stubs, and documentation from OpenAPI specifications. Supporting over 40 languages and frameworks~\cite{openapi-generators}, it is widely used across software projects.
 
-This comparative remark underscores the motivation for this thesis: examining how tools like Acceleo can bridge this configurability gap in RAMSES.
+Generation is controlled via configuration files (JSON or YAML) that specify package naming, class prefixes, data type mappings, and code style, enabling consistent architectural and coding standards~\cite{openapi-config}. The tool’s template-based system uses customizable Mustache templates to define code output, allowing adaptation to legacy code, custom logging, or specific frameworks. Plugin mechanisms and hooks enable further customization during generation~\cite{openapi-customization,openapi-plugins}.
+
+This flexible, configurable approach contrasts with RAMSES’s more rigid, hardcoded transformations.
+
+
+\subsection*{RAMSES vs. Other Code Generators}
+
+To better understand how RAMSES holds up against the competition in therms of code configuration, the following table~\ref{tab:code_gen_config_comparison} was created.
+
+\bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{xltabular}{\textwidth}{Xccccc}
+	\caption{Code gen configuration feature comparison over multiple tools.}
+	\label{tab:code_gen_config_comparison}\\
+	\toprule
+	\rowcolor{Gainsboro}%
+	Feature   & Simulink  & OpenModelica  & OpenAPI   & RAMSES \\
+	\midrule
+	Identifiers\footnote{Names of Functions, Classes, Variables, etc} & Yes& No & Yes   & No \\
+	Optimization   & Yes & No & No & No \\
+	Legacy Code Integration & Yes & No & Yes\footnotemark{} & No \\
+	\bottomrule
+\end{xltabular}
+\egroup
+\footnotetext{User-driven process}
+
+As can be observed, Simulink—a commercial, high-end software—thoroughly surpasses its rivals in all key aspects of code generation configurability. Its support the most sought after configurations give it is an end-to-end solution widely used in applications needing both flexibility and performance.
+
+Conversely, OpenModelica is missing a number of key points of configurability, reflecting both its complementary focus and level of maturity for code generation functionality. OpenAPI Generator, although even providing a more user-driven process in some cases, it still misses on some key features. RAMSES, in turn, presently falls short on all features, with inflexible, hardcoded transformations that curtail its usability and controllability by users.
+
+This comparison reveals, yet again, the motivation for this thesis: researching means—such as the utilization of Acceleo—by which RAMSES can be enhanced through the introduction of greater configurability and extensibility, and thereby narrowing the gap with more mature tools in the domain.
 
 \section{Acceleo and Model-to-Text Transformations} \label{sec:folders_and_files}
 
@@ -191,31 +214,8 @@ As we integrate configurable generation facilities into RAMSES, we shall ensure 
 
 
 
-\bgroup
-\rowcolors{1}{}{GhostWhite}
-\begin{xltabular}{\textwidth}{Xccccc}
-	\caption{Code gen configuration feature comparison over multiple tools.}
-	\label{tab:hla:results1}\\
-	\toprule
-	\rowcolor{Gainsboro}%
-	Feature   & Simulink  & OpenModelica  & Temp   & Temp            & RAMSES \\
-	\midrule
-	Identifiers\footnote{Names of Functions, Classes, Variables, etc}     & Yes       & No          & 1          & 1              & No \\
-	Optimization~\cite{Artho03}   & 1        & 4          & 1          & \emph{2B, 1C}          & 0 \\
-	Legacy Code Integration    & 1        & 2          & 1          & \emph{A}              & 0 \\
-	NASA~\cite{Artho03}              & 1        & 1          & 1          & ---                    & 0 \\
-	Coordinates'04~\cite{Artho04}    & 1        & 4          & 1          & \emph{3C}              & 0 \\
-	Buffer~\cite{Artho04}            & 0        & 7          & 0          & \emph{2A, 1B, 2C, 2D}  & 0 \\
-	Double-Check~\cite{Artho04}      & 0        & 2          & 0          & \emph{1A, 1B}          & 0 \\
-	StringBuffer~\cite{Flanagan04}  & 1        & 0          & 0          & ---                    & 1 \\
-	\bottomrule
-\end{xltabular}
-\egroup
 
-
-
-
-%
+ %
 % Please note that
 % \begin{center}
 %   \textbf{\large this package and template are not official for FCT/NOVA}.

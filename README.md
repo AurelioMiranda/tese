@@ -21,7 +21,8 @@ For more about my work, publications, and other projects, visit my personal webs
 
 ## How to Use
 
-Open the Tese.pdf file, there you will find the current version of my thesis,
+The template.pdf file has the most recent changes to my thesis.
+The Tese.pdf file is the current, more presentation friendly, version of my thesis (usually more outdated than template.pdf).
 
 ## License
 

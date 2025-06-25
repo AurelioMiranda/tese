@@ -13,78 +13,118 @@
 \label{chap:challenges_and_requirements}
 
 \epigraph{
-	In this chapter reveals the limitations of RAMSES' inflexible hardcoded transformation logic, describes the industrial requirements for user-defined, standards compliant and maintainable code generation, and provides the incentive for creating a dedicated configuration language to separate policy from logic to allow user-control over naming, structure, and integration requirements from diverse embedded systems contexts.
+	The ability to generate code is no longer sufficient: the code must be understandable, auditable, integrable, and compliant with a spectrum of project-specific requirements. This chapter delves into why configurability is no longer optional, and how traditional code generation pipelines must evolve.
 }
 
-\section{Current Issues with RAMSES Code Generation}
-\label{sec:current_issues}
+\section{The Inflexibility of RAMSES: A Barrier to Industrial Integration}
+\label{sec:inflexibility_ramses}
 
-RAMSES is a powerful tool for automatic source code generation from AADL models, yet it faces significant limitations:
+RAMSES has served as a robust model-to-code generator for AADL-based systems, yet it suffers from a fundamental architectural constraint: it assumes a uniform target environment. This assumption does not hold in real-world industrial projects, where system heterogeneity, legacy integration, and domain-specific standards define a constantly shifting context.
 
-\begin{itemize}
-	\item \textbf{Hardcoded Transformation Logic:} RAMSES' code generation policies—naming conventions, API selection, and coding style—are strongly embedded in the transformation rules themselves, meaning that, if a user wants to modify things such as the identifier nomenclature (eg. function names using snake\_case), that has to be done directly in the code, instance by instance. This makes any code modification difficult and prone to errors.
-	\item \textbf{Lack of User-Defined Customization:} The generated code is not straightforward for developers to alter in order to fit project-specific requirements, like:
-	\begin{itemize}
-		\item Naming conventions (e.g., camelCase, snake\_case).
-		\item Integration with existing company APIs or legacy libraries.
-		\item Coding styles or compliance with internal guidelines.
-		\item A couple more [tbd]
-	\end{itemize}
-	This means that if a developer wants to change something in the generated code, the procedure is tedious as the files need to be located, changed and integrated with the rest of the project\footnote{If a function name is altered, every instance of that name must be altered too, including other files that might use that same function name.}.
-\end{itemize}
+The core issue lies in RAMSES’ transformation pipeline: it entangles policy decisions (e.g., naming, structure, integration style) with generation logic. These decisions, hardcoded in ATL transformations, reflect the assumptions of RAMSES' authors more than the needs of downstream consumers. Altering them involves modifying the transformation source itself — often a non-trivial and error-prone task.
 
-The rigidity that exists in RAMSES creates barriers to adoption in diverse industrial contexts where flexible code generation is critical.
+Consider a simple use case: a company mandates that all task-level functions use `snake\_case` and include a `COMPONENT\_` prefix. RAMSES, which might generate `ComputeTask` by default, offers no out-of-the-box way to enforce such rules. A change in naming becomes a traversal through ATL templates and helpers. This is not scalable, and in safety-critical software, it is not acceptable.
 
-\section{Industrial Requirements}
-\label{sec:industrial_requirements}
+Furthermore, beyond naming, decisions about memory allocation models, system initialization flows, and error handling behaviors are equally rigid. There is no declarative layer that allows users to steer generation outcomes according to organizational needs or evolving constraints. As such, RAMSES provides code generation but not code governance.
 
-Embedded systems development in industry imposes stringent requirements on generated code:
+\section{Industrial Realities and Pressures}
+\label{sec:industrial_realities}
+
+To understand why this rigidity is problematic, we must shift perspective from the generator to the organization that consumes it. In industry, generated code is not ephemeral: it is versioned, peer-reviewed, statically analyzed, tested, and in some cases certified. It coexists with handwritten code, interfaces with platform-specific services, and must evolve alongside requirements.
+
+\subsection*{Compliance, Traceability, and Certification}
+
+Generated code must often comply with domain-specific standards such as:
 
 \begin{itemize}
-	\item \textbf{Coding Best Practices and Standards:} Many companies enforce strict internal coding guidelines or industry standards (such as MISRA C/C++). These rules affect naming conventions, code layout, error handling, and more.
-	\item \textbf{Reuse of Legacy APIs and Libraries:} Projects often rely on existing software assets—proprietary libraries, hardware abstraction layers, or middleware. Seamless integration with these components is mandatory.
-	\item \textbf{Maintainability and Readability:} Generated code must be readable and maintainable by developers, supporting debugging, auditing, and certification processes.
-	\item \textbf{Adaptability to Target Platforms:} Different embedded targets may have varied constraints requiring code generation adjustments (e.g., memory management strategies, concurrency models).
+	\item \textbf{MISRA C/C++:} Imposes constraints on memory usage, naming, control flow, and portability~\cite{Misra_C_2025}~\cite{Misra_Cpp_2023}.
+	\item \textbf{DO-178C:} Requires traceability, tool qualification, and clear derivation from high-level requirements.
+	\item \textbf{ISO 26262:} Enforces safety-related development practices and documentation.
 \end{itemize}
 
-Addressing these needs requires a more flexible and user-driven generation process as industrial embedded software development demands code generators that are not “one size fits all” but configurable to reflect evolving project requirements and standards.
+In these environments, code generation must do more than “just work.” It must be explainable, auditable, and deterministic. Developers must be able to trace a generated function back to a model element and forward to a specific runtime behavior.
 
+\subsection*{Integration with Legacy Codebases}
 
-
-\section{Defining a Configuration Language}
-\label{sec:config_language_definition}
-
-To overcome the identified challenges and satisfy industrial requirements, a dedicated configuration language for RAMSES code generation is proposed.
-
-Key considerations for this language include:
+Few industrial systems are greenfield. Code generators must interoperate with:
 
 \begin{itemize}
-	\item \textbf{Scope of Configurability:} The language should enable customization of:
-	\begin{itemize}
-		\item Naming conventions (variable, function, type names).
-		\item Code structure and style (indentation(?), braces style(?), comments).
-		\item Legacy code integration.
-		\item Memory handling options.
-	\end{itemize}
-	
-	\item \textbf{Specification Mechanism:} Configurations should be specified in a declarative, human-readable format that:
-	\begin{itemize}
-		\item Is easy to learn and use by developers.
-		\item Integrates seamlessly with the RAMSES generation workflow.
-		\item Allows inheritance or layering of configurations for reuse and extension.
-	\end{itemize}
-	
-	\item \textbf{Extensibility and Maintainability:} The language and its implementation must support:
-	\begin{itemize}
-		\item Easy addition of new configuration options.
-		\item Clear separation between generation logic and configuration.
-		\item Support for validation and error checking of configuration files.
-	\end{itemize}
+	\item Legacy libraries with non-negotiable APIs.
+	\item Hardware abstraction layers that impose structural patterns.
+	\item Existing software architecture rules (e.g., service bus integration, multi-core scheduling).
 \end{itemize}
 
-\begin{tcolorbox}[colback=green!10, colframe=green!50!black, title=Goal of the Configuration Language]
-	Provide a flexible and structured way of accommodating RAMSES' code generation mechanism to a broad spectrum of industrial needs without changing its internal transformation logic.
+A code generator that cannot adapt to these constraints is often sidelined in favor of manual glue code or post-processing scripts. These scripts, in turn, introduce maintainability challenges and break traceability chains.
+
+\subsection*{Developer Ergonomics and Maintenance}
+
+Even the most advanced generator will eventually produce code that is read — and possibly modified — by a human developer. If the output is verbose, inconsistent, or opaque, it erodes developer trust. Poor formatting, ambiguous naming, or surprising control flow all reduce the utility of generated artifacts, leading teams to “lock” generated files and prohibit modifications — an anti-pattern that defeats the promise of model-driven engineering.
+
+\section{Why Configuration Matters}
+\label{sec:why_configuration_matters}
+
+To resolve the issues above, we must introduce a new abstraction layer: one that separates *what is generated* from *how it is generated*. This is the role of a configuration language.
+
+A configuration language provides a structured way to express *generation policy* — the set of rules, conventions, and constraints that tailor code to its industrial context. Importantly, it allows these policies to be:
+
+\begin{itemize}
+	\item \textbf{Externalized} from the transformation logic.
+	\item \textbf{Composable} and layered across project variants.
+	\item \textbf{Validated} for correctness before code generation begins.
+\end{itemize}
+
+Such a language enables a fundamental shift: from a monolithic, one-size-fits-all generator, to a configurable and extensible platform that adapts to its environment.
+
+\section{Characteristics of an Effective Configuration Layer}
+\label{sec:config_language_characteristics}
+
+Designing such a language is non-trivial. It must strike a delicate balance between expressiveness, usability, and integration. Based on industrial feedback and analysis of RAMSES’ shortcomings, the following characteristics are proposed:
+
+\subsection*{1. Declarative, Not Imperative}
+
+Users should describe *what* they want (e.g., “all functions must use snake\_case”) rather than *how* to achieve it. This aligns with the model-driven philosophy and supports better static analysis.
+
+\subsection*{2. Human-Readable and Tool-Accessible}
+
+The configuration format (YAML, JSON, or a DSL) should be version-control friendly, diffable, and understandable to engineers. It must also be machine-readable for validation and generation.
+
+\subsection*{3. Modular and Hierarchical}
+
+Configurations should support reuse and composition. For example, a company-wide `default\_config` can be extended by a project-specific override. Inheritance models must be explicit and predictable.
+
+\subsection*{4. Aligned with Modeling Concepts}
+
+To maintain semantic coherence, configuration keys should refer to modeling elements (e.g., `thread`, `port`, `data component`) and not generator internals.
+
+\subsection*{5. Validated and Error-Tolerant}
+
+Invalid configurations should produce clear diagnostics before generation starts. Where possible, defaults and fallbacks should be available to prevent blocking workflows.
+
+\section{Beyond Code Formatting: What Configuration Should Control}
+\label{sec:config_scope}
+
+While naming and formatting are important, a powerful configuration system must go further. The following dimensions should be within scope:
+
+\begin{enumerate}
+	\item \textbf{Artifact Naming and Structuring:} Control over file names, folder layout, and identifier styles.
+	\item \textbf{Component Mapping Rules:} Declarative rules that assign AADL components to target platform concepts (e.g., RTOS tasks, processes, memory partitions).
+	\item \textbf{Memory Allocation Policies:} Whether to use static, stack, or dynamic memory for component instances or data buffers.
+	\item \textbf{Code Instrumentation:} Hooks for logging, tracing, or runtime checks (e.g., insertion of `assert` or instrumentation macros).
+	\item \textbf{Conditional Feature Flags:} Ability to enable or disable parts of the generator (e.g., generate test stubs, insert HAL wrappers).
+	\item \textbf{Toolchain-Specific Directives:} Integration of compiler pragmas, section attributes, or OS-specific macros.
+\end{enumerate}
+
+\begin{tcolorbox}[colback=blue!5, colframe=blue!50!black, title=Configuration is More Than Style]
+	While formatting is the most visible aspect of configurability, its true value lies in controlling semantic properties of the generated code: platform binding, memory behavior, traceability, and lifecycle.
 \end{tcolorbox}
 
+\section{Conclusion: Toward a Generator for System Integrators}
+\label{sec:conclusion_configurable_generation}
+
+RAMSES, in its current form, reflects a well-engineered proof-of-concept suitable for academic settings or highly controlled environments. However, modern embedded systems development — especially in regulated industries — demands more than correctness. It demands adaptability, traceability, and maintainability.
+
+Introducing a configuration language is not merely a feature — it is an architectural shift. It empowers users to define their generation context without touching generator internals, reducing risk, increasing reuse, and enabling automation across product lines.
+
+The next chapter will formalize this idea by designing a configuration language tailored to RAMSES. The goal: decouple transformation logic from project policy and pave the way for truly industrial-scale model-driven code generation.
 
 

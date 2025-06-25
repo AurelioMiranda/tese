@@ -27,17 +27,17 @@
 
 \section{Context and Motivation}
 
-There is always a need for innovation, and consequently, technological progress continues, with continuous increase in system complexity, either software or hardware. This complexity is accompanied by enormous challenges in creating the solutions, particularly when software and hardware are adjacent to one another, such as is the situation when working with the robotics programming field. 
+There is always a need for innovation, and consequently, technological progress continues, with continuous increase in system complexity~\cite{lee2008}, either software or hardware. This complexity is accompanied by enormous challenges in creating the solutions, particularly when software and hardware are adjacent to one another, such as is the situation when working with the robotics programming field. 
 \par
-For new users, robot programming can be especially daunting due to its extensive knowledge requirements and intricate integration of Cyber-Physical Systems (CPS). Such systems—comprising computer-based programs, networks, sensors, and actuators—highlight the significant contribution of software development, which is responsible for the majority of the production cost of CPS. Robotics, as a constituent of CPS, entails unique challenges in software and hardware integration, making problem identification late in the process very expensive.
+For new users, robot programming can be especially daunting due to its extensive knowledge requirements and intricate integration of Cyber-Physical Systems (CPS)~\cite{Khatib_Siciliano_2016}. Such systems, comprising computer-based programs, networks, sensors, and actuators, highlight the significant contribution of software development, which is responsible for the majority of the production cost of CPS~\cite{Rajkumar_Ragunathan_Lee_2010}. Robotics, as a constituent of CPS, entails unique challenges in software and hardware integration, making problem identification late in the process very expensive.
 \par
-Model-Driven (MD) approaches have proven to be effective solutions in this situation, offering the advantages of generation of high-quality code and results consistently. The placement of the model at the center of the production process ensures that the developers are given a higher level of abstraction, while the complexity during the development of new systems is reduced.
+Model-Driven (MD) approaches have proven to be effective solutions in this situation, offering the advantages of generation of high-quality code and results consistently~\cite{Schmidt_DC_2006}. The placement of the model at the center of the production process ensures that the developers are given a higher level of abstraction, while the complexity during the development of new systems is reduced.
 
 \subsection{AADL and RAMSES}
 
-Of all these MD techniques, the Architecture Analysis and Design Language (AADL) is a strong modeling language well-suited to embedded systems. It enables accurate description of hardware and software architecture to support early validation and analysis of non-functional properties.
+Of all these MD techniques, the Architecture Analysis and Design Language (AADL) is a strong modeling language well-suited to embedded systems~\cite{Feiler_Lewis_Vestal_2006}. It enables accurate description of hardware and software architecture to support early validation and analysis of non-functional properties.
 \par
-The Refinement of AADL Models for the Synthesis of Embedded Systems (RAMSES) project extends AADL to automatically generate source code for embedded systems. RAMSES, being a model-to-text transformation tool, enhances CPS software development quality and productivity by preventing human coding errors and accelerating the path from design to deployment.
+As shown by Borde et al.~\cite{Borde_Rahmoun_Cadoret_Pautet_Singhoff_Dissaux_2014}, the Refinement of AADL Models for the Synthesis of Embedded Systems (RAMSES) project extends AADL to automatically generate source code for embedded systems. RAMSES, being a model-to-text transformation tool, enhances CPS software development quality and productivity by preventing human coding errors and accelerating the path from design to deployment.
 
 \begin{tcolorbox}[colback=green!8]
 	“With the ever increasing complexity of cyber-physical systems, RAMSES ensures trustworthy automation from design to deployment.”
@@ -48,15 +48,15 @@ This project is a joint collaboration between DI NOVA, NOVALINCS, and Télécom 
 
 \subsection{Why Configurability is Necessary}
 
-While RAMSES utilization presents multiple advantages, there remains one issue: its decisions for generating code are hardcoded and rigid. Little is under control of the developer for elements such as code appearance, binding against specific APIs, or maintaining firm standards-based company guidelines. In industrial environments, where the need arises to reuse today's libraries and frameworks to uphold current standards, such a lack of flexibility presents a bottleneck.
+While RAMSES utilization presents multiple advantages, there remains one issue: its decisions for generating code are hardcoded and rigid. Little is under control of the developer for elements such as code appearance, binding against specific APIs, or maintaining firm standards-based company guidelines. In industrial environments, where the need arises to reuse today's libraries and frameworks to uphold current standards, such a lack of flexibility presents a bottleneck. 
 \par
-Flexibility to customize code generated is imperative in order to encourage increased adoption by industry and to facilitate integration in diverse development environments. With configurability, RAMSES can be set up to generate code that not only meets functional requirements but also conforms to organizational coding conventions and leverages accessible software assets.
+Flexibility to customize code generated is imperative in order to encourage increased adoption by industry and to facilitate integration in diverse development environments~\cite{Mikova_2025}. With configurability, RAMSES can be set up to generate code that not only meets functional requirements but also conforms to organizational coding conventions and leverages accessible software assets.
 
 \section{Problem Statement}
 
 RAMSES does not have flexibility in its code generation process currently. Its generation strategies such as coding style conventions, library use, and API selection are fixedly embedded within its transformation rules. This lack of flexibility limits its application in industrial environments where projects rely on pre-existing company libraries and specific coding standards.
 \par
-Hence, RAMSES to other applications is a invasive conversion of its internal logic of model-to-text conversion. This does not just contribute maintenance overhead but also discourages wider use of the tool within the field.
+Currently, adapting RAMSES to different industrial contexts requires modifying its internal model-to-text transformation logic. This approach can increase maintenance effort and complicate integration with existing workflows, potentially limiting the broader adoption of the tool in diverse development environments. 
 
 
 \section{Objectives and Contributions}
@@ -67,7 +67,6 @@ The key contributions of this thesis include:
 \begin{itemize}
 	\item The definition of a configuration language for parameterizing the RAMSES code generation process.
 	\item The introduction of mechanisms to enable customized C code generation, supporting various coding styles, library integrations, and API choices.
-	\item Provision for reusing company libraries that already exist, enabling smoother integration of RAMSES into industrial development processes.
 	\item The facilitation of reusing company libraries that already exist, enabling smoother integration of RAMSES into industrial development processes.
 \end{itemize}
 

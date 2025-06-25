@@ -3,7 +3,7 @@
 %% chapter3.tex
 %% NOVA thesis document file
 %%
-%% Chapter with a short latex tutorial and examples
+%% Challenges and requirements to build the DSL
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -38,7 +38,7 @@ Generated code must often comply with domain-specific standards such as:
 
 \begin{itemize}
 	\item \textbf{MISRA C/C++:} Imposes constraints on memory usage, naming, control flow, and portability~\cite{Misra_C_2025}~\cite{Misra_Cpp_2023}.
-	\item \textbf{DO-178C:} Requires traceability, tool qualification, and clear derivation from high-level requirements.
+	\item \textbf{DO-178C:} Requires traceability, tool qualification, and clear derivation from high-level requirements. 
 	\item \textbf{ISO 26262:} Enforces safety-related development practices and documentation.
 \end{itemize}
 
@@ -46,26 +46,32 @@ In these environments, code generation must do more than “just work.” It mus
 
 \subsection*{Integration with Legacy Codebases}
 
-Few industrial systems are greenfield. Code generators must interoperate with:
+Most industrial systems are not built from scratch. Code generators must work alongside:
 
 \begin{itemize}
 	\item Legacy libraries with non-negotiable APIs.
 	\item Hardware abstraction layers that impose structural patterns.
-	\item Existing software architecture rules (e.g., service bus integration, multi-core scheduling).
+	\item Existing software architecture rules (how modules communicate, how tasks are organized).
 \end{itemize}
 
 A code generator that cannot adapt to these constraints is often sidelined in favor of manual glue code or post-processing scripts. These scripts, in turn, introduce maintainability challenges and break traceability chains.
 
 \subsection*{Developer Ergonomics and Maintenance}
 
-Even the most advanced generator will eventually produce code that is read — and possibly modified — by a human developer. If the output is verbose, inconsistent, or opaque, it erodes developer trust. Poor formatting, ambiguous naming, or surprising control flow all reduce the utility of generated artifacts, leading teams to “lock” generated files and prohibit modifications — an anti-pattern that defeats the promise of model-driven engineering.
+Even the most advanced generator will eventually produce code that is read (and possibly modified) by a human developer. 
+
+\begin{tcolorbox}[colback=green!8]
+	If developers can’t read or rely on the generated code, they’ll stop trusting it altogether.
+\end{tcolorbox}
+
+Poor formatting, ambiguous naming, or surprising control flow all reduce the utility of generated artifacts, leading teams to “lock” generated files and prohibit modifications: an anti-pattern that defeats the promise of model-driven engineering.
 
 \section{Why Configuration Matters}
 \label{sec:why_configuration_matters}
 
-To resolve the issues above, we must introduce a new abstraction layer: one that separates *what is generated* from *how it is generated*. This is the role of a configuration language.
+To resolve the issues above, we must introduce a new abstraction layer: one that separates \textbf{what} is generated from \textbf{how} it is generated. This is the role of a configuration language.
 
-A configuration language provides a structured way to express *generation policy* — the set of rules, conventions, and constraints that tailor code to its industrial context. Importantly, it allows these policies to be:
+A configuration language provides a structured way to express \textbf{generation policy}: the set of rules, conventions, and constraints that tailor code to its industrial context. Importantly, it allows these policies to be:
 
 \begin{itemize}
 	\item \textbf{Externalized} from the transformation logic.
@@ -73,24 +79,24 @@ A configuration language provides a structured way to express *generation policy
 	\item \textbf{Validated} for correctness before code generation begins.
 \end{itemize}
 
-Such a language enables a fundamental shift: from a monolithic, one-size-fits-all generator, to a configurable and extensible platform that adapts to its environment.
+Such language enables a fundamental shift: from a monolithic, one-size-fits-all generator, to a configurable and extensible platform that adapts to its environment.
 
 \section{Characteristics of an Effective Configuration Layer}
 \label{sec:config_language_characteristics}
 
-Designing such a language is non-trivial. It must strike a delicate balance between expressiveness, usability, and integration. Based on industrial feedback and analysis of RAMSES’ shortcomings, the following characteristics are proposed:
+Designing this kind of language is challenging. It needs to balance expressiveness, ease of use, and seamless integration. Based on industrial feedback and analysis of RAMSES’ shortcomings, the following characteristics are proposed:
 
 \subsection*{1. Declarative, Not Imperative}
 
-Users should describe *what* they want (e.g., “all functions must use snake\_case”) rather than *how* to achieve it. This aligns with the model-driven philosophy and supports better static analysis.
+Users should describe \textbf{what} they want (e.g., “all functions must use snake\_case”) rather than \textbf{how} to achieve it. This aligns with the model-driven philosophy and supports better static analysis.
 
 \subsection*{2. Human-Readable and Tool-Accessible}
 
-The configuration format (YAML, JSON, or a DSL) should be version-control friendly, diffable, and understandable to engineers. It must also be machine-readable for validation and generation.
+The configuration format (proposed DSL) should work well with version control, support difference review, and remain readable to engineers. It must also be machine-readable for validation and generation.
 
 \subsection*{3. Modular and Hierarchical}
 
-Configurations should support reuse and composition. For example, a company-wide `default\_config` can be extended by a project-specific override. Inheritance models must be explicit and predictable.
+Configurations should support reuse and composition. For example, a company-wide `default\_config` can be extended by a project-specific override. Inheritance models must be explicit and predictable. (review this********************)
 
 \subsection*{4. Aligned with Modeling Concepts}
 
@@ -108,22 +114,22 @@ While naming and formatting are important, a powerful configuration system must 
 \begin{enumerate}
 	\item \textbf{Artifact Naming and Structuring:} Control over file names, folder layout, and identifier styles.
 	\item \textbf{Component Mapping Rules:} Declarative rules that assign AADL components to target platform concepts (e.g., RTOS tasks, processes, memory partitions).
-	\item \textbf{Memory Allocation Policies:} Whether to use static, stack, or dynamic memory for component instances or data buffers.
+	\item \textbf{Memory Allocation Policies:} Whether to use static, stack, or dynamic memory for component instances or data buffers. (review this*************)
 	\item \textbf{Code Instrumentation:} Hooks for logging, tracing, or runtime checks (e.g., insertion of `assert` or instrumentation macros).
 	\item \textbf{Conditional Feature Flags:} Ability to enable or disable parts of the generator (e.g., generate test stubs, insert HAL wrappers).
 	\item \textbf{Toolchain-Specific Directives:} Integration of compiler pragmas, section attributes, or OS-specific macros.
 \end{enumerate}
 
 \begin{tcolorbox}[colback=blue!5, colframe=blue!50!black, title=Configuration is More Than Style]
-	While formatting is the most visible aspect of configurability, its true value lies in controlling semantic properties of the generated code: platform binding, memory behavior, traceability, and lifecycle.
+	While formatting is the most visible aspect of configurability, its true value lies in controlling semantic properties of the generated code: platform binding, integration, traceability, and lifecycle.
 \end{tcolorbox}
 
-\section{Conclusion: Toward a Generator for System Integrators}
+\section{Toward a Generator for System Integrators}
 \label{sec:conclusion_configurable_generation}
 
-RAMSES, in its current form, reflects a well-engineered proof-of-concept suitable for academic settings or highly controlled environments. However, modern embedded systems development — especially in regulated industries — demands more than correctness. It demands adaptability, traceability, and maintainability.
+RAMSES has proven to be a robust and effective tool for model-to-code generation, particularly within academic contexts and controlled environments. However, as embedded systems development increasingly intersects with regulatory and industrial demands, the expectations placed on code generators have grown. Beyond correctness, they must now offer adaptability, traceability, and long-term maintainability to meet evolving project requirements.
 
-Introducing a configuration language is not merely a feature — it is an architectural shift. It empowers users to define their generation context without touching generator internals, reducing risk, increasing reuse, and enabling automation across product lines.
+Introducing a configuration language is not merely a feature, it's an architectural shift. It allows users to define their generation context without touching generator internals, reducing risk, increasing reuse, and enabling automation across product lines.
 
 The next chapter will formalize this idea by designing a configuration language tailored to RAMSES. The goal: decouple transformation logic from project policy and pave the way for truly industrial-scale model-driven code generation.
 

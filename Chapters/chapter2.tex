@@ -3,7 +3,7 @@
 %% chapter2.tex
 %% NOVA thesis document file
 %%
-%% Chapter with the template manual
+%% Background, related work and tools
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \typeout{NT FILE chapter2.tex}%
@@ -25,7 +25,7 @@ Several tool-supported methodologies, like NDT-Suite~\cite{garcia2014ndt}, show 
 \par
 In the context of embedded systems, MBE facilitates early validation of design decisions, much earlier than hardware exists or code is written. Engineers can model interactions, analyze performance bottlenecks, and verify compliance with safety and reliability standards — all at the model level.
 \par
-One of the most important participants in this strategy is the \textbf{Architecture Analysis \& Design Language (AADL)}. AADL is a formal hardware/software co-design modeling language. It gives precise semantics to model the architecture and behavior of embedded systems, ranging from processor bindings and memory layouts to communication buses and task scheduling.
+One of the most important participants in this strategy is the \textbf{Architecture Analysis and Design Language (AADL)}. AADL is a formal hardware/software co-design modeling language. It gives precise semantics to model the architecture and behavior of embedded systems, ranging from processor bindings and memory layouts to communication buses and task scheduling.
 \par
 AADL is not only strong in its description power but stronger in being capable of supporting early analysis of non-functional properties such as timing, reliability, and safety constraints. This is very well suited to industries such as aerospace, automotive, and defense, where such considerations are a given.
 \par
@@ -100,7 +100,7 @@ This flexible, configurable approach contrasts with RAMSES’s more rigid, hardc
 
 \subsection*{RAMSES vs. Other Code Generators}
 
-To better understand how RAMSES holds up against the competition in therms of code configuration, the following table~\ref{tab:code_gen_config_comparison} was created.
+To better understand how RAMSES holds up against the competition in therms of code configuration, the following Table~\ref{tab:code_gen_config_comparison} was created.
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}
@@ -113,17 +113,50 @@ To better understand how RAMSES holds up against the competition in therms of co
 	\midrule
 	Identifiers\footnote{Names of Functions, Classes, Variables, etc} & Yes& No & Yes   & No \\
 	Optimization   & Yes & No & No & No \\
-	Legacy Code Integration & Yes & No & Yes\footnotemark{} & No \\
+	Legacy Code Integration & Yes & No & Yes\footnotemark[1] & No \\
+	Traceability & Yes & No & No & No \\
+	Reporting & Yes & No & No & No \\
+	Protected Areas & Yes & No & No & No \\
+	Inline Functions & Yes & No & No & No \\
+	Dead Code Elimination & Yes & No & No & No \\
+	Comments & Yes & No & No & No \\
+	Compliance Support & Yes\footnotemark[1]{}\footnotemark[2]{} & No\footnotemark[2]{} & No\footnotemark[2]{} & No\footnotemark[2]{} \\
 	\bottomrule
 \end{xltabular}
 \egroup
-\footnotetext{User-driven process}
+	\footnotetext[1]{User-driven process (not entirely automatic)}
+	\footnotetext[2]{Normal code generation \textit{might} generate compliant code, but its not very certain.}
 
-As can be observed, Simulink—a commercial, high-end software—thoroughly surpasses its rivals in all key aspects of code generation configurability. Its support the most sought after configurations give it is an end-to-end solution widely used in applications needing both flexibility and performance.
+As can be observed in Table~\ref{tab:code_gen_config_comparison}, Simulink—a commercial, high-end software—thoroughly surpasses its rivals in all key aspects of code generation configurability. Its support the most sought after configurations give it is an end-to-end solution widely used in applications needing both flexibility and performance.
 
 Conversely, OpenModelica is missing a number of key points of configurability, reflecting both its complementary focus and level of maturity for code generation functionality. OpenAPI Generator, although even providing a more user-driven process in some cases, it still misses on some key features. RAMSES, in turn, presently falls short on all features, with inflexible, hardcoded transformations that curtail its usability and controllability by users.
 
 This comparison reveals, yet again, the motivation for this thesis: researching means—such as the utilization of Acceleo—by which RAMSES can be enhanced through the introduction of greater configurability and extensibility, and thereby narrowing the gap with more mature tools in the domain.
+
+The features found in table~\ref{tab:code_gen_config_comparison} are taken, not just from the code generators observed, but also from the wants and needs of the industry. The following feature model, present in Figure~\ref{} was the outcome of that research.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[height=0.4\textwidth]{featureModel.png}
+	\caption{Code Gen Config Feature Model}
+	\label{fig:feature_model}
+\end{figure}
+
+With this, we can have a clearer look at the broader picture. The features suggested are not just the result of analyzing existing code generators like Simulink, OpenModelica, and OpenAPI Generator, they are also derived from a synthesis of industry demands and recurring pain points observed in real-world development environments.
+
+Figure~\ref{fig:feature_model} organizes these configurability aspects into a feature model, grouping them into categories such as Optimization, Traceability, Compliance Standards, Memory Configuration, and Custom Code Integration. The model also highlights optional, alternative, and concrete features that modern code generation tools must support to be competitive and practical across diverse application domains, from automotive (e.g., Autosar, MISRA-C) to safety-critical systems (e.g., DO-178C, IEC 61508).
+
+Additionally, this model also possesses some contrainsts when dealing with certain features, those constraints are the following:
+
+\begin{itemize} 
+	\item Misra-C/C++ implies C or C++
+	\item Autosar implies C
+	\item DO-178C implies C or C++
+	\item "IEC 61508" implies C or C++ or Java
+	\item "Template Customization" implies "Template Based"
+\end{itemize}
+
+This essentially means that most code standards are locked to one or more programming languages, if those programming languages are not selected, the standards does not apply. Similarly, Template Customazation can only be applied to Template Based solutions.
 
 \section{Acceleo and Model-to-Text Transformations} \label{sec:folders_and_files}
 
@@ -173,7 +206,7 @@ These approaches allow programmers to mold the auto-generated code towards proje
 
 \subsection*{Hook Functions in TargetLink}
 
-TargetLink, another market leader in code generation tools, comes with the concept of \textbf{hook functions} — pre-compiled points of extension within the generated code that allow developers to plug in their own logic. The facility is most handy in a number of situations. For example, it eases the integration with legacy APIs or platform-dependent libraries and allows developers to add extensions without altering the primary generated code.
+TargetLink, another market leader in code generation tools, comes with the concept of \textbf{hook functions}: pre-compiled points of extension within the generated code that allow developers to plug in their own logic. The facility is most handy in a number of situations. For example, it eases the integration with legacy APIs or platform-dependent libraries and allows developers to add extensions without altering the primary generated code.
 \par
 In addition, hook functions have the benefit of being customizable without compromising maintainability or upgradability of the generated code. When models evolve, code under it can remain unchanged while introducing custom logic using these extension points. This solution offers a clean trade-off between extending the generated code and offering its long-term maintainability with less effort for future upgrades.
 
@@ -204,7 +237,7 @@ Including configurability in RAMSES would offer several benefits. It would facil
 
 \subsection*{Towards MISRA C/C++ Compliance}
 
-Finally, a central element of code generation in configurable code generation, particularly in the field of safety-critical application domains, is to generate \textbf{standard-compliant code}. Strict requirements for safe, portable, and reliable embedded software are presented by the MISRA (Motor Industry Software Reliability Association) C and C++ standards.
+A central element of code generation in configurable code generation, particularly in the field of safety-critical application domains, is to generate \textbf{standard-compliant code}. Strict requirements for safe, portable, and reliable embedded software are presented by the MISRA (Motor Industry Software Reliability Association) C~\cite{Misra_C_2025} and C++~\cite{Misra_Cpp_2023} standards.
 \par
 Compliance to MISRA plays several principal roles: it enhances software safety by minimizing the likelihood of undefined behavior and runtime errors, guarantees that development processes meet the high standards demanded by industries such as the automobile and aerospace industries where in some instances compliance is mandatory, and is readily compatible with existing toolchains, as most static analysis tools are tailored to enforce MISRA rules.
 \par

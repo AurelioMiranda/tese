@@ -113,16 +113,21 @@ While naming and formatting are important, a powerful configuration system must 
 
 \begin{enumerate}
 	\item \textbf{Artifact Naming and Structuring:} Control over file names, folder layout, and identifier styles.
-	\item \textbf{Component Mapping Rules:} Declarative rules that assign AADL components to target platform concepts (e.g., RTOS tasks, processes, memory partitions).
-	\item \textbf{Memory Allocation Policies:} Whether to use static, stack, or dynamic memory for component instances or data buffers. (review this*************)
-	\item \textbf{Code Instrumentation:} Hooks for logging, tracing, or runtime checks (e.g., insertion of `assert` or instrumentation macros).
-	\item \textbf{Conditional Feature Flags:} Ability to enable or disable parts of the generator (e.g., generate test stubs, insert HAL wrappers).
+	\item \textbf{Component Mapping Rules:} Declarative rules that assign AADL components to target platform concepts (RTOS tasks, processes, etc).
+	\item \textbf{Code Instrumentation:} Hooks for logging, tracing, or runtime checks (insertion of `assert` or instrumentation macros).
+	\item \textbf{Conditional Feature Flags:} Ability to enable or disable parts of the generator (generate test stubs, insert HAL wrappers).
 	\item \textbf{Toolchain-Specific Directives:} Integration of compiler pragmas, section attributes, or OS-specific macros.
 \end{enumerate}
 
 \begin{tcolorbox}[colback=blue!5, colframe=blue!50!black, title=Configuration is More Than Style]
 	While formatting is the most visible aspect of configurability, its true value lies in controlling semantic properties of the generated code: platform binding, integration, traceability, and lifecycle.
 \end{tcolorbox}
+
+\section{Proof of concept}
+\label{sec:proof_of_concept}
+
+In order to better understand the whole concept of the DSL to be built during this thesis, a prototype that encompasses the logic of the 
+
 
 \section{Toward a Generator for System Integrators}
 \label{sec:conclusion_configurable_generation}

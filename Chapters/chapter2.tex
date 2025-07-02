@@ -111,27 +111,29 @@ To better understand how RAMSES holds up against the competition in therms of co
 	\rowcolor{Gainsboro}%
 	Feature   & Simulink  & OpenModelica  & OpenAPI   & RAMSES \\
 	\midrule
-	Identifiers\footnote{Names of Functions, Classes, Variables, etc} & Yes& No & Yes   & No \\
-	Optimization   & Yes & No & No & No \\
-	Legacy Code Integration & Yes & No & Yes\footnotemark[1] & No \\
-	Traceability & Yes & No & No & No \\
-	Reporting & Yes & No & No & No \\
-	Protected Areas & Yes & No & No & No \\
-	Inline Functions & Yes & No & No & No \\
-	Dead Code Elimination & Yes & No & No & No \\
-	Comments & Yes & No & No & No \\
-	Compliance Support & Yes\footnotemark[1]{}\footnotemark[2]{} & No\footnotemark[2]{} & No\footnotemark[2]{} & No\footnotemark[2]{} \\
+	Identifiers\footnotemark[1] & Yes& No & Yes   & No \\
+	Legacy Code Integration & Yes & No & Yes\footnotemark[2]{} & No \\
+	Generational Hooks & Yes & Yes\footnotemark[2]{} & Yes & No \\
+	Traceability & Yes & No & Yes & Yes\footnotemark[2]{} \\
+	Reporting & Yes & No & Yes & Yes\footnotemark[2]{} \\
+	Protected Areas & Yes & No & Yes\footnotemark[3]{} & No \\
+	Inline Functions & Yes & Yes & Yes\footnotemark[4]{} & No \\
+	Dead Code Elimination & Yes & Yes & Yes\footnotemark[4]{} & No \\
+	Comments & Yes & No & Yes\footnotemark[2]{}\footnotemark[4]{} & No \\
+	Compliance Support & Yes\footnotemark[2]{}\footnotemark[3]{} & No\footnotemark[3]{} & No\footnotemark[3]{} & No\footnotemark[3]{} \\ 
 	\bottomrule
 \end{xltabular}
 \egroup
-	\footnotetext[1]{User-driven process (not entirely automatic)}
-	\footnotetext[2]{Normal code generation \textit{might} generate compliant code, but its not very certain.}
+	\footnotetext[1]{Names of Functions, Classes, Variables, etc}
+	\footnotetext[2]{User-driven process (not entirely automatic)}
+	\footnotetext[3]{Normal code generation \textit{might} generate compliant code, but its not very certain.}
+	\footnotetext[4]{Limited functionality or abstraction.}
 
-As can be observed in Table~\ref{tab:code_gen_config_comparison}, Simulink—a commercial, high-end software—thoroughly surpasses its rivals in all key aspects of code generation configurability. Its support the most sought after configurations give it is an end-to-end solution widely used in applications needing both flexibility and performance.
+As can be observed in Table~\ref{tab:code_gen_config_comparison}, Simulink, a commercial high-end software, surpasses its rivals in all key aspects of code generation configurability. Its support the most sought after configurations give it is an end-to-end solution widely used in applications needing both flexibility and performance, but not on AADL.
 
 Conversely, OpenModelica is missing a number of key points of configurability, reflecting both its complementary focus and level of maturity for code generation functionality. OpenAPI Generator, although even providing a more user-driven process in some cases, it still misses on some key features. RAMSES, in turn, presently falls short on all features, with inflexible, hardcoded transformations that curtail its usability and controllability by users.
 
-This comparison reveals, yet again, the motivation for this thesis: researching means—such as the utilization of Acceleo—by which RAMSES can be enhanced through the introduction of greater configurability and extensibility, and thereby narrowing the gap with more mature tools in the domain.
+This comparison reveals, yet again, the motivation for this thesis: researching means such as the utilization of Acceleo, by which RAMSES can be enhanced through the introduction of greater configurability and extensibility, and thereby narrowing the gap with more mature tools in the domain.
 
 The features found in table~\ref{tab:code_gen_config_comparison} are taken, not just from the code generators observed, but also from the wants and needs of the industry. The following feature model, present in Figure~\ref{fig:feature_model} was the outcome of that research.
 

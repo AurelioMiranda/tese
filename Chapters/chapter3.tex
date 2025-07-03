@@ -128,7 +128,10 @@ While naming and formatting are important, a powerful configuration system must 
 
 In order to better understand the whole concept of the DSL to be built during this thesis, a prototype that encompasses a specific feature needed in the RAMSES tool was built with the intent of showcasing the usage of the configuration language, in a controlled environment.
 
-The selected feature to be implemented by the prototype was the Identifier Modification option, which essentially means having a higher control over the generated function, variable, and class names in the generated code.
+\subsection{How it works}
+\label{sec:how_it_works}
+
+The selected feature to be implemented by the prototype was the Identifier Modification option, which essentially means having a higher control over the generated function, variable, and class names in the generated code. This features was chosen since it is fairly straight forward to implement and also decently portable, more on that later. 
 
 Lets take the following example:
 
@@ -151,7 +154,77 @@ The developed prototype focuses directly on that front, providing an adjacent co
 	\item The target naming convention is selected in the configuration model
 	\item The final code is generated with the now correct identifier nomenclature.
 \end{enumerate}
+ 
+ 
+For a clearer understanding of the flow of the prototype, here's a flowchart:
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[height=0.22\textwidth]{prototype_flowchart.png}
+	\caption{Flowchart of the prototype}
+	\label{fig:prototype_flowchart}
+\end{figure}
+
+The user interacts with the main model (Taskset in this case) and \textit{can} interact with the configuration model aswell, if thats the case, the user will see changes in the code in accordance to the options selected in the configuration model.
+
+The configuration model is not tightly coupled to the main workflow and is not mandatory, it works alongside the main model but provides extra options and choices to the user in therms of code customization, effectively elevating a bit more the code quality of the given taskset generated code.
+
+\subsection{Practical Example}
+\label{sec:practical_example}
+ 
+Let's take a look at a practical example of the prototype, and, since the placeholder code has already been defined and altered to allow for dinamic identifier changes, all we have to do is select the naming convention on the configuration model.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[height=0.22\textwidth]{naming_convention_selection.png}
+	\caption{Selection of the naming convention}
+	\label{fig:prototype_selection}
+\end{figure}
+
+As we can observe from Figure~\ref{fig:prototype_selection}, the prototype presents a rough and unrefined way of user interaction, in order to change the configuration the user must change the configuration model itself via its properties, which is not the end goal for the final product but works well in testing/controlled environments. 
+
+The current selected option in Figure~\ref{fig:prototype_selection} is the default option, which will not modify the file:
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[height=0.12\textwidth]{default_naming_option.png}
+	\caption{Result of the code generation in the default form}
+	\label{fig:prototype_default_option}
+\end{figure}
+
+Taking in the result from Figure~\ref{fig:prototype_default_option} we can get an idea of the default, unaltered code generation, but our goal is not simply to generate code, we can select a different naming option via the configurator model, save, and regenerate the code. The change is clear.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[height=0.12\textwidth]{snake_case_naming_option.png}
+	\caption{Result of the code generation with the snake\_case naming option}
+	\label{fig:prototype_snake_case}
+\end{figure}
+
+Comparing Figure~\ref{fig:prototype_default_option} with Figure~\ref{fig:prototype_snake_case}, we can clearly see where the configuration model applies its modifications: always on the identifiers and never on anything else, especially not on the keywords\footnote{Keywords like \textit{Void} are common and easy to identify. In this observed case however, in both Figures~\ref{fig:prototype_default_option} and~\ref{fig:prototype_snake_case} we see that \textit{thread\_config\_t} is also present but this is a \textit{Struct}, which, while not an exclusive keyword, it serves a purpose like \textit{Void} or \textit{int} and is \textbf{not} an identifier.}.
+
+The idenfitiers (in this case the name of the function\footnote{T1} and the name of the variable\footnote{t\_1\_info}) change seamlessly according to the selected naming convention in the configurator. This is the expected behaviour for the features to be implemented, they should provide additional value while also keeping the base generated code available if the user does not wish to modify it at all. 
+
+\subsubsection{User Feedback}
+
+TODO: tommorow
+
+\subsection{Technical Details}
+\label{sec:prototype_technical_details}
+
+Even though its application is specific to the code developed for the prototype is fairly generic. This means that, most of the logic and code used for this prototype can be ported directly to RAMSES without much issue, effectively implementing the feature, albeit testing will still be performed.
+
+The naming convention change logic is pretty straight forward, as we want to modify the identifiers, and those come from model properties. From there the properties that represent identifiers are formatted as they are being added to the code, effectively making sure the main model stays untouched while the properties extracted are modified into the desired outcome. This makes sure only the specific selected properties are modified and the rest of the code generates as normal.
+
+The algorithm used for the naming transformation has many fallbacks that make it so even if a property name is especially complex, cases like short names are handled with care and specific styles like snake\_case, while having complex patterns, can be easily defined with Regex lines. 
+
+As the configuration model is built on Ecore, the addition of new naming styles is not possible directly by the user, this means two things: in order to enter a wrong coding style the user needs to have high technical knowledge of the system\footnote{This can change with the proper DSL implementation, however, configuration checks will be applied then, removing this problem.}. If instead we wanted to \textbf{add} a new naming style, that is very much possible with a quick modification of the Configurator's Ecore model and the Acceleo naming format algorithm.
+
+\subsubsection{Multiple Models in Acceleo}
+
+Working with 2 Ecore models was not very straightforward, although Acceleo provides the resources needed to work with multiple Ecore models, Eclipse itself does not allow for multiple input models in a single run configuration. To work around this, a custom \textit{main()} method was made to register the metamodels into the resources, effectively allowing for the usage of both metamodels. This issue, while small, presented a fairly decent deal of complications for the development of the prototype, specifically because Acceleo documentation on the matter was scarce and community forums were unhelpful.
+
+Nevertheless, this solution allows not just for the usage of multiple models in this prototype but also in any other projects that need an Acceleo program with 2 or model Ecore models as inputs.
 
 
 \section{Toward a Generator for System Integrators}

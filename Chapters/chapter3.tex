@@ -13,7 +13,7 @@
 \label{chap:challenges_and_requirements}
 
 \epigraph{
-	This chapter explain why configurability is no longer optional, and how traditional code generation pipelines must evolve. In addition, a prototype of the configuration is also presented.
+	This chapter explain why configurability is no longer optional, and how traditional code generation pipelines must evolve. In addition, a prototype of the configuration is also presented along with an implementation plan.
 }
 
 \section{The Inflexibility of RAMSES: A Barrier to Industrial Integration}
@@ -126,7 +126,32 @@ While naming and formatting are important, a powerful configuration system must 
 \section{Proof of concept}
 \label{sec:proof_of_concept}
 
-In order to better understand the whole concept of the DSL to be built during this thesis, a prototype that encompasses the logic of the 
+In order to better understand the whole concept of the DSL to be built during this thesis, a prototype that encompasses a specific feature needed in the RAMSES tool was built with the intent of showcasing the usage of the configuration language, in a controlled environment.
+
+The selected feature to be implemented by the prototype was the Identifier Modification option, which essentially means having a higher control over the generated function, variable, and class names in the generated code.
+
+Lets take the following example:
+
+\begin{verbatim}
+class MyNode : public rclcpp::Node {
+	public:
+	MyNode() : Node("my_node") {
+		(...)
+	}
+\end{verbatim}
+
+A simple Node class has the class identifier \texttt{MyNode}. In the case of RAMSES, MyNode would be inherited from the AADL model, meaning that, in order to change the code nomenclature of MyNode, we would have to either manually change the generated code or changing the name of the node in it's corresponding AADL model file and then regenerate the code.
+
+Both options are feasible in this case, however, with growing system complexity this small change becomes incrementally harder and more prone to errors.
+
+The developed prototype focuses directly on that front, providing an adjacent configuration model that works alongside the main one with the goal of delivering that missing configuration option, here's how it works:
+
+\begin{enumerate}
+	\item The placeholder code is built, in this case it was from a taskset style project\footnote{This project is a DSML that communicates task sets and automatically generates C code using Acceleo, targeting the RT-POSIX real-time API.}
+	\item The target naming convention is selected in the configuration model
+	\item The final code is generated with the now correct identifier nomenclature.
+\end{enumerate}
+
 
 
 \section{Toward a Generator for System Integrators}

@@ -21,9 +21,9 @@
 
 RAMSES has served as a robust model-to-code generator for AADL-based systems, yet it suffers from a fundamental architectural constraint: it assumes a uniform target environment. This assumption does not hold in real-world industrial projects, where system heterogeneity, legacy integration, and domain-specific standards define a constantly shifting context.
 
-The core issue lies in RAMSES’ transformation pipeline: it entangles policy decisions (e.g., naming, structure, integration style) with generation logic. These decisions, hardcoded in ATL transformations, reflect the assumptions of RAMSES' authors more than the needs of downstream consumers. Altering them involves modifying the transformation source itself — often a non-trivial and error-prone task.
+The core issue lies in RAMSES’ transformation pipeline: it entangles policy decisions (naming, structure, integration style) with generation logic. These decisions, hardcoded in ATL transformations, reflect the assumptions of RAMSES' authors more than the needs of end users. Altering them involves modifying the transformation source itself, often a hard and error-prone task.
 
-Consider a simple use case: a company mandates that all task-level functions use `snake\_case` and include a `COMPONENT\_` prefix. RAMSES, which might generate `ComputeTask` by default, offers no out-of-the-box way to enforce such rules. A change in naming becomes a traversal through ATL templates and helpers. This is not scalable, and in safety-critical software, it is not acceptable.
+Consider a simple use case: a company mandates that all task-level functions use `snake\_case` and include a `COMPONENT\_` prefix. RAMSES, which might generate `ComputeTask` by default, offers no way to enforce those rules. A change in naming becomes a traversal through ATL templates and helpers. This is not scalable, and in safety-critical software, it is not acceptable.
 
 Furthermore, beyond naming, decisions about memory allocation models, system initialization flows, and error handling behaviors are equally rigid. There is no declarative layer that allows users to steer generation outcomes according to organizational needs or evolving constraints. As such, RAMSES provides code generation but not code governance.
 
@@ -37,7 +37,7 @@ To understand why this rigidity is problematic, we must shift perspective from t
 Generated code must often comply with domain-specific standards such as:
 
 \begin{itemize}
-	\item \textbf{MISRA C/C++:} Imposes constraints on memory usage, naming, control flow, and portability~\cite{Misra_C_2025}~\cite{Misra_Cpp_2023}.
+	\item \textbf{\gls{MISRA} C/C++:} Imposes constraints on memory usage, naming, control flow, and portability~\cite{Misra_C_2025}~\cite{Misra_Cpp_2023}.
 	\item \textbf{DO-178C:} Requires traceability, tool qualification, and clear derivation from high-level requirements. 
 	\item \textbf{ISO 26262:} Enforces safety-related development practices and documentation.
 \end{itemize}
@@ -49,7 +49,7 @@ In these environments, code generation must do more than “just work.” It mus
 Most industrial systems are not built from scratch. Code generators must work alongside:
 
 \begin{itemize}
-	\item Legacy libraries with non-negotiable APIs.
+	\item Legacy libraries with non-negotiable \gls{API}s.
 	\item Hardware abstraction layers that impose structural patterns.
 	\item Existing software architecture rules (how modules communicate, how tasks are organized).
 \end{itemize}
@@ -92,7 +92,7 @@ Users should describe \textbf{what} they want (e.g., “all functions must use s
 
 \subsection*{2. Human-Readable and Tool-Accessible}
 
-The configuration format (proposed DSL) should work well with version control, support difference review, and remain readable to engineers. It must also be machine-readable for validation and generation.
+The configuration format (proposed \gls{DSL}) should work well with version control, support difference review, and remain readable to engineers. It must also be machine-readable for validation and generation.
 
 \subsection*{3. Modular and Hierarchical}
 
@@ -116,7 +116,6 @@ While naming and formatting are important, a powerful configuration system must 
 	\item \textbf{Component Mapping Rules:} Declarative rules that assign AADL components to target platform concepts (RTOS tasks, processes, etc).
 	\item \textbf{Code Instrumentation:} Hooks for logging, tracing, or runtime checks (insertion of `assert` or instrumentation macros).
 	\item \textbf{Conditional Feature Flags:} Ability to enable or disable parts of the generator (generate test stubs, insert HAL wrappers).
-	\item \textbf{Toolchain-Specific Directives:} Integration of compiler pragmas, section attributes, or OS-specific macros.
 \end{enumerate}
 
 \begin{tcolorbox}[colback=blue!5, colframe=blue!50!black, title=Configuration is More Than Style]
@@ -126,7 +125,7 @@ While naming and formatting are important, a powerful configuration system must 
 \section{Proof of concept}
 \label{sec:proof_of_concept}
 
-In order to better understand the whole concept of the DSL to be built during this thesis, a prototype that encompasses a specific feature needed in the RAMSES tool was built with the intent of showcasing the usage of the configuration language, in a controlled environment.
+In order to better understand the whole concept of the \gls{DSL} to be built during this thesis, a prototype that encompasses a specific feature needed in the RAMSES tool was built with the intent of showcasing the usage of the configuration language, in a controlled environment.
 
 \subsection{How it works}
 \label{sec:how_it_works}
@@ -143,14 +142,14 @@ class MyNode : public rclcpp::Node {
 	}
 \end{verbatim}
 
-A simple Node class has the class identifier \texttt{MyNode}. In the case of RAMSES, MyNode would be inherited from the AADL model, meaning that, in order to change the code nomenclature of MyNode, we would have to either manually change the generated code or changing the name of the node in it's corresponding AADL model file and then regenerate the code.
+A simple Node class has the class identifier \texttt{MyNode}. In the case of \gls{RAMSES}, MyNode would be inherited from the AADL model, meaning that, in order to change the code nomenclature of MyNode, we would have to either manually change the generated code or changing the name of the node in it's corresponding AADL model file and then regenerate the code.
 
 Both options are feasible in this case, however, with growing system complexity this small change becomes incrementally harder and more prone to errors.
 
 The developed prototype focuses directly on that front, providing an adjacent configuration model that works alongside the main one with the goal of delivering that missing configuration option, here's how it works:
 
 \begin{enumerate}
-	\item The placeholder code is built, in this case it was from a taskset style project\footnote{This project is a DSML that communicates task sets and automatically generates C code using Acceleo, targeting the RT-POSIX real-time API.}
+	\item The placeholder code is built, in this case it was from a taskset style project\footnote{This project is a \gls{DSML} that communicates task sets and automatically generates C code using Acceleo, targeting the RT-POSIX real-time gls{API}.}
 	\item The target naming convention is selected in the configuration model
 	\item The final code is generated with the now correct identifier nomenclature.
 \end{enumerate}
@@ -240,6 +239,6 @@ RAMSES has proven to be a robust and effective tool for model-to-code generation
 
 Introducing a configuration language is not merely a feature, it's an architectural shift. It allows users to define their generation context without touching generator internals, reducing risk, increasing reuse, and enabling automation across product lines.
 
-The next chapter will formalize this idea by designing a configuration language tailored to RAMSES. The goal: decouple transformation logic from project policy and pave the way for truly industrial-scale model-driven code generation.
+The next chapter will formalize this idea by designing a configuration language tailored to \gls{RAMSES}. The goal: decouple transformation logic from project policy and pave the way for truly industrial-scale model-driven code generation.
 
 

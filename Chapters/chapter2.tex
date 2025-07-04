@@ -18,12 +18,12 @@
 
 \section{Model-Based Engineering (MBE) and AADL} \label{sec:mbe_and_aadl}
 
-Model-Based Engineering (MBE) has become a central methodology for the design of complex embedded systems. By putting high-level abstractions at the center, MBE enables engineers to manage system complexity through formal models rather than low-level code from the start. This abstraction is particularly critical in embedded systems, where hardware constraints and timing requirements must be closely integrated with software behavior.
+\gls{MBE} has become a central methodology for the design of complex embedded systems. By putting high-level abstractions at the center, \gls{MBE} enables engineers to manage system complexity through formal models rather than low-level code from the start. This abstraction is particularly critical in embedded systems, where hardware constraints and timing requirements must be closely integrated with software behavior.
 \par
-Several tool-supported methodologies, like NDT-Suite~\cite{garcia2014ndt}, show even more how MBE can be applied to real-world software engineering projects by offering methodological guidance and model-driven automation.
+Several tool-supported methodologies, like NDT-Suite~\cite{garcia2014ndt}, show even more how \gls{MBE} can be applied to real-world software engineering projects by offering methodological guidance and model-driven automation.
 
 \par
-In the context of embedded systems, MBE facilitates early validation of design decisions, much earlier than hardware exists or code is written. Engineers can model interactions, analyze performance bottlenecks, and verify compliance with safety and reliability standards — all at the model level.
+In the context of embedded systems, \gls{MBE} facilitates early validation of design decisions, much earlier than hardware exists or code is written. Engineers can model interactions, analyze performance bottlenecks, and verify compliance with safety and reliability standards — all at the model level.
 \par
 One of the most important participants in this strategy is the \textbf{Architecture Analysis and Design Language (AADL)}. AADL is a formal hardware/software co-design modeling language. It gives precise semantics to model the architecture and behavior of embedded systems, ranging from processor bindings and memory layouts to communication buses and task scheduling.
 \par
@@ -39,7 +39,7 @@ In this thesis, AADL is utilized as the base modeling language. Its formality an
 
 \section{RAMSES: A Code Generator for AADL} \label{sec:ramses}
 
-RAMSES (\textit{Refinement of AADL Models for Synthesis of Embedded Systems}) is an M2T transformation tool with a focus on code generation from AADL models. Part of the greater Eclipse ecosystem, RAMSES automates the transformation of architectural models into deployable source code, effectively achieving the MBE dream of model-driven automation.
+RAMSES (\textit{Refinement of AADL Models for Synthesis of Embedded Systems}) is an M2T transformation tool with a focus on code generation from AADL models. Part of the greater Eclipse ecosystem, RAMSES automates the transformation of architectural models into deployable source code, effectively achieving the \gls{MBE} dream of model-driven automation.
 \par 
 RAMSES now supports code generation in both \textbf{C} and \textbf{C++}. This makes it possible to use it in a broad variety of embedded development settings, depending on whether the target environment needs low-level procedural programming or more structured, object-oriented design paradigms.
 \par 
@@ -93,7 +93,7 @@ Code generation in OpenModelica prioritizes the correctness and performance of t
 
 OpenAPI Generator is an open-source tool that generates client SDKs, server stubs, and documentation from OpenAPI specifications. Supporting over 40 languages and frameworks~\cite{openapi-generators}, it is widely used across software projects.
 
-Generation is controlled via configuration files (JSON or YAML) that specify package naming, class prefixes, data type mappings, and code style, enabling consistent architectural and coding standards~\cite{openapi-config}. The tool’s template-based system uses customizable Mustache templates to define code output, allowing adaptation to legacy code, custom logging, or specific frameworks. Plugin mechanisms and hooks enable further customization during generation~\cite{openapi-customization,openapi-plugins}.
+Generation is controlled via configuration files (JSON or \gls{YAML}) that specify package naming, class prefixes, data type mappings, and code style, enabling consistent architectural and coding standards~\cite{openapi-config}. The tool’s template-based system uses customizable Mustache templates to define code output, allowing adaptation to legacy code, custom logging, or specific frameworks. Plugin mechanisms and hooks enable further customization during generation~\cite{openapi-customization,openapi-plugins}.
 
 This flexible, configurable approach contrasts with RAMSES’s more rigid, hardcoded transformations.
 
@@ -146,15 +146,15 @@ The features found in table~\ref{tab:code_gen_config_comparison} are taken, not 
 
 With this, we can have a clearer look at the broader picture. The features suggested are not just the result of analyzing existing code generators like Simulink, OpenModelica, and OpenAPI Generator, they are also derived from a synthesis of industry demands and recurring pain points observed in real-world development environments.
 
-Figure~\ref{fig:feature_model} organizes these configurability aspects into a feature model, grouping them into categories such as Optimization, Traceability, Compliance Standards, Memory Configuration, and Custom Code Integration. The model also highlights optional, alternative, and concrete features that modern code generation tools must support to be competitive and practical across diverse application domains, from automotive (e.g., Autosar, MISRA-C) to safety-critical systems (e.g., DO-178C, IEC 61508).
+Figure~\ref{fig:feature_model} organizes these configurability aspects into a feature model, grouping them into categories such as Optimization, Traceability, Compliance Standards, Memory Configuration, and Custom Code Integration. The model also highlights optional, alternative, and concrete features that modern code generation tools must support to be competitive and practical across diverse application domains, from automotive (e.g., \gls{AUTOSAR}, \gls{MISRA}) to safety-critical systems (e.g., DO-178C, \gls{IEC} 61508).
 
 Additionally, this model also possesses some contrainsts when dealing with certain features, those constraints are the following:
 
 \begin{itemize} 
-	\item Misra-C/C++ implies C or C++
-	\item Autosar implies C
+	\item \gls{MISRA}-C/C++ implies C or C++
+	\item \gls{AUTOSAR} implies C
 	\item DO-178C implies C or C++
-	\item "IEC 61508" implies C or C++ or Java
+	\item "\gls{IEC} 61508" implies C or C++ or Java
 	\item "Template Customization" implies "Template Based"
 \end{itemize}
 
@@ -183,7 +183,7 @@ For this project, Acceleo serves as the basis for enhancing RAMSES' configurabil
 \begin{itemize} 
 	\item Isolate transformation rules from RAMSES' internal code.
 	\item Allow easy extension and modification of code generation patterns.
-	\item Facilitate adherence to industrial standards such as MISRA C/C++.
+	\item Facilitate adherence to industrial standards such as \gls{MISRA} C/C++.
 \end{itemize}
 
 This plan promises to transform RAMSES into a more flexible and maintainable toolchain component from one that is rigid code generating.
@@ -239,13 +239,13 @@ Including configurability in RAMSES would offer several benefits. It would facil
 
 \subsection*{Towards MISRA C/C++ Compliance}
 
-A central element of code generation in configurable code generation, particularly in the field of safety-critical application domains, is to generate \textbf{standard-compliant code}. Strict requirements for safe, portable, and reliable embedded software are presented by the MISRA (Motor Industry Software Reliability Association) C~\cite{Misra_C_2025} and C++~\cite{Misra_Cpp_2023} standards.
+A central element of code generation in configurable code generation, particularly in the field of safety-critical application domains, is to generate \textbf{standard-compliant code}. Strict requirements for safe, portable, and reliable embedded software are presented by the \gls{MISRA} C~\cite{Misra_C_2025} and C++~\cite{Misra_Cpp_2023} standards.
 \par
-Compliance to MISRA plays several principal roles: it enhances software safety by minimizing the likelihood of undefined behavior and runtime errors, guarantees that development processes meet the high standards demanded by industries such as the automobile and aerospace industries where in some instances compliance is mandatory, and is readily compatible with existing toolchains, as most static analysis tools are tailored to enforce MISRA rules.
+Compliance to \gls{MISRA} plays several principal roles: it enhances software safety by minimizing the likelihood of undefined behavior and runtime errors, guarantees that development processes meet the high standards demanded by industries such as the automobile and aerospace industries where in some instances compliance is mandatory, and is readily compatible with existing toolchains, as most static analysis tools are tailored to enforce \gls{MISRA} rules.
 \par
-As we integrate configurable generation facilities into RAMSES, we shall ensure that code generated is MISRA C/C++ compliant.
+As we integrate configurable generation facilities into RAMSES, we shall ensure that code generated is \gls{MISRA} C/C++ compliant.
 
-\begin{tcolorbox}[colback=blue!5, colframe=blue!40!black] Flexible code generators need to not just conform to project requirements but also apply vital industry standards such as MISRA to guarantee safety and reliability. \end{tcolorbox}
+\begin{tcolorbox}[colback=blue!5, colframe=blue!40!black] Flexible code generators need to not just conform to project requirements but also apply vital industry standards such as \gls{MISRA} to guarantee safety and reliability. \end{tcolorbox}
 
 
 

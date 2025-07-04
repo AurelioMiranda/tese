@@ -22,58 +22,58 @@
 \includegraphics[width=0.875\linewidth]{NOVAthesisFiles/Images/novathesis-text}
 
 \epigraph{
-  This chapter presents the work done in this dissertation, setting the context, purpose, and motivation of the study. It gives a context for the configurable code generation problems of RAMSES and outlines the methodology and structure that guide the development of this thesis.
+  This chapter presents the work done in this dissertation, setting the context, purpose, and motivation of the study. It gives a context for the configurable code generation problems of \gls{RAMSES} and outlines the methodology and structure that guide the development of this thesis.
 }
 
 \section{Context and Motivation}
 
 There is always a need for innovation, and consequently, technological progress continues, with continuous increase in system complexity~\cite{lee2008}, either software or hardware. This complexity is accompanied by enormous challenges in creating the solutions, particularly when software and hardware are adjacent to one another, such as is the situation when working with the robotics programming field. 
 \par
-For new users, robot programming can be especially daunting due to its extensive knowledge requirements and intricate integration of Cyber-Physical Systems (CPS)~\cite{Khatib_Siciliano_2016}. Such systems, comprising computer-based programs, networks, sensors, and actuators, highlight the significant contribution of software development, which is responsible for the majority of the production cost of CPS~\cite{Rajkumar_Ragunathan_Lee_2010}. Robotics, as a constituent of CPS, entails unique challenges in software and hardware integration, making problem identification late in the process very expensive.
+For new users, robot programming can be especially daunting due to its extensive knowledge requirements and intricate integration of Cyber-Physical Systems (\gls{CPS})~\cite{Khatib_Siciliano_2016}. Such systems, comprising computer-based programs, networks, sensors, and actuators, highlight the significant contribution of software development, which is responsible for the majority of the production cost of \gls{CPS}~\cite{Rajkumar_Ragunathan_Lee_2010}. Robotics, as a constituent of \gls{CPS}, entails unique challenges in software and hardware integration, making problem identification late in the process very expensive.
 \par
-Model-Driven (MD) approaches have proven to be effective solutions in this situation, offering the advantages of generation of high-quality code and results consistently~\cite{Schmidt_DC_2006}. The placement of the model at the center of the production process ensures that the developers are given a higher level of abstraction, while the complexity during the development of new systems is reduced.
+Model-Driven (\gls{MD}) approaches have proven to be effective solutions in this situation, offering the advantages of generation of high-quality code and results consistently~\cite{Schmidt_DC_2006}. The placement of the model at the center of the production process ensures that the developers are given a higher level of abstraction, while the complexity during the development of new systems is reduced.
 
 \subsection{AADL and RAMSES}
 
-Of all these MD techniques, the Architecture Analysis and Design Language (AADL) is a strong modeling language well-suited to embedded systems~\cite{Feiler_Lewis_Vestal_2006}. It enables accurate description of hardware and software architecture to support early validation and analysis of non-functional properties.
+Of all these \gls{MD} techniques, the Architecture Analysis and Design Language (AADL) is a strong modeling language well-suited to embedded systems~\cite{Feiler_Lewis_Vestal_2006}. It enables accurate description of hardware and software architecture to support early validation and analysis of non-functional properties.
 \par
-As shown by Borde et al.~\cite{Borde_Rahmoun_Cadoret_Pautet_Singhoff_Dissaux_2014}, the Refinement of AADL Models for the Synthesis of Embedded Systems (RAMSES) project extends AADL to automatically generate source code for embedded systems. RAMSES, being a model-to-text transformation tool, enhances CPS software development quality and productivity by preventing human coding errors and accelerating the path from design to deployment.
+As shown by Borde et al.~\cite{Borde_Rahmoun_Cadoret_Pautet_Singhoff_Dissaux_2014}, the Refinement of AADL Models for the Synthesis of Embedded Systems (\gls{RAMSES}) project extends AADL to automatically generate source code for embedded systems. \gls{RAMSES}, being a model-to-text transformation tool, enhances \gls{CPS} software development quality and productivity by preventing human coding errors and accelerating the path from design to deployment.
 
 \begin{tcolorbox}[colback=green!8]
-	“With the ever increasing complexity of cyber-physical systems, RAMSES ensures trustworthy automation from design to deployment.”
+	“With the ever increasing complexity of cyber-physical systems, \gls{RAMSES} ensures trustworthy automation from design to deployment.”
 \end{tcolorbox}
 
-This project is a joint collaboration between DI NOVA, NOVALINCS, and Télécom Paris, unifying systems engineering know-how, formal methods, and embedded code generation.
+This project is a joint collaboration between \gls{DI} NOVA, NOVALINCS, and Télécom Paris, unifying systems engineering know-how, formal methods, and embedded code generation.
 
 
 \subsection{Why Configurability is Necessary}
 
-While RAMSES utilization presents multiple advantages, there remains one issue: its decisions for generating code are hardcoded and rigid. Little is under control of the developer for elements such as code appearance, binding against specific APIs, or maintaining firm standards-based company guidelines. In industrial environments, where the need arises to reuse today's libraries and frameworks to uphold current standards, such a lack of flexibility presents a bottleneck. 
+While \gls{RAMSES} utilization presents multiple advantages, there remains one issue: its decisions for generating code are hardcoded and rigid. Little is under control of the developer for elements such as code appearance, binding against specific APIs, or maintaining firm standards-based company guidelines. In industrial environments, where the need arises to reuse today's libraries and frameworks to uphold current standards, such a lack of flexibility presents a bottleneck. 
 \par
-Flexibility to customize code generated is imperative in order to encourage increased adoption by industry and to facilitate integration in diverse development environments~\cite{Mikova_2025}. With configurability, RAMSES can be set up to generate code that not only meets functional requirements but also conforms to organizational coding conventions and leverages accessible software assets.
+Flexibility to customize code generated is imperative in order to encourage increased adoption by industry and to facilitate integration in diverse development environments~\cite{Mikova_2025}. With configurability, \gls{RAMSES} can be set up to generate code that not only meets functional requirements but also conforms to organizational coding conventions and leverages accessible software assets.
 
 \section{Problem Statement}
 
-RAMSES does not have flexibility in its code generation process currently. Its generation strategies such as coding style conventions, library use, and API selection are fixedly embedded within its transformation rules. This lack of flexibility limits its application in industrial environments where projects rely on pre-existing company libraries and specific coding standards.
+\gls{RAMSES} does not have flexibility in its code generation process currently. Its generation strategies such as coding style conventions, library use, and \gls{API} selection are fixedly embedded within its transformation rules. This lack of flexibility limits its application in industrial environments where projects rely on pre-existing company libraries and specific coding standards.
 \par
-Currently, adapting RAMSES to different industrial contexts requires modifying its internal model-to-text transformation logic. This approach can increase maintenance effort and complicate integration with existing workflows, potentially limiting the broader adoption of the tool in diverse development environments. 
+Currently, adapting \gls{RAMSES} to different industrial contexts requires modifying its internal model-to-text transformation logic. This approach can increase maintenance effort and complicate integration with existing workflows, potentially limiting the broader adoption of the tool in diverse development environments. 
 
 
 \section{Objectives and Contributions}
 
-The primary objective of this work is to enhance RAMSES configurability through the development and implementation of a configuration language. This language would externalize the parameters of code generation so that developers can tailor them to specific needs.
+The primary objective of this work is to enhance \gls{RAMSES} configurability through the development and implementation of a configuration language. This language would externalize the parameters of code generation so that developers can tailor them to specific needs.
 
 The key contributions of this thesis include:
 \begin{itemize}
-	\item The definition of a configuration language for parameterizing the RAMSES code generation process.
-	\item The introduction of mechanisms to enable customized C code generation, supporting various coding styles, library integrations, and API choices.
-	\item The facilitation of reusing company libraries that already exist, enabling smoother integration of RAMSES into industrial development processes.
+	\item The definition of a configuration language for parameterizing the \gls{RAMSES} code generation process.
+	\item The introduction of mechanisms to enable customized C code generation, supporting various coding styles, library integrations, and \gls{API} choices.
+	\item The facilitation of reusing company libraries that already exist, enabling smoother integration of \gls{RAMSES} into industrial development processes.
 \end{itemize}
 
 \begin{tcolorbox}[colback=blue!5]
 	\textbf{Main Contributions:}
 	\begin{itemize}
-		\item A configuration language for RAMSES
+		\item A configuration language for \gls{RAMSES}
 		\item Flexible and customizable C code generation
 		\item Industrial library reuse and integration support
 	\end{itemize}
@@ -88,8 +88,8 @@ This thesis is structured as follows:
 \begin{itemize}
 	\item \textbf{Chapter 1:} Introduces the context, motivation, problem statement, and objectives of this research.
 	\item \textbf{Chapter 2:} Provides a detailed overview of the state of the art, including Model-Driven Engineering (MDE), AADL, and existing code generation tools.
-	\item \textbf{Chapter 3:} Describes the architecture and design of the configuration language proposed for RAMSES.
-	\item \textbf{Chapter 4:} Presents the integration and application of the configuration mechanism within the RAMSES toolchain.
+	\item \textbf{Chapter 3:} Describes the architecture and design of the configuration language proposed for \gls{RAMSES}.
+	\item \textbf{Chapter 4:} Presents the integration and application of the configuration mechanism within the \gls{RAMSES} toolchain.
 	\item \textbf{Chapter 5:} Ensures the efficacy of the given approach with experimental case studies and tests.
 	\item \textbf{Chapter 6:} Ends the thesis by providing an overview of contributions and possible areas of future research.
 \end{itemize}

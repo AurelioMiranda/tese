@@ -8,47 +8,40 @@
 
 \typeout{NT FILE chapter4.tex}%
 
-\chapter{Adding Support to a New School (work in progress)}
-\label{cha:porting_novathesis}
+\chapter{Development Plan}
+\label{sec:dev_plan}
 
-My advice to customize the \novathesis\ template to another School/University/Department/Degree is to browse the existing supported degrees to find one that is \emph{close enough}, and depart from there!
+The implementation of the proposed \gls{DSL} requires a methodical and objective approach in terms of timing and task management. For that reason, a Gantt chart was made with the intent of guiding the development and ensuring the end product meets expectations. 
 
-The multitude of layouts supported by the \novathesis\ template is based in a three-tier naming scheme, separated by slashes: University / School / Department-or-Degree.  This three-tier naming scheme is also reflected in a three-tier directory (folder) structure in: \verb!<project_root>a/NOVAthesiFiles/Schools/…!.  For example:
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[height=0.63\textwidth]{gantt.png}
+	\caption{Thesis planning Gantt chart}
+	\label{fig:gantt}
+\end{figure}
 
-\begin{verbatim}
-…
-| 
-+—— nova
-|   +—— Images
-|   +—— fct
-|   |   \—— Images
-|   +—— ims
-|   |   \—— Images
-|   …
-|   
-\—— uminho
-    +—— Images
-    +—— ea
-    |   \—— Images
-    +—— ec
-    |   \—— Images
-    …
-\end{verbatim}
+As we can see in Figure~\ref{fig:gantt}, the plan is separate in two distinct phases: Development and Documentation. Those phases overlap with both client meetings and the writing of the thesis, which is done in parallel with other tasks from start to finish.
 
-The directory \verb!uminho! contains the customization for all Schools of Universidade do Minho.  This university is an example of the case where the regulations are defined at University level and all the schools apply the same thesis layout and organization.  So, the all the customization is done in the file \verb!uminho/uminho-defaults.ldf!, except the definition of the name and logo of each individual school.
+\section{Client Interaction}
+\label{sec:dev_plan_client}
 
-As another example, the directory \verb!nova! contains the customization for all Schools from NOVA University Lisbon. This university grants a lot of freedom in the definition of the thesis layouts.  In some cases, they are defined at the School level (e.g., NOVA FCT), while is some other cases they are defined separately for each degree (e.g., NOVA IMS).
+Client meetings are present to ensure that the features developed are useful and needed addition to the end user. The first and second meeting are mostly interviews directed to acquire quick feedback on the matter, while the third meeting will focus on the evaluation and testing of the mostly finished code generator configurator.
 
+\section{Development Phase}
+\label{sec:dev_plan_dev}
 
+The development follows an iterative nature, which means that once a feature is developed, it is tested, documented and corrected when needed. Each month, full system wide testing, is also conducted to ensure multiple features work in harmony with each other. A system integration test is also performed near the end of the development phase to ensure that end users can use the system effectively and can achieve goals unachievable before. This is a critical point in the development since it will be used in addition to the third client meeting to build a system evaluation report.
 
+Parallel to the code generator configuration feature development, a \gls{DSL} will also be developed. Near the end of the development of a specific feature we need to also implement its actual configuration functionality via the \gls{DSL} which will provide a way for end users to use the configurator, hence its parallel development method which also includes testing. Both the feature and \gls{DSL} development go beyond the last evaluation and testing in order to ensure a safety gap for last minute features or corrections.
 
-\begin{enumerate}
-  \item Try all the already supported schools and check which one is closer to your needs;
-  \begin{enumerate}
-    \item Edit \verb!Config/1_novathesis.tex! and near line 28 uncomment the line with key \verb!\ntsetup{school=<SOMETHING>}!;
-    \item For each school supported (see the comment), replace \verb!<SOMETHING>! with the school name, e.g., make it \verb!\ntsetup{school=ulisboa/fmv}!
-    \item Recompile and check the document.  Particularly, check the cover layout, the front-page (second cover) layout, the front-matter contents, the bibliography style;
-    \item Repeat for the next school, until you find one close enough.
-  \end{enumerate}
-  \item 
-\end{enumerate}
+\section{Documentation Phase}
+\label{sec:dev_plan_doc}
+
+The final phase begins with the analysis of previously gathered evaluation results and insights on end user opinion, thought process and interaction when using the configuration language. Its a very important step since it will allow for quick overview on implementation problems, bugs and other suggestions that might have not been thought of before. After that comes the documentation part for both users and future developers, since the configuration language will be very extensible. Documentation, which includes user manuals, developer guides and system documentation, will also be finished during development, however this interval mainly serves to make sure everything is documented properly.
+
+The final part consists in ensuring every deliverable is correct and ready to send. It mostly include meetings and information exchange with every involved party to validate the work done, while not directed to development or corrections, it provides a safe window to make changes if strictly needed.
+
+\section{Final Considerations}
+\label{sec:dev_plan_final}
+
+The overall structure of the Gantt chart is clear and direct, although it provides a detailed and structured timeline, in practice it will serve mostly as a base and the development might end up with unforeseen requirements depending on the necessities of the parts involved, or technical challenges. The chart provides clarity and direction but remains adaptable to eventual changing project needs.

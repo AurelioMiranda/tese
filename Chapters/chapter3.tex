@@ -92,6 +92,7 @@ Designing this kind of language is challenging. It needs to balance expressivene
 	\item \textbf{Functionally Equal to the Default Code}: The newly generated code should remain functionally the same as without the configurator. Meaning that it should produce the same practical result with or without the configuration, excluding performance metrics.
 	\item \textbf{Configures the Generator, Not the Model}: Configuration keys should influence how the code is generated, without requiring changes to the input models. The DSL operates alongside the model, guiding the generators behavior (naming, structure or implementation strategy) based on domain concepts such as \texttt{thread}, \texttt{port}, or \texttt{data component}. Configuration keys should remain semantically aligned with modeling elements but their primary role is to modify generator logic, not to modify or extend the models themselves.
 	\item \textbf{Validated and Error-Tolerant}: Invalid configurations should produce clear diagnostics before generation starts. Where possible, defaults and fallbacks should be available to prevent blocking workflows.
+	\item \textbf{Extensible and Portable}: The configuration will be easily extensible thanks to its Ecore background, allowing for easy inclusion of new features. At the same time, since the language model is detached\footnote{The language model (Ecore) itself is not locked exclusively to \gls{RAMSES} and can be used in other projects, however, that implies having to code the logic for each feature according to project specifics.} from \gls{RAMSES}, it can be easily included in other projects, allowing for a quicker development of a configuration language once this one is built.
 \end{itemize}
 
 These characteristics will make the configuration language robust, maintainable, and suitable for industrial use, allowing for flexible customization of code generation without compromising model integrity or introducing unnecessary complexity.
@@ -275,6 +276,27 @@ To make sure the code generated still retains the same practical functionality, 
 
 
 The baseline for comparison will be the unmodified RAMSES generator. This allows for a clear assessment of what configuration capabilities are introduced in terms of productivity, flexibility, and clarity.
+
+
+\section{Research Limitations}
+\label{sec:research_limitations}
+
+Although the configuration language includes many features and has been designed with flexibility, usability, and maintainability in mind, this work has some limitations.
+
+\begin{itemize}
+	\item \textbf{Limited Scope of Configurable Aspects:} The proposed DSL focuses primarily on naming conventions, traceability, and coding standards. More advanced features such as behavioral configuration, cross-component constraints, or real-time performance tuning fall outside the scope of this work. Similarly, certain features might be prioritized or excluded based on client feedback.
+	
+	\item \textbf{Restricted Evaluation Sample:} Usability and functional testing rely on a small set of representative examples and a limited number of user interactions. While including users with varying levels of technical expertise is being kept in mind, the results may not generalize across all industrial contexts or teams.
+	
+	\item \textbf{No Legacy Tool for Direct Comparison:} Since no previous configuration language exists for \gls{RAMSES}, or AADL for that matter, before and after comparisons will rely on manual, potentially subjective assessments of workflow complexity. This limits the ability to measure productivity gains with high precision.
+	
+	\item \textbf{Integration Constraints:} The configuration system is designed to integrate into the existing \gls{RAMSES} toolchain, which constraints how the generator behavior can be modified. Deep generator reworks or architectural transformations are intentionally excluded to maintain compatibility.
+	
+	\item \textbf{Scalability Not Fully Tested:} The \gls{DSL} should performs well on example models, its performance and maintainability might not be validated on extremely large or complex input systems, which are typical in some industrial environments. This might not be a constraint if such models are later used for testing.
+	
+\end{itemize}
+
+These limitations do not compromise the core contributions of this work, but they highlight areas for future development, such as broader configuration domains, wider user studies, and deeper toolchain integration.
 
 
 \section{Toward a Generator for System Integrators}

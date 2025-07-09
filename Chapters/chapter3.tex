@@ -42,7 +42,7 @@ Generated code must often comply with domain-specific standards such as:
 	\item \textbf{ISO 26262:} Enforces safety-related development practices and documentation.
 \end{itemize}
 
-In these environments, code generation must do more than “just work.” It must be explainable, auditable, and deterministic. Developers must be able to trace a generated function back to a model element and forward to a specific runtime behavior.
+In these environments, code generation must do more than "just work". It must be explainable, auditable, and deterministic. Developers must be able to trace a generated function back to a model element and forward to a specific runtime behavior.
 
 \subsection*{Integration with Legacy Codebases}
 
@@ -61,10 +61,10 @@ A code generator that cannot adapt to these constraints is often sidelined in fa
 Even the most advanced generator will eventually produce code that is read (and possibly modified) by a human developer. 
 
 \begin{tcolorbox}[colback=green!8]
-	If developers can’t read or rely on the generated code, they’ll stop trusting it altogether.
+	If developers can't read or rely on the generated code, they will stop trusting it altogether.
 \end{tcolorbox}
 
-Poor formatting, ambiguous naming, or surprising control flow all reduce the utility of generated artifacts, leading teams to “lock” generated files and prohibit modifications: an anti-pattern that defeats the promise of model-driven engineering.
+Poor formatting, ambiguous naming, or surprising control flow all reduce the utility of generated artifacts, leading teams to "lock" generated files and prohibit modifications: an anti-pattern that defeats the promise of model-driven engineering.
 
 \section{Why Configuration Matters}
 \label{sec:why_configuration_matters}
@@ -84,27 +84,17 @@ Such language enables a fundamental shift: from a monolithic, one-size-fits-all 
 \section{Characteristics of an Effective Configuration Layer}
 \label{sec:config_language_characteristics}
 
-Designing this kind of language is challenging. It needs to balance expressiveness, ease of use, and seamless integration. Based on industrial feedback and analysis of RAMSES’ shortcomings, the following characteristics are proposed:
+Designing this kind of language is challenging. It needs to balance expressiveness, ease of use, and seamless integration. Based on industrial feedback and analysis of RAMSES issues, the following characteristics are proposed:
 
-\subsection*{1. Declarative, Not Imperative}
+\begin{itemize}
+	\item \textbf{Declarative, Not Imperative}: Users should describe \textbf{what} they want ("all functions must use snake\_case") rather than \textbf{how} to achieve it. This aligns with the model-driven philosophy and supports better configuration analysis.
+	\item \textbf{Human-Readable and Tool-Accessible}: The configuration format (proposed \gls{DSL}) should work well with version control, support difference review, and remain readable to engineers. It must also be machine-readable for validation and generation.
+	\item \textbf{Functionally Equal to the Default Code}: The newly generated code should remain functionally the same as without the configurator. Meaning that it should produce the same practical result with or without the configuration, excluding performance metrics.
+	\item \textbf{Configures the Generator, Not the Model}: Configuration keys should influence how the code is generated, without requiring changes to the input models. The DSL operates alongside the model, guiding the generators behavior (naming, structure or implementation strategy) based on domain concepts such as \texttt{thread}, \texttt{port}, or \texttt{data component}. Configuration keys should remain semantically aligned with modeling elements but their primary role is to modify generator logic, not to modify or extend the models themselves.
+	\item \textbf{Validated and Error-Tolerant}: Invalid configurations should produce clear diagnostics before generation starts. Where possible, defaults and fallbacks should be available to prevent blocking workflows.
+\end{itemize}
 
-Users should describe \textbf{what} they want (e.g., “all functions must use snake\_case”) rather than \textbf{how} to achieve it. This aligns with the model-driven philosophy and supports better static analysis.
-
-\subsection*{2. Human-Readable and Tool-Accessible}
-
-The configuration format (proposed \gls{DSL}) should work well with version control, support difference review, and remain readable to engineers. It must also be machine-readable for validation and generation.
-
-\subsection*{3. Modular and Hierarchical}
-
-Configurations should support reuse and composition. For example, a company-wide `default\_config` can be extended by a project-specific override. Inheritance models must be explicit and predictable. (review this********************)
-
-\subsection*{4. Aligned with Modeling Concepts}
-
-To maintain semantic coherence, configuration keys should refer to modeling elements (e.g., `thread`, `port`, `data component`) and not generator internals.
-
-\subsection*{5. Validated and Error-Tolerant}
-
-Invalid configurations should produce clear diagnostics before generation starts. Where possible, defaults and fallbacks should be available to prevent blocking workflows.
+These characteristics will make the configuration language robust, maintainable, and suitable for industrial use, allowing for flexible customization of code generation without compromising model integrity or introducing unnecessary complexity.
 
 \section{Beyond Code Formatting: What Configuration Should Control}
 \label{sec:config_scope}
@@ -115,7 +105,8 @@ While naming and formatting are important, a powerful configuration system must 
 	\item \textbf{Artifact Naming and Structuring:} Control over file names, folder layout, and identifier styles.
 	\item \textbf{Component Mapping Rules:} Declarative rules that assign AADL components to target platform concepts (RTOS tasks, processes, etc).
 	\item \textbf{Code Instrumentation:} Hooks for logging, tracing, or runtime checks (insertion of `assert` or instrumentation macros).
-	\item \textbf{Conditional Feature Flags:} Ability to enable or disable parts of the generator (generate test stubs, insert HAL wrappers).
+	\item \textbf{Conditional Feature Flags:} Ability to enable or disable parts of the generator (generate test stubs, insert wrappers).
+	\item \textbf{Code Documentation:} Generation of reports or toggle of code comments.
 \end{enumerate}
 
 \begin{tcolorbox}[colback=blue!5, colframe=blue!50!black, title=Configuration is More Than Style]
@@ -125,7 +116,7 @@ While naming and formatting are important, a powerful configuration system must 
 \section{Proof of concept}
 \label{sec:proof_of_concept}
 
-In order to better understand the whole concept of the \gls{DSL} to be built during this thesis, a prototype that encompasses a specific feature needed in the RAMSES tool was built with the intent of showcasing the usage of the configuration language, in a controlled environment.
+In order to better understand the whole concept of the \gls{DSL} to be built during this thesis, a prototype that encompasses a specific feature needed in the \gls{RAMSES} tool was built with the intent of showcasing the usage of the configuration language, in a controlled environment.
 
 \subsection{How it works}
 \label{sec:how_it_works}
@@ -230,6 +221,60 @@ As the configuration model is built on Ecore, the addition of new naming styles 
 Working with 2 Ecore models was not very straightforward, although Acceleo provides the resources needed to work with multiple Ecore models, Eclipse itself does not allow for multiple input models in a single run configuration. To work around this, a custom \textit{main()} method was made to register the metamodels into the resources, effectively allowing for the usage of both metamodels. This issue, while small, presented a fairly decent deal of complications for the development of the prototype, specifically because Acceleo documentation on the matter was scarce and community forums were unhelpful.
 
 Nevertheless, this solution allows not just for the usage of multiple models in this prototype but also in any other projects that need an Acceleo program with 2 or model Ecore models as inputs.
+
+
+\section{System Evaluation}
+\label{sec:sys_eval}
+
+In order to assure that the \gls{DSL} meets expectations, the system will be evaluated in various forms, mainly:
+
+\begin{itemize}
+	\item The \gls{DSL} exists and produces results.
+	\item Before and after comparison (with code configurator vs without).
+	\item Usability evaluation.
+	\item Configuration variants evaluation.
+	\item The newly generated code remains functionally the same as before\footnote{Meaning that it performs the same practical task as before the \gls{DSL} implementation.}.
+\end{itemize}
+
+Ideally the end product should meet these requirements to be considered a success. Each one of the requirements ensures a different, core quality of the configuration system, such as correctness, usability, or robustness.
+
+\subsection*{DSL existence}
+
+This requirement will be fairly straightforward to prove since it implies a direct usage of the \gls{DSL} in order to produce results. This can be proven alongside the other requirements as they depend on it, however, a system wide testing will quickly prove the existence of the configuration language and its impacts, specifically with the testing of all features developed and their results.
+
+\subsection*{Before and After Comparison}
+
+The core idea of this configuration language is to modify the output code of the code generator according to user needs. The best way to prove that this goal was achieved is to compare how users would perform the same task before the configuration language was implemented and after. This direct comparison will evaluate the direct impact of the configuration language on development and will ensure that the developed solution benefits the system. 
+
+\subsection*{Usability}
+
+The configuration language should be easily usable, even by end users with limited programming experience, in order to ensure this requirement is met, clear documentation, consistent syntax, and terminology aligned with the application domain should be prioritized. This requirement will be confirmed by comparing the interaction with the configuration language of users with varying levels of technical expertise, allowing the comparison of usability and learning curve.
+
+\subsubsection*{User Evaluation Methodology}
+
+Participants will be given predefined configuration tasks (changing naming schemes, visualizing traceability, etc) and asked to perform them with minimal guidance.
+
+The evaluation will collect both quantitative and qualitative data:
+\begin{itemize}
+	\item Task completion time
+	\item Number and type of errors
+	\item Subjective feedback on ease of use
+	\item Observed learning curve
+	\item Type and gravity of misunderstandings
+\end{itemize}
+
+This setup will help assess whether the DSL meets its usability goals across a broad user spectrum.
+
+\subsection*{Configuration Variants}
+
+To assess the flexibility and robustness of the configuration language, distinct configuration files will be tested. These scenarios will vary in complexity and structure to evaluate whether the generator can handle diverse inputs while maintaining correctness and coherence in the generated code. Effectively testing the limits of the configuration language.
+
+\subsection*{Functionally Equal}
+
+To make sure the code generated still retains the same practical functionality, a few things need to be taken into account, firstly, the code generator needs to be modified just enough to produce the desired results of structure, naming, etc while still keeping the same functionality as before the implementation, essentially keeping the semantics intact. Monthly testings will also ensure that the code remains functionally the same by running selected examples and doing direct code comparison, however, comparisons will focus on runtime behavior rather than raw text equivalence. 
+
+
+The baseline for comparison will be the unmodified RAMSES generator. This allows for a clear assessment of what configuration capabilities are introduced in terms of productivity, flexibility, and clarity.
 
 
 \section{Toward a Generator for System Integrators}

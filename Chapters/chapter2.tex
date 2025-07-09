@@ -12,18 +12,17 @@
 \chapter{Background and Related Work} \label{sec:background_and_relatedwork}
 
 
-%change this maybe
 \epigraph{ \textit{In this chapter we will explore various tools related to the goal of this thesis: code generation configuration. While also explaining Acceleo, the main development tool used.}}
 
 
 \section{Model-Based Engineering (MBE) and AADL} \label{sec:mbe_and_aadl}
 
-\gls{MBE} has become a central methodology for the design of complex embedded systems. By putting high-level abstractions at the center, \gls{MBE} enables engineers to manage system complexity through formal models rather than low-level code from the start. This abstraction is particularly critical in embedded systems, where hardware constraints and timing requirements must be closely integrated with software behavior.
+\gls{MBE} has become a central methodology for the design of complex embedded systems . By putting high-level abstractions at the center, \gls{MBE} enables engineers to manage system complexity through formal models rather than low-level code from the start~\cite{Schmidt_DC_2006}. This abstraction is particularly critical in embedded systems, where hardware constraints and timing requirements must be closely integrated with software behavior.
 \par
 Several tool-supported methodologies, like NDT-Suite~\cite{garcia2014ndt}, show even more how \gls{MBE} can be applied to real-world software engineering projects by offering methodological guidance and model-driven automation.
 
 \par
-In the context of embedded systems, \gls{MBE} facilitates early validation of design decisions, much earlier than hardware exists or code is written. Engineers can model interactions, analyze performance bottlenecks, and verify compliance with safety and reliability standards — all at the model level.
+In the context of embedded systems, \gls{MBE} facilitates early validation of design decisions, much earlier than hardware exists or code is written~\cite{France_Rumpe_2007}. Engineers can model interactions, analyze performance bottlenecks, and verify compliance with safety and reliability standards — all at the model level.
 \par
 One of the most important participants in this strategy is the \textbf{Architecture Analysis and Design Language (AADL)}. AADL is a formal hardware/software co-design modeling language. It gives precise semantics to model the architecture and behavior of embedded systems, ranging from processor bindings and memory layouts to communication buses and task scheduling.
 \par
@@ -39,7 +38,7 @@ In this thesis, AADL is utilized as the base modeling language. Its formality an
 
 \section{RAMSES: A Code Generator for AADL} \label{sec:ramses}
 
-RAMSES (\textit{Refinement of AADL Models for Synthesis of Embedded Systems}) is an M2T transformation tool with a focus on code generation from AADL models. Part of the greater Eclipse ecosystem, RAMSES automates the transformation of architectural models into deployable source code, effectively achieving the \gls{MBE} dream of model-driven automation.
+RAMSES (\textit{Refinement of AADL Models for Synthesis of Embedded Systems}) is an M2T transformation tool with the ability to generate code from AADL models. Part of the greater Eclipse ecosystem, RAMSES automates the transformation of architectural models into deployable source code, effectively achieving the \gls{MBE} dream of model-driven automation.
 \par 
 RAMSES now supports code generation in both \textbf{C} and \textbf{C++}. This makes it possible to use it in a broad variety of embedded development settings, depending on whether the target environment needs low-level procedural programming or more structured, object-oriented design paradigms.
 \par 
@@ -49,12 +48,6 @@ The tool does this by systematically correlating AADL model elements to their co
 \begin{tcolorbox}[colback=green!5, colframe=green!40!black] Automation through RAMSES accelerates development and reduces human error, especially in large-scale embedded projects. \end{tcolorbox}
 
 Yet, despite its advantages, RAMSES is not flawless. Its transformation logic is currently hardcoded, so developers have little control over customizing or fine-tuning the code structure generated without having to alter the tool itself. This rigidity becomes a performance bottleneck in projects that involve customized code structures, strict following of certain coding guidelines, or multi-variant code generation.
-\par 
-% closing chapter?
-This constraint will be a discussed throughout this thesis. In subsequent chapters, we will return to RAMSES to discuss its architecture in greater depth and look at potential ways to make it more configurable. ((Should i discuss architecture here actually? -A))
-
-
-
 
 
 \section{Code Generators in AADL and Beyond} \label{sub:code_generators}
@@ -62,14 +55,10 @@ This constraint will be a discussed throughout this thesis. In subsequent chapte
 % intro
 While RAMSES plays a central role in the AADL toolset, it is by no means the only one in the world of model-based code generation. There are long-established solutions both inside and outside the AADL universe with their own capabilities and niches.
 
-% \subsection*{Ocarina}
-
-% maybe include a sub about ocarina?
-
 
 \subsection*{Simulink Code Generation For Embedded Systems}
 
-Simulink is a flagship Model-Based Design solution, particularly in control systems engineering, developed by MathWorks. In comparison with the tightly integrated AADL-inherent RAMSES, Simulink is backed by a graphic modeling framework of dynamic systems, and the production of code becomes straightforward with software like Simulink Coder and Embedded Coder.
+Simulink is a flagship Model-Based Design solution, particularly in control systems engineering, developed by MathWorks~\cite{simulink_documentation}. In comparison with the tightly integrated AADL-inherent RAMSES, Simulink is backed by a graphic modeling framework of dynamic systems, and the production of code becomes straightforward with software like Simulink Coder and Embedded Coder.
 
 Key aspects of Simulink code generation are:
  \begin{itemize} 
@@ -78,7 +67,7 @@ Key aspects of Simulink code generation are:
  	\item \textbf{Customization and Extensions:} Developers can customize generation patterns and integrate generated code into larger legacy codebases. 
  \end{itemize}
 
-Simulink is especially well-suited for rapid prototyping and tight integration with hardware-in-the-loop testing, and thus it is a favorite among automotive and aerospace industries.
+Simulink is especially well-suited for rapid prototyping and tight integration with hardware-in-the-loop testing, and thus it is a favorite among automotive and aerospace industries~\cite{Simulink_automotive_applications}.
 
 \subsection*{OpenModelica: Modelica-Based Code Generation for System Simulation}
 
@@ -91,7 +80,7 @@ Code generation in OpenModelica prioritizes the correctness and performance of t
 
 \subsection*{OpenAPI Generator: Configurable Code Generation Beyond Embedded Systems}
 
-OpenAPI Generator is an open-source tool that generates client SDKs, server stubs, and documentation from OpenAPI specifications. Supporting over 40 languages and frameworks~\cite{openapi-generators}, it is widely used across software projects.
+OpenAPI Generator is an open-source tool that generates client SDKs, server stubs, and documentation from OpenAPI specifications~\cite{OpenAPITools}. Supporting over 40 languages and frameworks~\cite{openapi-generators}, it is widely used across software projects.
 
 Generation is controlled via configuration files (JSON or \gls{YAML}) that specify package naming, class prefixes, data type mappings, and code style, enabling consistent architectural and coding standards~\cite{openapi-config}. The tool’s template-based system uses customizable Mustache templates to define code output, allowing adaptation to legacy code, custom logging, or specific frameworks. Plugin mechanisms and hooks enable further customization during generation~\cite{openapi-customization,openapi-plugins}.
 
@@ -100,7 +89,7 @@ This flexible, configurable approach contrasts with RAMSES’s more rigid, hardc
 
 \subsection*{RAMSES vs. Other Code Generators}
 
-To better understand how RAMSES holds up against the competition in therms of code configuration, the following Table~\ref{tab:code_gen_config_comparison} was created.
+To better understand how RAMSES holds up against the competition in therms of code configuration, the following Table~\ref{tab:code_gen_config_comparison} was created based on singular tool testing and interviews with developers.
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}
@@ -162,11 +151,11 @@ This essentially means that most code standards are locked to one or more progra
 
 \section{Acceleo and Model-to-Text Transformations} \label{sec:folders_and_files}
 
-To counter the configurability limitations observed in tools like RAMSES, we turn to specialized model-to-text (M2T) transformation technologies. Among these, Acceleo is a highly promising candidate.
+To counter the configurability limitations observed in tools like RAMSES, we turn to specialized model-to-text (M2T) transformation technologies. Among these, Acceleo is highly promising.
 
 \subsection*{Acceleo: An Overview}
 
-Acceleo is an open-source, template-based Eclipse family M2T transformation tool. Its thought model is based on the mapping of formal models (typically in EMF — Eclipse Modeling Framework format) to text artifacts like source code, documentation, or configuration files.
+Acceleo is an open-source, template-based Eclipse family M2T transformation tool. Its thought model is based on the mapping of formal models (typically in EMF — Eclipse Modeling Framework format) to text artifacts like source code, documentation, or configuration files~\cite{AcceleoUserGuide}.
 
 Major benefits of Acceleo are: 
 \begin{itemize} 
@@ -189,8 +178,6 @@ For this project, Acceleo serves as the basis for enhancing RAMSES' configurabil
 This plan promises to transform RAMSES into a more flexible and maintainable toolchain component from one that is rigid code generating.
 
 
-
-
 \section{Existing Work on Configurable Code Generation} \label{sec:configurable_generation}
 
 The search for flexible and customizable code generation is not unique to this thesis. In most domains, tools and techniques have been created to solve the problem of generating high-quality, customizable code from models.
@@ -208,7 +195,7 @@ These approaches allow programmers to mold the auto-generated code towards proje
 
 \subsection*{Hook Functions in TargetLink}
 
-TargetLink, another market leader in code generation tools, comes with the concept of \textbf{hook functions}: pre-compiled points of extension within the generated code that allow developers to plug in their own logic. The facility is most handy in a number of situations. For example, it eases the integration with legacy APIs or platform-dependent libraries and allows developers to add extensions without altering the primary generated code.
+TargetLink, another market leader in code generation tools, comes with the concept of \textbf{hook functions}: pre-compiled points of extension within the generated code that allow developers to plug in their own logic~\cite{target_link_features}. The facility is most handy in a number of situations. For example, it eases the integration with legacy APIs or platform-dependent libraries and allows developers to add extensions without altering the primary generated code.
 \par
 In addition, hook functions have the benefit of being customizable without compromising maintainability or upgradability of the generated code. When models evolve, code under it can remain unchanged while introducing custom logic using these extension points. This solution offers a clean trade-off between extending the generated code and offering its long-term maintainability with less effort for future upgrades.
 
@@ -248,6 +235,7 @@ As we integrate configurable generation facilities into RAMSES, we shall ensure 
 \begin{tcolorbox}[colback=blue!5, colframe=blue!40!black] Flexible code generators need to not just conform to project requirements but also apply vital industry standards such as \gls{MISRA} to guarantee safety and reliability. \end{tcolorbox}
 
 
+While current solutions to code generation customization exist, they don't apply to AADL directly and the most powerful out of all the solutions studied, Simulink, is closed source, which does not solve our inherent problem: build a configuration language for RAMSES. This would make the configuration language the only open-source codegen configurability layer for AADL.
 
 
  %

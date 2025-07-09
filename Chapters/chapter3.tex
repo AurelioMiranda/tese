@@ -21,7 +21,7 @@
 
 RAMSES has served as a robust model-to-code generator for AADL-based systems, yet it suffers from a fundamental architectural constraint: it assumes a uniform target environment. This assumption does not hold in real-world industrial projects, where system heterogeneity, legacy integration, and domain-specific standards define a constantly shifting context.
 
-The core issue lies in RAMSES’ transformation pipeline: it entangles policy decisions (naming, structure, integration style) with generation logic. These decisions, hardcoded in ATL transformations, reflect the assumptions of RAMSES' authors more than the needs of end users. Altering them involves modifying the transformation source itself, often a hard and error-prone task.
+The core issue lies in RAMSES' transformation pipeline: it entangles policy decisions (naming, structure, integration style) with generation logic. These decisions, hardcoded in ATL transformations, reflect the assumptions of RAMSES' authors more than the needs of end users~\cite{AtlasTransformationLanguage}. Altering them involves modifying the transformation source itself, often a hard and error-prone task~\cite{Mittal_Blouin_Bhobe_Bandyopadhyay_2022}.
 
 Consider a simple use case: a company mandates that all task-level functions use `snake\_case` and include a `COMPONENT\_` prefix. RAMSES, which might generate `ComputeTask` by default, offers no way to enforce those rules. A change in naming becomes a traversal through ATL templates and helpers. This is not scalable, and in safety-critical software, it is not acceptable.
 
@@ -38,8 +38,8 @@ Generated code must often comply with domain-specific standards such as:
 
 \begin{itemize}
 	\item \textbf{\gls{MISRA} C/C++:} Imposes constraints on memory usage, naming, control flow, and portability~\cite{Misra_C_2025}~\cite{Misra_Cpp_2023}.
-	\item \textbf{DO-178C:} Requires traceability, tool qualification, and clear derivation from high-level requirements. 
-	\item \textbf{ISO 26262:} Enforces safety-related development practices and documentation.
+	\item \textbf{DO-178C:} Requires traceability, tool qualification, and clear derivation from high-level requirements~\cite{DO}. 
+	\item \textbf{\gls{ISO} 26262:} Enforces safety-related development practices and documentation~\cite{bibid}.
 \end{itemize}
 
 In these environments, code generation must do more than "just work". It must be explainable, auditable, and deterministic. Developers must be able to trace a generated function back to a model element and forward to a specific runtime behavior.

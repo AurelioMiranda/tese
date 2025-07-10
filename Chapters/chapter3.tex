@@ -39,8 +39,8 @@ Generated code must often comply with domain-specific standards such as:
 \begin{itemize}
 	\item \textbf{\gls{MISRA} C/C++:} Imposes constraints on memory usage, naming, control flow, and portability~\cite{Misra_C_2025}~\cite{Misra_Cpp_2023}.
 	\item \textbf{DO-178C:} Requires traceability, tool qualification, and clear derivation from high-level requirements~\cite{DO}. 
-	\item \textbf{\gls{ISO} 26262:} Enforces safety-related development practices and documentation~\cite{bibid}.
-\end{itemize}
+	\item \textbf{\gls{ISO} 26262:} Enforces safety-related development practices and documentation~\cite{Debouk_2019}.
+\end{itemize} 
 
 In these environments, code generation must do more than "just work". It must be explainable, auditable, and deterministic. Developers must be able to trace a generated function back to a model element and forward to a specific runtime behavior.
 
@@ -202,7 +202,7 @@ In order to test the functionality and receive a third party opinion, a simple u
 
 Upon doing this testing, many users defined it as a flexible addition to coding generation with many application to real life and industry scenarios. Users also noted that this functionality improves information treatment between teams as different people have different ways to write models names, the prototype proves that naming normalization can also improve team cohesion.
 
-Users commented that, with this functionality, appears the ability to create multiple versions of the functionally same code just with naming differences. This also aligns with the coding standards for multiple languages, given that some languages require identifiers to use a certain nomenclature, which can clash with AADL node names.
+Users commented that, with this functionality, appears the ability to create multiple versions of the functionally same code just with naming differences. This also aligns with the coding standards for multiple languages, given that some languages require identifiers to use a certain nomenclature~\cite{Google_cpp_style_guide, Python_coding_style}, which can clash with AADL node names.
 
 Overall the prototype, although simple, was well received and proved to give value for the AADL to code pipeline.
 
@@ -214,12 +214,12 @@ Even though its application is specific to the code developed for the prototype 
 The naming convention change logic is pretty straight forward, as we want to modify the identifiers, and those come from model properties. From there the properties that represent identifiers are formatted as they are being added to the code, effectively making sure the main model stays untouched while the properties extracted are modified into the desired outcome. This makes sure only the specific selected properties are modified and the rest of the code generates as normal.
 
 The algorithm used for the naming transformation has many fallbacks that make it so even if a property name is especially complex, cases like short names are handled with care and specific styles like snake\_case, while having complex patterns, can be easily defined with Regex lines. 
-
+~\cite{eclipse_emf}
 As the configuration model is built on Ecore, the addition of new naming styles is not possible directly by the user, this means two things: in order to enter a wrong coding style the user needs to have high technical knowledge of the system\footnote{This can change with the proper DSL implementation, however, configuration checks will be applied then, removing this problem.}. If instead we wanted to \textbf{add} a new naming style, that is very much possible with a quick modification of the Configurator's Ecore model and the Acceleo naming format algorithm.
 
 \subsubsection{Multiple Models in Acceleo}
 
-Working with 2 Ecore models was not very straightforward, although Acceleo provides the resources needed to work with multiple Ecore models, Eclipse itself does not allow for multiple input models in a single run configuration. To work around this, a custom \textit{main()} method was made to register the metamodels into the resources, effectively allowing for the usage of both metamodels. This issue, while small, presented a fairly decent deal of complications for the development of the prototype, specifically because Acceleo documentation on the matter was scarce and community forums were unhelpful.
+Working with 2 Ecore models was not very straightforward, although Acceleo provides the resources needed to work with multiple Ecore models, Eclipse itself does not allow for multiple input models in a single run configuration~\cite{acceleo_multi_model_problem}. To work around this, a custom \textit{main()} method was made to register the metamodels into the resources, effectively allowing for the usage of both metamodels. This issue, while small, presented a fairly decent deal of complications for the development of the prototype, specifically because Acceleo documentation on the matter was scarce and community forums were unhelpful.
 
 Nevertheless, this solution allows not just for the usage of multiple models in this prototype but also in any other projects that need an Acceleo program with 2 or model Ecore models as inputs.
 
@@ -227,7 +227,7 @@ Nevertheless, this solution allows not just for the usage of multiple models in 
 \section{System Evaluation}
 \label{sec:sys_eval}
 
-In order to assure that the \gls{DSL} meets expectations, the system will be evaluated in various forms, mainly:
+In order to assure that the \gls{DSL} meets expectations~\cite{Voelter_Benz_2013}, the system will be evaluated in various forms, mainly:
 
 \begin{itemize}
 	\item The \gls{DSL} exists and produces results.
@@ -284,9 +284,9 @@ The baseline for comparison will be the unmodified RAMSES generator. This allows
 Although the configuration language includes many features and has been designed with flexibility, usability, and maintainability in mind, this work has some limitations.
 
 \begin{itemize}
-	\item \textbf{Limited Scope of Configurable Aspects:} The proposed DSL focuses primarily on naming conventions, traceability, and coding standards. More advanced features such as behavioral configuration, cross-component constraints, or real-time performance tuning fall outside the scope of this work. Similarly, certain features might be prioritized or excluded based on client feedback.
+	\item \textbf{Limited Scope of Configurable Aspects:} The proposed DSL focuses primarily on naming conventions, traceability, and coding standards. More advanced features such as behavioral configuration, cross-component constraints, or real-time performance tuning fall outside the scope of this work~\cite{software_product_lines_practices_and_patterns_2015}. Similarly, certain features might be prioritized or excluded based on client feedback.
 	
-	\item \textbf{Restricted Evaluation Sample:} Usability and functional testing rely on a small set of representative examples and a limited number of user interactions. While including users with varying levels of technical expertise is being kept in mind, the results may not generalize across all industrial contexts or teams.
+	\item \textbf{Restricted Evaluation Sample:} Usability and functional testing rely on a small set of representative examples and a limited number of user interactions~\cite{Bias_Mayhew_1994}. While including users with varying levels of technical expertise is being kept in mind, the results may not generalize across all industrial contexts or teams.
 	
 	\item \textbf{No Legacy Tool for Direct Comparison:} Since no previous configuration language exists for \gls{RAMSES}, or AADL for that matter, before and after comparisons will rely on manual, potentially subjective assessments of workflow complexity. This limits the ability to measure productivity gains with high precision.
 	

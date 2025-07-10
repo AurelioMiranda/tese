@@ -143,8 +143,8 @@ Additionally, this model also possesses some contrainsts when dealing with certa
 	\item \gls{MISRA}-C/C++ implies C or C++
 	\item \gls{AUTOSAR} implies C
 	\item DO-178C implies C or C++
-	\item "\gls{IEC} 61508" implies C or C++ or Java
-	\item "Template Customization" implies "Template Based"
+	\item \gls{IEC} 61508 implies C or C++ or Java
+	\item Template Customization implies Template Based
 \end{itemize}
 
 This essentially means that most code standards are locked to one or more programming languages, if those programming languages are not selected, the standards does not apply. Similarly, Template Customazation can only be applied to Template Based solutions.
@@ -187,8 +187,8 @@ The search for flexible and customizable code generation is not unique to this t
 Template-based code generation remains the foundation in this field. Some good examples of such tools are \textbf{Acceleo} and \textbf{Simulink templates}: 
 
 \begin{itemize} 
-	\item \textbf{Acceleo} allows explicit control of the structure and style of the generated code, making it highly suitable for projects in which compliance with some coding standards or architecture patterns is essential. 
-	\item \textbf{Simulink Templates} offers programmers the means to declare patterns of reusable code, with uniform look and feel across several projects and support for custom toolchains and legacy systems.
+	\item \textbf{Acceleo} allows explicit control of the structure and style of the generated code, making it highly suitable for projects in which compliance with some coding standards or architecture patterns is essential~\cite{AcceleoUserGuide}. 
+	\item \textbf{Simulink Templates} offers programmers the means to declare patterns of reusable code, with uniform look and feel across several projects and support for custom toolchains and legacy systems~\cite{simulink_templates}.
 \end{itemize}
 
 These approaches allow programmers to mold the auto-generated code towards project-specific applications without downgrading underlying models bridging the gap between automated generation and hand-coding, combining efficiency with flexibility.

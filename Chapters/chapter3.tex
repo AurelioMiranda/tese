@@ -19,7 +19,7 @@
 \section{The Inflexibility of RAMSES: A Barrier to Industrial Integration}
 \label{sec:inflexibility_ramses}
 
-RAMSES has served as a robust model-to-code generator for AADL-based systems, yet it suffers from a fundamental architectural constraint: it assumes a uniform target environment. This assumption does not hold in real-world industrial projects, where system heterogeneity, legacy integration, and domain-specific standards define a constantly shifting context.
+RAMSES has served as a robust model-to-code generator for \gls{AADL} based systems, yet it suffers from a fundamental architectural constraint: it assumes a uniform target environment. This assumption does not hold in real-world industrial projects, where system heterogeneity, legacy integration, and domain-specific standards define a constantly shifting context.
 
 The core issue lies in RAMSES' transformation pipeline: it entangles policy decisions (naming, structure, integration style) with generation logic. These decisions, hardcoded in ATL transformations, reflect the assumptions of RAMSES' authors more than the needs of end users~\cite{AtlasTransformationLanguage}. Altering them involves modifying the transformation source itself, often a hard and error-prone task~\cite{Mittal_Blouin_Bhobe_Bandyopadhyay_2022}.
 
@@ -104,7 +104,7 @@ While naming and formatting are important, a powerful configuration system must 
 
 \begin{enumerate}
 	\item \textbf{Artifact Naming and Structuring:} Control over file names, folder layout, and identifier styles.
-	\item \textbf{Component Mapping Rules:} Declarative rules that assign AADL components to target platform concepts (RTOS tasks, processes, etc).
+	\item \textbf{Component Mapping Rules:} Declarative rules that assign \gls{AADL} components to target platform concepts (RTOS tasks, processes, etc).
 	\item \textbf{Code Instrumentation:} Hooks for logging, tracing, or runtime checks (insertion of `assert` or instrumentation macros).
 	\item \textbf{Conditional Feature Flags:} Ability to enable or disable parts of the generator (generate test stubs, insert wrappers).
 	\item \textbf{Code Documentation:} Generation of reports or toggle of code comments.
@@ -134,7 +134,7 @@ class MyNode : public rclcpp::Node {
 	}
 \end{verbatim}
 
-A simple Node class has the class identifier \texttt{MyNode}. In the case of \gls{RAMSES}, MyNode would be inherited from the AADL model, meaning that, in order to change the code nomenclature of MyNode, we would have to either manually change the generated code or changing the name of the node in it's corresponding AADL model file and then regenerate the code.
+A simple Node class has the class identifier \texttt{MyNode}. In the case of \gls{RAMSES}, MyNode would be inherited from the \gls{AADL} model, meaning that, in order to change the code nomenclature of MyNode, we would have to either manually change the generated code or changing the name of the node in it's corresponding \gls{AADL} model file and then regenerate the code.
 
 Both options are feasible in this case, however, with growing system complexity this small change becomes incrementally harder and more prone to errors.
 
@@ -198,13 +198,13 @@ The idenfitiers (in this case the name of the function\footnote{T1} and the name
 
 \subsubsection{User Feedback}
 
-In order to test the functionality and receive a third party opinion, a simple user testing was done with multiple users that were familiar with AADL. The procedure was simple and direct, users were instructed to the premise of the prototype, then they would perform tasks (in this case just one task: change the identifier name to X) and then they would be questioned in the usefulness of the feature, the applications it could have and overall thoughts.
+In order to test the functionality and receive a third party opinion, a simple user testing was done with multiple users that were familiar with \gls{AADL}. The procedure was simple and direct, users were instructed to the premise of the prototype, then they would perform tasks (in this case just one task: change the identifier name to X) and then they would be questioned in the usefulness of the feature, the applications it could have and overall thoughts.
 
 Upon doing this testing, many users defined it as a flexible addition to coding generation with many application to real life and industry scenarios. Users also noted that this functionality improves information treatment between teams as different people have different ways to write models names, the prototype proves that naming normalization can also improve team cohesion.
 
-Users commented that, with this functionality, appears the ability to create multiple versions of the functionally same code just with naming differences. This also aligns with the coding standards for multiple languages, given that some languages require identifiers to use a certain nomenclature~\cite{Google_cpp_style_guide, Python_coding_style}, which can clash with AADL node names.
+Users commented that, with this functionality, appears the ability to create multiple versions of the functionally same code just with naming differences. This also aligns with the coding standards for multiple languages, given that some languages require identifiers to use a certain nomenclature~\cite{Google_cpp_style_guide, Python_coding_style}, which can clash with \gls{AADL} node names.
 
-Overall the prototype, although simple, was well received and proved to give value for the AADL to code pipeline.
+Overall the prototype, although simple, was well received and proved to give value for the \gls{AADL} to code pipeline.
 
 \subsection{Technical Details}
 \label{sec:prototype_technical_details}
@@ -288,7 +288,7 @@ Although the configuration language includes many features and has been designed
 	
 	\item \textbf{Restricted Evaluation Sample:} Usability and functional testing rely on a small set of representative examples and a limited number of user interactions~\cite{Bias_Mayhew_1994}. While including users with varying levels of technical expertise is being kept in mind, the results may not generalize across all industrial contexts or teams.
 	
-	\item \textbf{No Legacy Tool for Direct Comparison:} Since no previous configuration language exists for \gls{RAMSES}, or AADL for that matter, before and after comparisons will rely on manual, potentially subjective assessments of workflow complexity. This limits the ability to measure productivity gains with high precision.
+	\item \textbf{No Legacy Tool for Direct Comparison:} Since no previous configuration language exists for \gls{RAMSES}, or \gls{AADL} for that matter, before and after comparisons will rely on manual, potentially subjective assessments of workflow complexity. This limits the ability to measure productivity gains with high precision.
 	
 	\item \textbf{Integration Constraints:} The configuration system is designed to integrate into the existing \gls{RAMSES} toolchain, which constraints how the generator behavior can be modified. Deep generator reworks or architectural transformations are intentionally excluded to maintain compatibility.
 	

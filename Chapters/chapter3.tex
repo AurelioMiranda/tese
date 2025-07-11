@@ -13,7 +13,7 @@
 \label{chap:challenges_and_requirements}
 
 \epigraph{
-	This chapter explains why configurability is no longer optional, and how traditional code generation pipelines must evolve. In addition, a prototype of the configuration is also presented along with an implementation plan.
+	This chapter explains why configurability is no longer optional, and how traditional code generation pipelines must evolve. In addition, a prototype of the configuration is also presented along with a system evaluation plan and research limitations.
 }
 
 \section{The Inflexibility of RAMSES: A Barrier to Industrial Integration}
@@ -244,6 +244,7 @@ To assure that the \gls{DSL} meets expectations~\cite{Voelter_Benz_2013}, the sy
 	\item Usability evaluation.
 	\item Configuration variants evaluation.
 	\item The newly generated code remains functionally the same as before\footnote{Meaning that it performs the same practical task as before the \gls{DSL} implementation.}.
+	\item Various testing procedures during and after development.
 \end{itemize}
 
 Ideally the end product should meet these requirements to be considered a success. Each one of the requirements ensures a different, core quality of the configuration system, such as correctness, usability, or robustness.
@@ -294,6 +295,18 @@ To make sure the code generated still retains the same practical functionality, 
 
 The baseline for comparison will be the unmodified RAMSES generator. This allows for a clear assessment of what configuration capabilities are introduced in terms of productivity, flexibility, and clarity. 
 
+\subsection*{Testing Procedures}
+
+Tests will be conducted during and after development to ensure the configuration language behaves as expected and that the practical usage of the generated code remains the same. A variety of tests were chosen, specifically:
+
+\begin{itemize}
+	\item Unit Testing which will be performed by the developer. These tests focus on individual transformation rules or components of the generator to make sure developed features work as intended.
+	\item Regression Testing are also handled by the developer as they are used to ensure that new changes do not break existing functionality. They target both previously implemented configuration options and code generation rules.
+	\item Integration Testing will also be performed by the developer and checks whether different features of the generator work together correctly. It focuses on feature interactions and overall system behavior, especially when configuration options are combined.
+	\item Validation Testing is conducted involving actual users and project stakeholders. Its purpose is to validate that the features implemented match user expectations and project goals. Participants will evaluate whether the generated code behaves as expected and whether the configuration language is understandable and practical for its intended use.
+\end{itemize}
+
+Each of these testing strategies plays a specific role in evaluating the system, they ensure that the features work and users understand them. The outcomes of these tests is extremely important for the final evaluation of the prototype.
 
 \section{Research Limitations}
 \label{sec:research_limitations}

@@ -37,6 +37,7 @@ In this thesis, \gls{AADL} is utilized as the base modeling language. Its formal
 
 
 \section{RAMSES: A Code Generator for AADL} \label{sec:ramses}
+\label{sec:ramsesIntro}
 
 \gls{RAMSES} is an \gls{M2T} transformation tool with the ability to generate code from \gls{AADL} models. Part of the greater Eclipse ecosystem, \gls{RAMSES} automates the transformation of architectural models into deployable source code, effectively achieving the \gls{MBE} dream of model-driven automation\cite{MEM4CSD}.
 \par 
@@ -56,7 +57,8 @@ Even with these advantages, improvements can still be made. \gls{RAMSES}' transf
 While \gls{RAMSES} plays a central role in the \gls{AADL} toolset, it is by no means alone in the world of model-based code generation. There are long-established solutions both inside and outside the \gls{AADL} universe with their own capabilities and niches.
 
 
-\subsection*{Simulink Code Generation For Embedded Systems}
+\subsection{Simulink Code Generation For Embedded Systems}
+\label{sec:simulink}
 
 Simulink is a flagship Model-Based Design solution, particularly in control systems engineering, developed by MathWorks~\cite{simulink_documentation}. In comparison with the tightly integrated \gls{AADL} inherent \gls{RAMSES}, Simulink is backed by a graphic modeling framework of dynamic systems, and the production of code becomes straightforward with software like Simulink Coder and Embedded Coder.
 
@@ -69,7 +71,8 @@ Key aspects of Simulink code generation are:
 
 Simulink is especially well-suited for rapid prototyping and tight integration with hardware-in-the-loop testing, and thus it is a favorite among automotive and aerospace industries~\cite{Simulink_automotive_applications}.
 
-\subsection*{OpenModelica: Modelica-Based Code Generation for System Simulation}
+\subsection{OpenModelica: Modelica-Based Code Generation for System Simulation}
+\label{sec:openModelIntro}
 
 OpenModelica is an open-source Modelica language-based modeling, simulation, and code generation software used intensively for system and physical modeling~\cite{openmodelica-home}. It generates simulation binaries and C code that precisely represent Modelica models and support complex system dynamics and numerical analysis~\cite{openmodelica-codegen}.
 
@@ -78,7 +81,8 @@ Configuration options are available through Modelica annotations and compiler fl
 Code generation in OpenModelica prioritizes the correctness and performance of the resulting simulation code and provides little support for adherence to a given coding standard or legacy code base~\cite{openmodelica-performance}. The major facility of the tool is to create efficient executable simulation models rather than to be highly configurable with respect to code generation output.
 
 
-\subsection*{OpenAPI Generator: Configurable Code Generation Beyond Embedded Systems}
+\subsection{OpenAPI Generator: Configurable Code Generation Beyond Embedded Systems}
+\label{sec:openApi}
 
 OpenAPI Generator is an open-source tool that generates client SDKs, server stubs, and documentation from OpenAPI specifications~\cite{OpenAPITools}. Supporting over 40 languages and frameworks~\cite{openapi-generators}, it is widely used across software projects.
 
@@ -87,7 +91,8 @@ Generation is controlled via configuration files (JSON or \gls{YAML}) that speci
 This flexible, configurable approach contrasts with \gls{RAMSES}’s more rigid, hardcoded transformations.
 
 
-\subsection*{RAMSES vs. Other Code Generators}
+\subsection{RAMSES vs. Other Code Generators}
+\label{sec:ramses_vs_others}
 
 To better understand how \gls{RAMSES} holds up against the competition in terms of code configuration, Table~\ref{tab:code_gen_config_comparison} was created based on singular tool testing and interviews with developers.
 
@@ -161,7 +166,8 @@ This essentially means that most code standards are locked to one or more progra
 
 To counter the configurability limitations observed in tools like \gls{RAMSES}, we turn to specialized \gls{M2T} transformation technologies. Among these, Acceleo is highly promising.
 
-\subsection*{Acceleo: An Overview}
+\subsection{Acceleo: An Overview} 
+\label{sec:overview}
 
 Acceleo is an open-source, template-based Eclipse family \gls{M2T} transformation tool. Its thought model is based on the mapping of formal models (typically in \gls{EMF}) to text artifacts like source code, documentation, or configuration files~\cite{AcceleoUserGuide}.
 
@@ -175,7 +181,8 @@ Major benefits of Acceleo are:
 
 \begin{tcolorbox}[colback=blue!5, colframe=blue!40!black] Acceleo gives developers the ability to tweak code generation patterns, making the generated codebase more flexible and maintainable. \end{tcolorbox}
 
-\subsubsection*{Acceleo example}
+\subsubsection{Acceleo example}
+\label{sec:example}
 
 Acceleo code is generated from .mtl templates, where it is defined how model elements are translated into text.
 Suppose the model contains a Class with the name MotorController. A basic Acceleo template might look like:
@@ -200,7 +207,8 @@ public class MotorController
 
 This example illustrates how Acceleo uses \gls{MD} templates to produce structured and consistent source code from high level models.
 
-\subsection*{Acceleo’s Role in This Thesis}
+\subsection{Acceleo’s Role in This Thesis}
+\label{sec:role}
 
 For this project, Acceleo serves as the basis for enhancing \gls{RAMSES}' configurability. Through delegating transformation logic to Acceleo templates, we have the aim of: 
 \begin{itemize} 
@@ -216,7 +224,8 @@ This plan promises to transform \gls{RAMSES} into a more flexible and maintainab
 
 The search for flexible and customizable code generation is not unique to this thesis. In most domains, tools and techniques have been created to solve the problem of generating high-quality, customizable code from models.
 
-\subsection*{Template-Based Approaches}
+\subsection{Template-Based Approaches}
+\label{sec:template}
 
 Template-based code generation remains the foundation in this field. Some good examples of such tools are \textbf{Acceleo} and \textbf{Simulink templates}: 
 
@@ -227,13 +236,15 @@ Template-based code generation remains the foundation in this field. Some good e
 
 These approaches allow programmers to shape the auto-generated code towards project-specific applications without downgrading underlying models bridging the gap between automated generation and hand-coding, combining efficiency with flexibility.
 
-\subsection*{Hook Functions in TargetLink}
+\subsection{Hook Functions in TargetLink}
+\label{sec:hook:functions}
 
 TargetLink, another market leader in code generation tools, comes with the concept of \textbf{hook functions}: pre-compiled points of extension within the generated code that allow developers to plug in their own logic~\cite{target_link_features}. The facility is most handy in a number of situations. For example, it eases the integration with legacy APIs or platform-dependent libraries and allows developers to add extensions without altering the primary generated code.
 \par
 In addition, hook functions have the benefit of being customizable without compromising maintainability or upgradability of the generated code. When models evolve, code under it can remain unchanged while introducing custom logic using these extension points. This solution offers a clean trade-off between extending the generated code and offering its long-term maintainability with less effort for future upgrades.
 
-\subsection*{OpenModelica and Multi-Variant Generation}
+\subsection{OpenModelica and Multi-Variant Generation}
+\label{sec:open_model}
 
 \textbf{OpenModelica} introduces a higher degree of configurable generation with its support for \textbf{multi-variant code generation}. Through this, engineers are able to:
 \begin{itemize} 
@@ -244,7 +255,8 @@ In addition, hook functions have the benefit of being customizable without compr
 This variability is completely indispensable in automobile or aircraft production companies, for example, where a single product line might encompass several hardware targets or safety classes.
 
 
-\subsection*{The Case for Configurability in RAMSES}
+\subsection{The Case for Configurability in RAMSES}
+\label{sec:config}
 
 Despite its strengths, \gls{RAMSES} currently has no mechanism for fine-grained extension and configuration.
 Specifically:
@@ -258,7 +270,11 @@ Including configurability in \gls{RAMSES} would offer several benefits. It would
 
 \begin{tcolorbox}[colback=green!5, colframe=green!40!black] By adopting template-based generation, \gls{RAMSES} can evolve into a dynamic, future-proof tool to meet growing embedded system development demands. \end{tcolorbox}
 
+
+
+
 \subsection*{Towards MISRA C/C++ Compliance}
+\label{sec:misra_compliance}
 
 A central element of code generation in configurable code generation, particularly in the field of safety-critical application domains, is to generate \textbf{standard-compliant code}. Strict requirements for safe, portable, and reliable embedded software are presented by the \gls{MISRA} C~\cite{Misra_C_2025} and C++~\cite{Misra_Cpp_2023} standards.
 \par

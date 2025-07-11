@@ -24,9 +24,9 @@
 
 \section{Context and Motivation}
 
-There is always a need for innovation, and consequently, technological progress continues, with continuous increase in system complexity~\cite{lee2008}, either software or hardware. This complexity is accompanied by enormous challenges in creating the solutions, particularly when software and hardware are adjacent to one another, such as is the situation when working with the robotics programming field. 
+There is always a need for innovation, and consequently, technological progress is accompanied by an increase in system complexity~\cite{lee2008}, either software or hardware. This complexity is accompanied by enormous challenges in creating the solutions, particularly when software and hardware are adjacent to one another, such as is the situation when working with the robotics programming field. 
 \par
-For new users, robot programming can be especially daunting due to its extensive knowledge requirements and intricate integration of \gls{CPS}~\cite{Khatib_Siciliano_2016}. Such systems, comprising computer-based programs, networks, sensors, and actuators, highlight the significant contribution of software development, which is responsible for the majority of the production cost of \gls{CPS}~\cite{Rajkumar_Ragunathan_Lee_2010}. Robotics, as a constituent of \gls{CPS}, entails unique challenges in software and hardware integration, making problem identification late in the process very expensive.
+For new users, robot programming can be especially daunting due to its extensive knowledge requirements and intricate integration of \gls{CPS}~\cite{Khatib_Siciliano_2016}. Such systems, comprising computer-based programs, networks, sensors, and actuators, highlight the significant contribution of software development, which is responsible for the majority of the production cost of \gls{CPS}~\cite{Rajkumar_Ragunathan_Lee_2010}. Robotics, as a constituent of \gls{CPS}, entails unique challenges in software and hardware integration, making problem identification late in the process very expensive~\cite{Broy_Kruger_Pretschner_Salzmann_2007}.
 \par
 \gls{MD} approaches have proven to be effective solutions in this situation, offering the advantages of generation of high-quality code and results consistently~\cite{Schmidt_DC_2006}. The placement of the model at the center of the production process ensures that the developers are given a higher level of abstraction, while the complexity during the development of new systems is reduced.
 
@@ -37,7 +37,7 @@ Of all these \gls{MD} techniques, the \gls{AADL} is a strong modeling language w
 As shown by Borde et al.~\cite{Borde_Rahmoun_Cadoret_Pautet_Singhoff_Dissaux_2014}, the \gls{RAMSES} project extends \gls{AADL} to automatically generate source code for embedded systems. \gls{RAMSES}, being a model-to-text transformation tool, enhances \gls{CPS} software development quality and productivity by preventing human coding errors and accelerating the path from design to deployment.
 
 \begin{tcolorbox}[colback=green!8]
-	“With the ever increasing complexity of cyber-physical systems, \gls{RAMSES} ensures trustworthy automation from design to deployment.”
+	"With the ever increasing complexity of cyber-physical systems, \gls{RAMSES} ensures trustworthy automation from design to deployment."
 \end{tcolorbox}
 
 This project is a joint collaboration between \gls{DI} NOVA, NOVALINCS, and Télécom Paris, unifying systems engineering know-how, formal methods, and embedded code generation.
@@ -45,9 +45,9 @@ This project is a joint collaboration between \gls{DI} NOVA, NOVALINCS, and Tél
 
 \subsection{Why Configurability is Necessary}
 
-While \gls{RAMSES} utilization presents multiple advantages, there remains one issue: its decisions for generating code are hardcoded and rigid. Little is under control of the developer for elements such as code appearance, binding against specific APIs, or maintaining firm standards-based company guidelines. In industrial environments, where the need arises to reuse today's libraries and frameworks to uphold current standards, such a lack of flexibility presents a bottleneck. 
+While \gls{RAMSES} utilization presents multiple advantages, there remains an issue concerning code generation: its decisions are hardcoded and rigid. Little is under control of the developer for elements such as code appearance, binding against specific APIs, or maintaining firm standards-based company guidelines. In industrial environments, where the need arises to reuse today's libraries and frameworks to uphold current standards, such a lack of flexibility presents a bottleneck, this inhibits not only initial integration, but also long-term system evolution and co-evolution, which are crucial for sustaining \gls{CPS} over time~\cite{Czarnecki_Helsen_2006}.
 \par
-Flexibility to customize code generated is imperative in order to encourage increased adoption by industry and to facilitate integration in diverse development environments~\cite{Mikova_2025}. With configurability, \gls{RAMSES} can be set up to generate code that not only meets functional requirements but also conforms to organizational coding conventions and leverages accessible software assets.
+Flexibility to customize generated code is imperative to encourage increased adoption by industry and to facilitate integration in diverse development environments~\cite{Mikova_2025}. With configurability, \gls{RAMSES} can be set up to generate code that not only meets functional requirements but also conforms to organizational coding conventions and leverages accessible software assets.
 
 \section{Problem Statement}
 

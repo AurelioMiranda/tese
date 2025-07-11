@@ -24,9 +24,9 @@ Several tool-supported methodologies, like NDT-Suite~\cite{garcia2014ndt}, show 
 \par
 In the context of embedded systems, \gls{MBE} facilitates early validation of design decisions, much earlier than hardware exists or code is written~\cite{France_Rumpe_2007}. Engineers can model interactions, analyze performance bottlenecks, and verify compliance with safety and reliability standards, all at the model level.
 \par
-One of the most important participants in this strategy is the \gls{AADL}. \gls{AADL} is a formal hardware/software co-design modeling language. It gives precise semantics to model the architecture and behavior of embedded systems, ranging from processor bindings and memory layouts to communication buses and task scheduling.
+One of the most important participants in this strategy is the \gls{AADL}~\cite{Feiler_Lewis_Vestal_2006}. \gls{AADL} is a formal hardware/software co-design modeling language. It gives precise semantics to model the architecture and behavior of embedded systems, ranging from processor bindings and memory layouts to communication buses and task scheduling.
 \par
-\gls{AADL} is not only strong in its description power but stronger in being capable of supporting early analysis of non-functional properties such as timing, reliability, and safety constraints. This is very well suited to industries such as aerospace, automotive, and defense, where such considerations are a given.
+\gls{AADL} not only provides expressive architectural modeling constructs but also supports early analysis of non-functional properties such as timing, reliability, and safety constraints. Its formal semantics and tool support enable systematic verification of these properties during the design phase~\cite{Feiler_Lewis_Vestal_2006}. This is very well suited to industries such as aerospace, automotive, and defense, where such considerations are a given.
 \par
 
 \begin{tcolorbox}[colback=blue!5, colframe=blue!40!black] With \gls{AADL} adoption, developers are able to early validate system architectures, preventing downstream integration risks and costly late-stage design modifications.  \end{tcolorbox}
@@ -38,27 +38,27 @@ In this thesis, \gls{AADL} is utilized as the base modeling language. Its formal
 
 \section{RAMSES: A Code Generator for AADL} \label{sec:ramses}
 
-RAMSES (\textit{Refinement of \gls{AADL} Models for Synthesis of Embedded Systems}) is an M2T transformation tool with the ability to generate code from \gls{AADL} models. Part of the greater Eclipse ecosystem, RAMSES automates the transformation of architectural models into deployable source code, effectively achieving the \gls{MBE} dream of model-driven automation.
+\gls{RAMSES} is an \gls{M2T} transformation tool with the ability to generate code from \gls{AADL} models. Part of the greater Eclipse ecosystem, \gls{RAMSES} automates the transformation of architectural models into deployable source code, effectively achieving the \gls{MBE} dream of model-driven automation\cite{MEM4CSD}.
 \par 
-RAMSES now supports code generation in both \textbf{C} and \textbf{C++}. This makes it possible to use it in a broad variety of embedded development settings, depending on whether the target environment needs low-level procedural programming or more structured, object-oriented design paradigms.
+\gls{RAMSES} now supports code generation in both \textbf{C} and \textbf{C++}. This makes it possible to use it in a broad variety of embedded development settings, depending on whether the target environment needs low-level procedural programming or more structured, object-oriented design paradigms.
 \par 
 The tool does this by systematically correlating \gls{AADL} model elements to their corresponding code structures. Processors, threads, communication channels, and data components declared in \gls{AADL} are mapped to their code counterparts, so much of the boilerplate and scaffolding code otherwise written by hand being done automatically.
 
 % tactical pause w/ fun fact about ramses
-\begin{tcolorbox}[colback=green!5, colframe=green!40!black] Automation through RAMSES accelerates development and reduces human error, especially in large-scale embedded projects. \end{tcolorbox}
+\begin{tcolorbox}[colback=green!5, colframe=green!40!black] Automation through \gls{RAMSES} accelerates development and reduces human error, especially in large-scale embedded projects. \end{tcolorbox}
 
-Yet, despite its advantages, RAMSES is not flawless. Its transformation logic is currently hardcoded, so developers have little control over customizing or fine-tuning the code structure generated without having to alter the tool itself. This rigidity becomes a performance bottleneck in projects that involve customized code structures, strict following of certain coding guidelines, or multi-variant code generation.
+Even with these advantages, improvements can still be made. \gls{RAMSES}' transformation logic is currently hardcoded, so developers have little control over customizing or fine-tuning the code structure generated without having to alter the tool itself. This rigidity becomes a performance bottleneck in projects that involve customized code structures, strict following of certain coding guidelines, or multi-variant code generation.
 
 
 \section{Code Generators in AADL and Beyond} \label{sub:code_generators}
 
 % intro
-While RAMSES plays a central role in the \gls{AADL} toolset, it is by no means the only one in the world of model-based code generation. There are long-established solutions both inside and outside the \gls{AADL} universe with their own capabilities and niches.
+While \gls{RAMSES} plays a central role in the \gls{AADL} toolset, it is by no means alone in the world of model-based code generation. There are long-established solutions both inside and outside the \gls{AADL} universe with their own capabilities and niches.
 
 
 \subsection*{Simulink Code Generation For Embedded Systems}
 
-Simulink is a flagship Model-Based Design solution, particularly in control systems engineering, developed by MathWorks~\cite{simulink_documentation}. In comparison with the tightly integrated \gls{AADL} inherent RAMSES, Simulink is backed by a graphic modeling framework of dynamic systems, and the production of code becomes straightforward with software like Simulink Coder and Embedded Coder.
+Simulink is a flagship Model-Based Design solution, particularly in control systems engineering, developed by MathWorks~\cite{simulink_documentation}. In comparison with the tightly integrated \gls{AADL} inherent \gls{RAMSES}, Simulink is backed by a graphic modeling framework of dynamic systems, and the production of code becomes straightforward with software like Simulink Coder and Embedded Coder.
 
 Key aspects of Simulink code generation are:
  \begin{itemize} 
@@ -84,21 +84,21 @@ OpenAPI Generator is an open-source tool that generates client SDKs, server stub
 
 Generation is controlled via configuration files (JSON or \gls{YAML}) that specify package naming, class prefixes, data type mappings, and code style, enabling consistent architectural and coding standards~\cite{openapi-config}. The tool’s template-based system uses customizable Mustache templates to define code output, allowing adaptation to legacy code, custom logging, or specific frameworks. Plugin mechanisms and hooks enable further customization during generation~\cite{openapi-customization,openapi-plugins}.
 
-This flexible, configurable approach contrasts with RAMSES’s more rigid, hardcoded transformations.
+This flexible, configurable approach contrasts with \gls{RAMSES}’s more rigid, hardcoded transformations.
 
 
 \subsection*{RAMSES vs. Other Code Generators}
 
-To better understand how RAMSES holds up against the competition in therms of code configuration, the following Table~\ref{tab:code_gen_config_comparison} was created based on singular tool testing and interviews with developers.
+To better understand how \gls{RAMSES} holds up against the competition in terms of code configuration, Table~\ref{tab:code_gen_config_comparison} was created based on singular tool testing and interviews with developers.
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}
 \begin{xltabular}{\textwidth}{Xccccc}
-	\caption{Code gen configuration feature comparison over multiple tools.}
+	\caption{Code gen configuration feature comparison based on author’s analysis of documentation and tool behavior}
 	\label{tab:code_gen_config_comparison}\\
 	\toprule
 	\rowcolor{Gainsboro}%
-	Feature   & Simulink  & OpenModelica  & OpenAPI   & RAMSES \\
+	Feature   & Simulink  & OpenModelica  & OpenAPI   & \gls{RAMSES} \\
 	\midrule
 	Identifiers\footnotemark[1] & Yes& No & Yes   & No \\
 	Legacy Code Integration & Yes & No & Yes\footnotemark[2]{} & No \\
@@ -118,11 +118,19 @@ To better understand how RAMSES holds up against the competition in therms of co
 	\footnotetext[3]{Normal code generation \textit{might} generate compliant code, but its not very certain.}
 	\footnotetext[4]{Limited functionality or abstraction.}
 
-As can be observed in Table~\ref{tab:code_gen_config_comparison}, Simulink, a commercial high-end software, surpasses its rivals in all key aspects of code generation configurability. Its support the most sought after configurations give it is an end-to-end solution widely used in applications needing both flexibility and performance, but not on \gls{AADL}.
+As can be observed in Table~\ref{tab:code_gen_config_comparison}, features like dynamic identifier naming and legacy code integration are crucial, yet only present in some of the analyzed solutions, these features work well to achieve compliance standards imposed in the industry~\cite{Misra_C_2025, Misra_Cpp_2023}, which is not natively supported by most apps like OpenModelica or \gls{RAMSES}. 
 
-Conversely, OpenModelica is missing a number of key points of configurability, reflecting both its complementary focus and level of maturity for code generation functionality. OpenAPI Generator, although even providing a more user-driven process in some cases, it still misses on some key features. RAMSES, in turn, presently falls short on all features, with inflexible, hardcoded transformations that curtail its usability and controllability by users.
+Generational hooks\footnote{Predefined extension points that allow developers to insert custom code or override generated behavior without modifying the generator itself.} are extremely useful since they allow for automated code customization during code generation, this explains why they are common in most code generators evaluated, though absent in \gls{RAMSES}. Protected areas serve a similar function, however they allow for the modification of generated code, simply put, generational hooks modify the code before it is written, protected areas modify the code after it is written.
 
-This comparison reveals, yet again, the motivation for this thesis: researching means such as the utilization of Acceleo, by which RAMSES can be enhanced through the introduction of greater configurability and extensibility, and thereby narrowing the gap with more mature tools in the domain.
+Traceability is a crucial feature that enforces coherence between model and code, essentially defining the guiding thread\footnote{The coherent, central line of reasoning, logic, or narrative that connects all parts of a project or document.} of the project. This is very sought after in a modeling context and ties well with report generation and code comment management, unfortunately, all three features are implemented only at a basic level in the analyzed tools.
+
+Code optimization is also an important area, the ability to remove unnecessary code or shorten it proves to be useful in varied contexts, most tools provide a way to automatically optimize the generated code. \gls{RAMSES} lacks such capabilities.
+
+Overall, Simulink, a commercial high-end software, surpasses its rivals in all key aspects of code generation configurability. Its support the most sought after configurations give it is an end-to-end solution widely used in applications needing both flexibility and performance, but not on \gls{AADL}.
+
+Conversely, OpenModelica is missing a number of key points of configurability, reflecting both its complementary focus and level of maturity for code generation functionality. OpenAPI Generator, although even providing a more user-driven process in some cases, it still misses on some key features. \gls{RAMSES}, in turn, presently falls short on all features, with inflexible, hardcoded transformations that curtail its usability and controllability by users.
+
+This comparison reveals, yet again, the motivation for this thesis: researching means by which \gls{RAMSES} can be enhanced through the introduction of greater configurability and extensibility, and thereby narrowing the gap with more mature tools in the domain.
 
 The features found in table~\ref{tab:code_gen_config_comparison} are taken, not just from the code generators observed, but also from the wants and needs of the industry. The following feature model, present in Figure~\ref{fig:feature_model} was the outcome of that research.
 
@@ -137,7 +145,7 @@ With this, we can have a clearer look at the broader picture. The features sugge
 
 Figure~\ref{fig:feature_model} organizes these configurability aspects into a feature model, grouping them into categories such as Optimization, Traceability, Compliance Standards, Memory Configuration, and Custom Code Integration. The model also highlights optional, alternative, and concrete features that modern code generation tools must support to be competitive and practical across diverse application domains, from automotive (e.g., \gls{AUTOSAR}, \gls{MISRA}) to safety-critical systems (e.g., DO-178C, \gls{IEC} 61508).
 
-Additionally, this model also possesses some contrainsts when dealing with certain features, those constraints are the following:
+Additionally, this model also possesses some constraints when dealing with certain features, namely:
 
 \begin{itemize} 
 	\item \gls{MISRA}-C/C++ implies C or C++
@@ -151,31 +159,32 @@ This essentially means that most code standards are locked to one or more progra
 
 \section{Acceleo and Model-to-Text Transformations} \label{sec:folders_and_files}
 
-To counter the configurability limitations observed in tools like RAMSES, we turn to specialized model-to-text (M2T) transformation technologies. Among these, Acceleo is highly promising.
+To counter the configurability limitations observed in tools like \gls{RAMSES}, we turn to specialized \gls{M2T} transformation technologies. Among these, Acceleo is highly promising.
 
 \subsection*{Acceleo: An Overview}
 
-Acceleo is an open-source, template-based Eclipse family M2T transformation tool. Its thought model is based on the mapping of formal models (typically in EMF — Eclipse Modeling Framework format) to text artifacts like source code, documentation, or configuration files~\cite{AcceleoUserGuide}.
+Acceleo is an open-source, template-based Eclipse family \gls{M2T} transformation tool. Its thought model is based on the mapping of formal models (typically in \gls{EMF}) to text artifacts like source code, documentation, or configuration files~\cite{AcceleoUserGuide}.
 
 Major benefits of Acceleo are: 
 \begin{itemize} 
 	\item \textbf{Template-Based Transformation:} Specified templates describe how the elements of a model should be translated into textual form.
 	\item \textbf{Strong Eclipse Integration:} Acceleo offers robust integration with the Eclipse IDE, providing instant feedback, syntax coloring, and incremental generation.
 	\item \textbf{Structured Code Generation:} Well suited for generating structured, maintainable C/C++ code from high-level models.
+	\item \textbf{Project bias:} \gls{RAMSES} currently uses Acceleo as a code generator so its logical to improve the work done as opposed to the integration of a new technology.
 \end{itemize}
 
 \begin{tcolorbox}[colback=blue!5, colframe=blue!40!black] Acceleo gives developers the ability to tweak code generation patterns, making the generated codebase more flexible and maintainable. \end{tcolorbox}
 
 \subsection*{Acceleo’s Role in This Thesis}
 
-For this project, Acceleo serves as the basis for enhancing RAMSES' configurability. Through delegating transformation logic to Acceleo templates, we have the aim of: 
+For this project, Acceleo serves as the basis for enhancing \gls{RAMSES}' configurability. Through delegating transformation logic to Acceleo templates, we have the aim of: 
 \begin{itemize} 
-	\item Isolate transformation rules from RAMSES' internal code.
+	\item Isolate transformation rules from \gls{RAMSES}' internal code.
 	\item Allow easy extension and modification of code generation patterns.
 	\item Facilitate adherence to industrial standards such as \gls{MISRA} C/C++.
 \end{itemize}
 
-This plan promises to transform RAMSES into a more flexible and maintainable toolchain component from one that is rigid code generating.
+This plan promises to transform \gls{RAMSES} into a more flexible and maintainable toolchain component from one that is rigid code generating.
 
 
 \section{Existing Work on Configurable Code Generation} \label{sec:configurable_generation}
@@ -191,7 +200,7 @@ Template-based code generation remains the foundation in this field. Some good e
 	\item \textbf{Simulink Templates} offers programmers the means to declare patterns of reusable code, with uniform look and feel across several projects and support for custom toolchains and legacy systems~\cite{simulink_templates}.
 \end{itemize}
 
-These approaches allow programmers to mold the auto-generated code towards project-specific applications without downgrading underlying models bridging the gap between automated generation and hand-coding, combining efficiency with flexibility.
+These approaches allow programmers to shape the auto-generated code towards project-specific applications without downgrading underlying models bridging the gap between automated generation and hand-coding, combining efficiency with flexibility.
 
 \subsection*{Hook Functions in TargetLink}
 
@@ -212,7 +221,7 @@ This variability is completely indispensable in automobile or aircraft productio
 
 \subsection*{The Case for Configurability in RAMSES}
 
-Despite its strengths, RAMSES currently has no mechanism for fine-grained extension and configuration.
+Despite its strengths, \gls{RAMSES} currently has no mechanism for fine-grained extension and configuration.
 Specifically:
 
 \begin{itemize} 
@@ -220,9 +229,9 @@ Specifically:
 	\item There is no native support for multi-variant generation or integration points like hook functions. 
 \end{itemize}
 
-Including configurability in RAMSES would offer several benefits. It would facilitate the generation of custom code for different deployment environments, making it easier to adapt to specific hardware environments or performance requirements. In addition, the flexibility would simplify maintenance and development of the transformation logic, allowing the tool to better support changing development needs. Finally, by making RAMSES more configurable, it would be easier to interface with industry standards and legacy systems, rendering the tool flexible and applicable in high-speed industries.
+Including configurability in \gls{RAMSES} would offer several benefits. It would facilitate the generation of custom code for different deployment environments, making it easier to adapt to specific hardware environments or performance requirements. In addition, the flexibility would simplify maintenance and development of the transformation logic, allowing the tool to better support changing development needs. Finally, by making \gls{RAMSES} more configurable, it would be easier to interface with industry standards and legacy systems, rendering the tool flexible and applicable in high-speed industries.
 
-\begin{tcolorbox}[colback=green!5, colframe=green!40!black] By adopting template-based generation, RAMSES can evolve into a dynamic, future-proof tool to meet growing embedded system development demands. \end{tcolorbox}
+\begin{tcolorbox}[colback=green!5, colframe=green!40!black] By adopting template-based generation, \gls{RAMSES} can evolve into a dynamic, future-proof tool to meet growing embedded system development demands. \end{tcolorbox}
 
 \subsection*{Towards MISRA C/C++ Compliance}
 
@@ -230,12 +239,12 @@ A central element of code generation in configurable code generation, particular
 \par
 Compliance to \gls{MISRA} plays several principal roles: it enhances software safety by minimizing the likelihood of undefined behavior and runtime errors, guarantees that development processes meet the high standards demanded by industries such as the automobile and aerospace industries where in some instances compliance is mandatory, and is readily compatible with existing toolchains, as most static analysis tools are tailored to enforce \gls{MISRA} rules.
 \par
-As we integrate configurable generation facilities into RAMSES, we shall ensure that code generated is \gls{MISRA} C/C++ compliant.
+As we integrate configurable generation facilities into \gls{RAMSES}, we shall ensure that code generated is \gls{MISRA} C/C++ compliant.
 
 \begin{tcolorbox}[colback=blue!5, colframe=blue!40!black] Flexible code generators need to not just conform to project requirements but also apply vital industry standards such as \gls{MISRA} to guarantee safety and reliability. \end{tcolorbox}
 
 
-While current solutions to code generation customization exist, they don't apply to \gls{AADL} directly and the most powerful out of all the solutions studied, Simulink, is closed source, which does not solve our inherent problem: build a configuration language for RAMSES. This would make the configuration language the only open-source codegen configurability layer for \gls{AADL}.
+While current solutions to code generation customization exist, they don't apply to \gls{AADL} directly and the most powerful out of all the solutions studied, Simulink, is closed source, which does not solve our inherent problem: build a configuration language for \gls{RAMSES}. This would make the configuration language the only open-source codegen configurability layer for \gls{AADL}.
 
 
  %

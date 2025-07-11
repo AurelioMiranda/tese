@@ -13,7 +13,7 @@
 \label{chap:challenges_and_requirements}
 
 \epigraph{
-	This chapter explain why configurability is no longer optional, and how traditional code generation pipelines must evolve. In addition, a prototype of the configuration is also presented along with an implementation plan.
+	This chapter explains why configurability is no longer optional, and how traditional code generation pipelines must evolve. In addition, a prototype of the configuration is also presented along with an implementation plan.
 }
 
 \section{The Inflexibility of RAMSES: A Barrier to Industrial Integration}
@@ -25,7 +25,7 @@ The core issue lies in RAMSES' transformation pipeline: it entangles policy deci
 
 Consider a simple use case: a company mandates that all task-level functions use `snake\_case` and include a `COMPONENT\_` prefix. RAMSES, which might generate `ComputeTask` by default, offers no way to enforce those rules. A change in naming becomes a traversal through ATL templates and helpers. This is not scalable, and in safety-critical software, it is not acceptable.
 
-Furthermore, beyond naming, decisions about memory allocation models, system initialization flows, and error handling behaviors are equally rigid. There is no declarative layer that allows users to steer generation outcomes according to organizational needs or evolving constraints. As such, RAMSES provides code generation but not code governance.
+Furthermore, beyond naming, decisions about memory allocation models, system initialization flows, and error handling behaviors are equally rigid. There is no declarative layer that allows users to steer generation outcomes according to organizational needs or evolving constraints. 
 
 \section{Industrial Realities and Pressures}
 \label{sec:industrial_realities}
@@ -49,7 +49,7 @@ In these environments, code generation must do more than "just work". It must be
 Most industrial systems are not built from scratch. Code generators must work alongside:
 
 \begin{itemize}
-	\item Legacy libraries with non-negotiable \gls{API}s.
+	\item Legacy libraries with non-negotiable \gls{API}s that can potentially evolve overtime, as they are third party.
 	\item Hardware abstraction layers that impose structural patterns.
 	\item Existing software architecture rules (how modules communicate, how tasks are organized).
 \end{itemize}
@@ -122,7 +122,7 @@ In order to better understand the whole concept of the \gls{DSL} to be built dur
 \subsection{How it works}
 \label{sec:how_it_works}
 
-The selected feature to be implemented by the prototype was the Identifier Modification option, which essentially means having a higher control over the generated function, variable, and class names in the generated code. This features was chosen since it is fairly straight forward to implement and also decently portable, more on that later. 
+The selected feature to be implemented by the prototype was the Identifier Modification option, which essentially means having a higher control over the generated function, variable, and class names in the generated code. This features was chosen since it is fairly straight forward to implement and also decently portable, as discussed in section~\ref{sec:config_language_characteristics}. 
 
 Lets take the following example:
 
@@ -147,7 +147,7 @@ The developed prototype focuses directly on that front, providing an adjacent co
 \end{enumerate}
  
  
-For a clearer understanding of the flow of the prototype, here's a flowchart:
+For a clearer understanding of the flow of the prototype, lets take a look at figure~\ref{fig:prototype_flowchart}:
 
 \begin{figure}[htbp]
 	\centering
@@ -158,12 +158,12 @@ For a clearer understanding of the flow of the prototype, here's a flowchart:
 
 The user interacts with the main model (Taskset in this case) and \textit{can} interact with the configuration model aswell, if thats the case, the user will see changes in the code in accordance to the options selected in the configuration model.
 
-The configuration model is not tightly coupled to the main workflow and is not mandatory, it works alongside the main model but provides extra options and choices to the user in therms of code customization, effectively elevating a bit more the code quality of the given taskset generated code.
+The configuration model is not tightly coupled to the main workflow and is not mandatory, it works alongside the main model but provides extra options and choices to the user in terms of code customization, effectively elevating a bit more the code quality of the given taskset generated code.
 
 \subsection{Practical Example}
 \label{sec:practical_example}
  
-Let's take a look at a practical example of the prototype, and, since the placeholder code has already been defined and altered to allow for dinamic identifier changes, all we have to do is select the naming convention on the configuration model.
+Let's take a look at a practical example of the prototype. Since the placeholder code has already been defined and altered to allow for dinamic identifier changes, all we have to do is select the naming convention on the configuration model.
 
 \begin{figure}[htbp]
 	\centering
@@ -174,7 +174,7 @@ Let's take a look at a practical example of the prototype, and, since the placeh
 
 As we can observe from Figure~\ref{fig:prototype_selection}, the prototype presents a rough and unrefined way of user interaction, in order to change the configuration the user must change the configuration model itself via its properties, which is not the end goal for the final product but works well in testing/controlled environments. 
 
-The current selected option in Figure~\ref{fig:prototype_selection} is the default option, which will not modify the file:
+The current selected option in Figure~\ref{fig:prototype_selection} is the default option, which will not modify the file (see Figure~\ref{fig:prototype_default_option})
 
 \begin{figure}[htbp]
 	\centering
@@ -183,7 +183,7 @@ The current selected option in Figure~\ref{fig:prototype_selection} is the defau
 	\label{fig:prototype_default_option}
 \end{figure}
 
-Taking in the result from Figure~\ref{fig:prototype_default_option} we can get an idea of the default, unaltered code generation, but our goal is not simply to generate code, we can select a different naming option via the configurator model, save, and regenerate the code. The change is clear.
+Taking in the result from Figure~\ref{fig:prototype_default_option} we can get an idea of the default, unaltered code generation. However, our goal is not simply to generate code. We can select a different naming option via the configurator model, save, and regenerate the code. The change is clear.
 
 \begin{figure}[htbp]
 	\centering
@@ -198,28 +198,37 @@ The idenfitiers (in this case the name of the function\footnote{T1} and the name
 
 \subsubsection{User Feedback}
 
-In order to test the functionality and receive a third party opinion, a simple user testing was done with multiple users that were familiar with \gls{AADL}. The procedure was simple and direct, users were instructed to the premise of the prototype, then they would perform tasks (in this case just one task: change the identifier name to X) and then they would be questioned in the usefulness of the feature, the applications it could have and overall thoughts.
+In order to test the functionality and receive a third party opinion, a simple user testing was done with two users, specifically \gls{RAMSES} developers that work directly with \gls{AADL}. The procedure was simple and direct, users were instructed to the premise of the prototype, then they would perform tasks (in this case just one task: change the identifier name to X) and then they would be questioned in the usefulness of the feature, the applications it could have and overall thoughts.
 
-Upon doing this testing, many users defined it as a flexible addition to coding generation with many application to real life and industry scenarios. Users also noted that this functionality improves information treatment between teams as different people have different ways to write models names, the prototype proves that naming normalization can also improve team cohesion.
+Upon doing this testing, the users defined the feature as a flexible addition to coding generation with many application to real life and industry scenarios. Users also noted that this functionality improves information treatment between teams as different people have different ways to write models names, the prototype proves that naming normalization can also improve team cohesion.
 
-Users commented that, with this functionality, appears the ability to create multiple versions of the functionally same code just with naming differences. This also aligns with the coding standards for multiple languages, given that some languages require identifiers to use a certain nomenclature~\cite{Google_cpp_style_guide, Python_coding_style}, which can clash with \gls{AADL} node names.
+Users commented that this functionality supports the ability to create multiple versions of functionally equivalent code just with naming differences. This also aligns with the required feature of supportign coding standards for the selected language\footnote{Currently C++, however there are plans to include C.}, given that some languages require identifiers to use a certain nomenclature~\cite{Google_cpp_style_guide, Python_coding_style}, which can clash with \gls{AADL} node names.
 
 Overall the prototype, although simple, was well received and proved to give value for the \gls{AADL} to code pipeline.
 
 \subsection{Technical Details}
 \label{sec:prototype_technical_details}
 
-Even though its application is specific to the code developed for the prototype is fairly generic. This means that, most of the logic and code used for this prototype can be ported directly to RAMSES without much issue, effectively implementing the feature, albeit testing will still be performed.
+Even though its application is specific, the code developed for the prototype is fairly generic. This means that most of the logic and code used for this prototype can be ported directly to RAMSES without much issue, effectively implementing the feature, albeit testing will still be performed.
 
 The naming convention change logic is pretty straight forward, as we want to modify the identifiers, and those come from model properties. From there the properties that represent identifiers are formatted as they are being added to the code, effectively making sure the main model stays untouched while the properties extracted are modified into the desired outcome. This makes sure only the specific selected properties are modified and the rest of the code generates as normal.
 
-The algorithm used for the naming transformation has many fallbacks that make it so even if a property name is especially complex, cases like short names are handled with care and specific styles like snake\_case, while having complex patterns, can be easily defined with Regex lines. 
+The algorithm used for the naming transformation has many fallbacks that make it so even if a property name is especially complex, cases like short names are handled with care and specific styles like snake\_case, while having complex patterns, can be easily defined with Regex. 
 ~\cite{eclipse_emf}
-As the configuration model is built on Ecore, the addition of new naming styles is not possible directly by the user, this means two things: in order to enter a wrong coding style the user needs to have high technical knowledge of the system\footnote{This can change with the proper DSL implementation, however, configuration checks will be applied then, removing this problem.}. If instead we wanted to \textbf{add} a new naming style, that is very much possible with a quick modification of the Configurator's Ecore model and the Acceleo naming format algorithm.
+As the configuration model is built on Ecore, the modification of naming styles is not possible directly by the user. However, if instead we wanted to \textbf{add} a new naming style, that is very much possible, however it required a quick modification of the Configurator's Ecore model and the Acceleo naming format algorithm, as in Figure~\ref{fig:prototype_new_naming}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[height=0.12\textwidth]{newNamingConvention.png}
+	\caption{Flowchart of adding a new naming convention to the configurator}
+	\label{fig:prototype_new_naming}
+\end{figure}
+
+Figure~\ref{fig:prototype_new_naming} explains the steps in a clear but still abstract manner, the Ecore model needs to be modified to include the new naming style, which in turn will generate the coding logic that we can use in Acceleo to transform the identifiers by improving the current name formatting algorithm to accommodate the new change.
 
 \subsubsection{Multiple Models in Acceleo}
 
-Working with 2 Ecore models was not very straightforward, although Acceleo provides the resources needed to work with multiple Ecore models, Eclipse itself does not allow for multiple input models in a single run configuration~\cite{acceleo_multi_model_problem}. To work around this, a custom \textit{main()} method was made to register the metamodels into the resources, effectively allowing for the usage of both metamodels. This issue, while small, presented a fairly decent deal of complications for the development of the prototype, specifically because Acceleo documentation on the matter was scarce and community forums were unhelpful.
+Working with 2 Ecore models was not very straightforward. Although Acceleo provides the resources needed to work with multiple Ecore models, Eclipse itself does not allow for multiple input models in a single run configuration~\cite{acceleo_multi_model_problem}. To work around this, a custom \textit{main()} method was made to register the metamodels into the resources, effectively allowing for the usage of both metamodels. This issue, while small, presented a fairly decent deal of complications for the development of the prototype, specifically because Acceleo documentation on the matter was scarce and community forums were unhelpful.
 
 Nevertheless, this solution allows not just for the usage of multiple models in this prototype but also in any other projects that need an Acceleo program with 2 or model Ecore models as inputs.
 
@@ -227,7 +236,7 @@ Nevertheless, this solution allows not just for the usage of multiple models in 
 \section{System Evaluation}
 \label{sec:sys_eval}
 
-In order to assure that the \gls{DSL} meets expectations~\cite{Voelter_Benz_2013}, the system will be evaluated in various forms, mainly:
+To assure that the \gls{DSL} meets expectations~\cite{Voelter_Benz_2013}, the system will be evaluated in various forms, mainly:
 
 \begin{itemize}
 	\item The \gls{DSL} exists and produces results.
@@ -241,15 +250,17 @@ Ideally the end product should meet these requirements to be considered a succes
 
 \subsection*{DSL existence}
 
-This requirement will be fairly straightforward to prove since it implies a direct usage of the \gls{DSL} in order to produce results. This can be proven alongside the other requirements as they depend on it, however, a system wide testing will quickly prove the existence of the configuration language and its impacts, specifically with the testing of all features developed and their results.
+This requirement will be fairly straightforward to prove since it implies a direct usage of the \gls{DSL} to produce results. This can be proven alongside the other requirements as they depend on it. However, a system wide testing will quickly prove the existence of the configuration language and its impacts, specifically with the testing of all features developed and their results.
 
 \subsection*{Before and After Comparison}
 
 The core idea of this configuration language is to modify the output code of the code generator according to user needs. The best way to prove that this goal was achieved is to compare how users would perform the same task before the configuration language was implemented and after. This direct comparison will evaluate the direct impact of the configuration language on development and will ensure that the developed solution benefits the system. 
 
+To strengthen the evaluation, a small controlled experiment involving developers familiar with model-driven engineering and code generation tools (\gls{EMF}, Acceleo) will be performed. Participants will be asked to complete predefined tasks under both conditions.
+
 \subsection*{Usability}
 
-The configuration language should be easily usable, even by end users with limited programming experience, in order to ensure this requirement is met, clear documentation, consistent syntax, and terminology aligned with the application domain should be prioritized. This requirement will be confirmed by comparing the interaction with the configuration language of users with varying levels of technical expertise, allowing the comparison of usability and learning curve.
+The configuration language should be easily usable, even by end users with limited programming experience, to ensure this requirement is met, clear documentation, consistent syntax, and terminology aligned with the application domain should be prioritized. This requirement will be confirmed by comparing the interaction with the configuration language of users with varying levels of technical expertise within the \gls{RAMSES} ecosystem, including \gls{RAMSES} developers, testers, and other stakeholders familiar with \gls{AADL}, allowing the comparison of usability and learning curve.
 
 \subsubsection*{User Evaluation Methodology}
 
@@ -264,18 +275,24 @@ The evaluation will collect both quantitative and qualitative data:
 	\item Type and gravity of misunderstandings
 \end{itemize}
 
-This setup will help assess whether the DSL meets its usability goals across a broad user spectrum.
+To further support analysis, two standardized questionnaires will be used:
+
+\begin{itemize}
+	\item The \gls{SUS} to measure perceived usability.
+	\item The NASA \gls{TSX} to evaluate the perceived workload and cognitive effort involved in using the DSL.
+\end{itemize}
+
+This setup will help assess whether the DSL meets its usability and accessibility goals across a broad user spectrum.
 
 \subsection*{Configuration Variants}
 
-To assess the flexibility and robustness of the configuration language, distinct configuration files will be tested. These scenarios will vary in complexity and structure to evaluate whether the generator can handle diverse inputs while maintaining correctness and coherence in the generated code. Effectively testing the limits of the configuration language.
+To assess the flexibility and robustness of the configuration language, distinct configuration files will be tested. These scenarios will vary in complexity and structure to evaluate whether the generator can handle diverse inputs while maintaining correctness and coherence in the generated code, effectively testing the limits of the configuration language.
 
 \subsection*{Functionally Equal}
 
-To make sure the code generated still retains the same practical functionality, a few things need to be taken into account, firstly, the code generator needs to be modified just enough to produce the desired results of structure, naming, etc while still keeping the same functionality as before the implementation, essentially keeping the semantics intact. Monthly testings will also ensure that the code remains functionally the same by running selected examples and doing direct code comparison, however, comparisons will focus on runtime behavior rather than raw text equivalence. 
+To make sure the code generated still retains the same practical functionality, a few things need to be taken into account, firstly, the code generator needs to be modified just enough to produce the desired results of structure, naming, etc while still keeping the same functionality as before the implementation, essentially keeping the semantics intact. Monthly testings, including Regression and Integration testing, will also ensure that the code remains functionally the same by running selected examples and doing direct code comparison, however, comparisons will focus on runtime behavior rather than raw text equivalence. This will give us the confidence that the new code behaves the same as the old one.
 
-
-The baseline for comparison will be the unmodified RAMSES generator. This allows for a clear assessment of what configuration capabilities are introduced in terms of productivity, flexibility, and clarity.
+The baseline for comparison will be the unmodified RAMSES generator. This allows for a clear assessment of what configuration capabilities are introduced in terms of productivity, flexibility, and clarity. 
 
 
 \section{Research Limitations}
@@ -292,7 +309,9 @@ Although the configuration language includes many features and has been designed
 	
 	\item \textbf{Integration Constraints:} The configuration system is designed to integrate into the existing \gls{RAMSES} toolchain, which constraints how the generator behavior can be modified. Deep generator reworks or architectural transformations are intentionally excluded to maintain compatibility.
 	
-	\item \textbf{Scalability Not Fully Tested:} The \gls{DSL} should performs well on example models, its performance and maintainability might not be validated on extremely large or complex input systems, which are typical in some industrial environments. This might not be a constraint if such models are later used for testing.
+	\item \textbf{Third Party Library Issues:} The inclusion of third party code that is not affected by the configuration language might break compliance standards since the transformations only affect \gls{RAMSES}-generated code. This limitation is hard to overcome since it depends solely on those third party libraries introducing standard compliant code.
+	
+	\item \textbf{Scalability Not Fully Tested:} The \gls{DSL} should performs well on example models. Its performance and maintainability might not be validated on extremely large or complex input systems, which are typical in some industrial environments. This might not be a constraint if such models are later used for testing.
 	
 \end{itemize}
 

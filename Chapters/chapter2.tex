@@ -175,6 +175,31 @@ Major benefits of Acceleo are:
 
 \begin{tcolorbox}[colback=blue!5, colframe=blue!40!black] Acceleo gives developers the ability to tweak code generation patterns, making the generated codebase more flexible and maintainable. \end{tcolorbox}
 
+\subsubsection*{Acceleo example}
+
+Acceleo code is generated from .mtl templates, where it is defined how model elements are translated into text.
+Suppose the model contains a Class with the name MotorController. A basic Acceleo template might look like:
+
+\begin{verbatim}
+[template public generateClass(c : Class)]
+public class [c.name/]
+{
+	// class body
+}
+[/template]
+\end{verbatim}
+
+This would generate:
+
+\begin{verbatim}
+public class MotorController
+{
+	// class body
+}
+\end{verbatim}
+
+This example illustrates how Acceleo uses \gls{MD} templates to produce structured and consistent source code from high level models.
+
 \subsection*{Acceleo’s Role in This Thesis}
 
 For this project, Acceleo serves as the basis for enhancing \gls{RAMSES}' configurability. Through delegating transformation logic to Acceleo templates, we have the aim of: 

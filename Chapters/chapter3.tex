@@ -211,7 +211,7 @@ Overall the prototype, although simple, was well received and proved to give val
 
 Even though its application is specific, the code developed for the prototype is fairly generic. This means that most of the logic and code used for this prototype can be ported directly to RAMSES without much issue, effectively implementing the feature, albeit testing will still be performed.
 
-The naming convention change logic is pretty straight forward, as we want to modify the identifiers, and those come from model properties. From there the properties that represent identifiers are formatted as they are being added to the code, effectively making sure the main model stays untouched while the properties extracted are modified into the desired outcome. This makes sure only the specific selected properties are modified and the rest of the code generates as normal.
+The naming convention change logic is pretty straight forward considering identifiers, and those come from model properties. From there the properties that represent identifiers are formatted as they are being added to the code, effectively making sure the main model stays untouched while the properties extracted are modified into the desired outcome. This makes sure only the specific selected properties are modified and the rest of the code generates as normal.
 
 The algorithm used for the naming transformation has many fallbacks that make it so even if a property name is especially complex, cases like short names are handled with care and specific styles like snake\_case, while having complex patterns, can be easily defined with Regex. 
 ~\cite{eclipse_emf}
@@ -219,7 +219,7 @@ As the configuration model is built on Ecore, the modification of naming styles 
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[height=0.12\textwidth]{newNamingConvention.png}
+	\includegraphics[height=0.10\textwidth]{newNamingConvention.png}
 	\caption{Flowchart of adding a new naming convention to the configurator}
 	\label{fig:prototype_new_naming}
 \end{figure}

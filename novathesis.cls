@@ -1047,7 +1047,7 @@
   % \ntdocdate(#1,month,text):={\pgfcalendarmonthname{\thentdocdate(#1,month)}}%
   \ntdocdate(#1,month,text):={\monthtotext[\@NTDM]}%
 }
-\ntdocdate(default):={2000-09-01}
+\ntdocdate(default):={2025-07-11}
 \ntdate(submission){\thentdocdate(default)}
 \ntdate(exam){\thentdocdate(default)}
 

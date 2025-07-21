@@ -8,18 +8,107 @@
 
 \typeout{NT FILE chapter5.tex}%
 
-\chapter{Lorem Ipsum}
-\label{cha:lorem_ipsum}
+\chapter{Implementation}
+\label{cha:impl}
 
-\lipsum[1-100]
-\lipsum[1-100]
-\lipsum[1-100]
-% \lipsum[1-100]
-% \lipsum[1-700]
-% \lipsum[1-700]
-% \lipsum[1-700]
-% \lipsum[1-700]
-% \lipsum[1-700]
-% \lipsum[1-700]
-% \lipsum[1-700]
-% \lipsum[1-700]
+
+\epigraph{ \textit{In this chapter the implementation plan is more detailed and features are much clearer.}}
+
+
+\section{Implementation Plan} 
+\label{sec:impl_plan}
+
+In order to better understand what features will be implemented, when and why, the implementation will be done by layers, each layers will depend on things done previously on other layers, hence some features are developed before others.
+
+\bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{xltabular}{\textwidth}{X X X}
+	\caption{Feature dependency table}
+	\label{tab:impl_plan}\\
+	\toprule
+	\rowcolor{Gainsboro}%
+	Feature & Depends On & Notes \\
+	\midrule
+	Identifiers & – & Core to code structure \\
+	Comments & Identifiers & Cheap to implement early \\
+	Traceability & Identifiers, Comments & Hard to retrofit later \\
+	Report & Traceability & Uses trace data \\
+	Standard\par Compliance & Report, Traceability & Enforce compliance early \\
+	Dead Code\par Elimination & Traceability, Report & Needs stable generation logic \\
+	Memory\par Optimization & Dead Code Elim, Traceability & Impacts data structures directly \\
+	Node Interface & Memory Optimization & Enables ROS decoupling \\
+	Legacy Code\par Integration & Node Interface & Most architecture-dependent \\
+	\bottomrule
+\end{xltabular}
+
+
+Table~\ref{tab:impl_plan} presents the planned order of feature implementation based on their dependencies. Each feature may require elements developed in previous steps, ensuring a coherent and manageable progression. This dependency structure prevents rework by implementing features that provide necessary infrastructure before higher-level functionalities.
+
+
+\subsection{Core and Metadata Layer}
+\label{sec:code_and_meta}
+
+The Core and Metadata Layer (Table~\ref{tab:core_and_meta}) includes foundational features that establish the basic code structure and metadata necessary for subsequent processing. Features such as identifiers and comments form the backbone of the generator, while traceability and reporting provide essential tools for debugging and verification. Their relatively low to medium complexity allows them to be developed early, enabling smooth integration of more advanced features later.
+
+\bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{xltabular}{\textwidth}{X X X}
+	\caption{Core and Metadata features and their complexity}
+	\label{tab:core_and_meta}\\
+	\toprule
+	\rowcolor{Gainsboro}%
+	Feature   & Complexity  & Notes \\
+	\midrule
+	Identifiers & Low & Nearly complete. \\
+	Comments & Very Low & Can parallel identifier completion. \\
+	Traceability & Medium & Requires structured tagging throughout the generator. \\
+	Report & Low-Medium & Build once traceability is present; not deeply complex. \\
+	\bottomrule
+\end{xltabular}
+
+
+
+
+\subsection{Structural Optimization Layer}
+\label{sec:struct_opt_layer}
+
+The Structural Optimization Layer (Table~\ref{tab:struct_opt_layer}) focuses on improving code quality and efficiency. Standard compliance ensures generated code meets coding norms and best practices. Dead code elimination and memory optimization reduce code bloat and resource consumption but require stable metadata and analysis frameworks built in previous layers. These features have higher complexity, reflecting the need for careful analysis and manipulation of generated code.
+
+\bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{xltabular}{\textwidth}{X X X}
+	\caption{Structural Optimization Layer}
+	\label{tab:struct_opt_layer}\\
+	\toprule
+	\rowcolor{Gainsboro}%
+	Feature & Depends On & Notes \\
+	\midrule
+	Standard Compliance & Report, Traceability & Defining and checking rules\par requires steady effort. \\
+	Dead Code Elimination & Traceability, Report & Non-trivial static analysis\par in model-to-code context. \\
+	Memory Optimization & Dead Code Elim, Traceability & Impacts core data structure generation.\par Error-prone. \\
+	\bottomrule
+\end{xltabular}
+
+
+
+
+\subsection{Architecture Layer}
+\label{sec:arch_layer}
+
+The Architecture Layer (Table~\ref{tab:arch_layer}) introduces features that abstract and modularize the generated code to support scalability and maintainability. The node interface abstraction separates platform-specific code (ROS dependencies) from core logic, facilitating reuse and easier updates. Legacy code integration is the most complex and architecture-dependent feature, involving interfacing with existing external codebases, which requires careful design and planning to avoid integration pitfalls.
+
+\bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{xltabular}{\textwidth}{X X X}
+\caption{Structural Optimization Layer}
+\label{tab:arch_layer}\\
+\toprule
+\rowcolor{Gainsboro}%
+Feature & Depends On & Notes \\
+\midrule
+Node Interface & Memory Optimization & Architecture-dependent.\par Needs careful planning. \\
+Legacy Code Integration & Node Interface & Undefined scope and\par likely the most architecture-sensitive \\
+\bottomrule
+\end{xltabular}
+
+

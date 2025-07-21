@@ -8,11 +8,19 @@
 
 \typeout{NT FILE chapter5.tex}%
 
-\chapter{Implementation}
+\chapter{System Design and Realization}
 \label{cha:impl}
 
 
-\epigraph{ \textit{In this chapter the implementation plan is more detailed and features are much clearer.}}
+\epigraph{ \textit{This chapter describes the technical implementation of the proposed configuration language for RAMSES. It details how the insights from industrial collaboration informed the architectural decisions and outlines the layered development of features supporting flexible, standards-compliant, and modular code generation.}}
+
+
+\section{Industry Partner Meeting}
+\label{sec:industry_meeting}
+
+The first meeting with an industry partner revealed to be very useful with many insights to note, particularly that a few features were highlighted and prioritized in order to maintain a good development speed and an overall better plan. Most of the previously thought of features (Identifiers, Traceability, Report, etc) were endorsed, however, a new feature was suggested by an expert \gls{ROS} developer: the separation of \gls{ROS} specific code and C++ specific code, meaning that code that is specific to \gls{ROS} can be isolated as it is very similar along the various generated files. This will essentially be done with an interface that will implement \gls{ROS} code on C++ only files, which effectively serves as a separation of concerns.
+
+\begin{tcolorbox}[colback=green!5, colframe=green!40!black] This meeting provided extremely valuable insight as the industry partner has been using \gls{ROS} for over seven years, effectively distilling their experience into actionable knowledge. \end{tcolorbox}
 
 
 \section{Implementation Plan} 
@@ -36,7 +44,7 @@ In order to better understand what features will be implemented, when and why, t
 	Standard\par Compliance & Report, Traceability & Enforce compliance early \\
 	Dead Code\par Elimination & Traceability, Report & Needs stable generation logic \\
 	Memory\par Optimization & Dead Code Elim, Traceability & Impacts data structures directly \\
-	Node Interface & Memory Optimization & Enables ROS decoupling \\
+	Node Interface & Memory Optimization & Enables \gls{ROS} decoupling \\
 	Legacy Code\par Integration & Node Interface & Most architecture-dependent \\
 	\bottomrule
 \end{xltabular}
@@ -67,6 +75,7 @@ The Core and Metadata Layer (Table~\ref{tab:core_and_meta}) includes foundationa
 \end{xltabular}
 
 
+This first layer will serve as a base for other features to come since it has fairly straightforward but very useful features.
 
 
 \subsection{Structural Optimization Layer}
@@ -89,18 +98,17 @@ The Structural Optimization Layer (Table~\ref{tab:struct_opt_layer}) focuses on 
 	\bottomrule
 \end{xltabular}
 
-
-
+The structural layer cements what was done before and adds to it with an optimization focused approach.
 
 \subsection{Architecture Layer}
 \label{sec:arch_layer}
 
-The Architecture Layer (Table~\ref{tab:arch_layer}) introduces features that abstract and modularize the generated code to support scalability and maintainability. The node interface abstraction separates platform-specific code (ROS dependencies) from core logic, facilitating reuse and easier updates. Legacy code integration is the most complex and architecture-dependent feature, involving interfacing with existing external codebases, which requires careful design and planning to avoid integration pitfalls.
+The Architecture Layer (Table~\ref{tab:arch_layer}) introduces features that abstract and modularize the generated code to support scalability and maintainability. The node interface abstraction separates platform-specific code (\gls{ROS} dependencies) from core logic, facilitating reuse and easier updates. Legacy code integration is the most complex and architecture-dependent feature, involving interfacing with existing external codebases, which requires careful design and planning to avoid integration pitfalls.
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}
 \begin{xltabular}{\textwidth}{X X X}
-\caption{Structural Optimization Layer}
+\caption{Architecture Layer}
 \label{tab:arch_layer}\\
 \toprule
 \rowcolor{Gainsboro}%
@@ -110,5 +118,8 @@ Node Interface & Memory Optimization & Architecture-dependent.\par Needs careful
 Legacy Code Integration & Node Interface & Undefined scope and\par likely the most architecture-sensitive \\
 \bottomrule
 \end{xltabular}
+
+The last layer of implementation has a higher degree of abstraction and requires a much more project architecture understanding than the previous layers, which is why it is done last and after every other feature layer is implemented. This will allow for the full focus to be on these core features that will have a much higher individual impact on code generation than the previous ones.
+
 
 

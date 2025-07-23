@@ -12,7 +12,7 @@
 \label{cha:impl}
 
 
-\epigraph{ \textit{This chapter describes the technical implementation of the proposed configuration language for RAMSES. It details how the insights from industrial collaboration informed the architectural decisions and outlines the layered development of features supporting flexible, standards-compliant, and modular code generation.}}
+\epigraph{ \textit{This chapter describes the technical implementation of the proposed configuration language for RAMSES. It details how the insights from industrial collaboration informed the architectural decisions and how each feature was implemented.}}
 
 
 \section{Industry Partner Meeting}
@@ -120,6 +120,31 @@ Legacy Code Integration & Node Interface & Undefined scope and\par likely the mo
 \end{xltabular}
 
 The last layer of implementation has a higher degree of abstraction and requires a much more project architecture understanding than the previous layers, which is why it is done last and after every other feature layer is implemented. This will allow for the full focus to be on these core features that will have a much higher individual impact on code generation than the previous ones.
+
+\section{Implementation}
+\label{sec:implementation}
+
+
+As the implementation methodology was done iteratively and following the plan discussed in Section~\ref{sec:impl_plan}, the first feature to implement was the naming conventions.
+
+\subsection{Naming Conventions}
+\label{sec:impl_name_conv}
+
+The implementation of naming conventions was straight forward since the demo developed in Section~\ref{sec:proof_of_concept} was a pretty big portion of the whole thing. The main addition to the already done work was the introduction of dynamic naming conventions that depend on the selected language 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -130,10 +130,47 @@ As the implementation methodology was done iteratively and following the plan di
 \subsection{Naming Conventions}
 \label{sec:impl_name_conv}
 
-The implementation of naming conventions was straight forward since the demo developed in Section~\ref{sec:proof_of_concept} was a pretty big portion of the whole thing. The main addition to the already done work was the introduction of dynamic naming conventions that depend on the selected language 
+The implementation of naming conventions was straight forward since the demo developed in Section~\ref{sec:proof_of_concept} was a pretty big portion of the whole thing. The main addition to the already done work was the introduction of dynamic naming conventions that depend on the selected language, for example: in C++, classes are declared in PascalCase, whereas variables are declared in snake\_case, the following generated code illustrates that very well:
+
+\begin{verbatim}
+	class ImageDisplay : public rclcpp::Node
+{
+	public:
+	
+	ImageDisplay(): Node("ImageDisplay")
+	{
+		
+		image_subscriber_sub_ = this->create_subscription(...);
+		
+		nd_spinner_sub_ = this->create_subscription(...)
+\end{verbatim}
+
+As we can see, ImageDisplay and image\_subscriber\_sub\_ are both identifiers but each one has a different format. In contrast, the previous implementation without configuration was strictly be \textit{Image\_Display} and \textit{Image\_Subscriber\_Sub\_}.
 
 
+\subsection{Comments}
+\label{sec:impl_comments}
 
+The implementation of dynamic code comments allow the user to get much more context on the code while preserving the ability to view raw, non-commented code. The way it works is pretty straight forward, the user can toggle the comments on or off, comments are dynamic according to their component and only provide essential info.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{comments.png}
+	\caption{Example of generated code with comments}
+	\label{fig:comment}
+\end{figure}
+
+Figure~\ref{fig:comment} illustrates how the comments vary depending on the component, this also provides a degree of separation that helps developers understand where parts of the input model are being implemented.
+
+More examples of code comments (with before and after) can be found in the Annex~\ref{annex}.
+
+
+\subsection{Traceability}
+\label{sec:impl_trace}
+
+The implementation of traceability is related with the report feature, however, traceability can exist without a report and a report can exist without traceability~\ref{sec:impl_report}. The main idea of traceability is to relate the coding files directly to the model so we are able to verify that a certain file came from a certain part of the model.
+
+The base construction of the trace file was done in JSON, this provides information while still maintaining a structure that can easily be used in a report.
 
 
 

@@ -170,9 +170,58 @@ More examples of code comments (with before and after) can be found in the Annex
 
 The implementation of traceability is related with the report feature, however, traceability can exist without a report and a report can exist without traceability~\ref{sec:impl_report}. The main idea of traceability is to relate the coding files directly to the model so we are able to verify that a certain file came from a certain part of the model.
 
-The base construction of the trace file was done in JSON, this provides information while still maintaining a structure that can easily be used in a report.
+The base construction of the trace file was done in JSON, this provides information while still maintaining a structure that can easily be ported elsewhere.
 
+This is an example of the JSON produced by a traceability analysis:
 
+\begin{verbatim}
+{
+	"system": "Robot_Vision_I_Instance",
+	"generatedAt": "2025-07-28 16:26:49",
+	"location": "C:/Users/aurel/git/codegen-config/fr.mem4csd.codegen.config/results",
+	"components": {
+		"Usb_Cam_Nd": {
+			"file": "robot_vision_i_instance/src/Usb_Cam_Nd_process.cpp",
+			"type": "process",
+			"subcomponent": [
+			{
+				"name": "Image_Broadcaster",
+				"qualifiedName": "Robot_Vision_I_Instance::Usb_Cam_Nd::Image_Broadcaster",
+				"codeTrace": "@trace name='Image_Broadcaster'",
+				"type": "thread",
+				"properties": {
+					"Dispatch_Protocol": "",
+					"Period": ""
+				}
+			},
+			{
+				"name": "UsbSpinner",
+				"qualifiedName": "Robot_Vision_I_Instance::Usb_Cam_Nd::UsbSpinner",
+				"codeTrace": "@trace name='UsbSpinner'",
+				"type": "thread",
+				"properties": {
+					"Dispatch_Protocol": "",
+					"Period": ""
+				}
+			}
+			]
+		},(...)
+\end{verbatim}
+
+As we can see, it relates the model to the code in various forms, mainly code traces, file and package locations and qualified names. On top of that, it provides additional info that is useful for both developers and end users, developers can easily use this JSON as input for various tools (generating an alternate report from the one provided for example) and users can use it to trace parts of the code dedicated to a specific component or subcomponent using a combination of the file locations and the code traces.
+
+\subsection{Report}
+\label{sec:impl_report}
+
+The report was implemented with the goal of providing a clear, concise and structured way of visualizing exactly how the model translates to code. To do this, the initial report is generated in HTML and then converted to PDF format. This is important since it overcomes a few constraints, mainly:
+
+\begin{itemize} 
+	\item \textbf{PDF with Java:} The major issue that producing HTML code with Acceleo instead of a direct PDF with Java fixes is that producing PDFs with Java code, although more practical on the surface, has many limitations when it comes to designing and structuring PDFs. In addition, the verbose is very unintuitive and can quickly grow in complexity.
+	\item \textbf{Extensibility:} Since HTML is a simple and well known language, adding details and making changes is straightforward when comparing it to other tools like LaTeX. In this case, the usage of LaTeX isn't really justified since it is more directed to academic circumstances and not fast paced development.
+	\item \textbf{Styling Issues:} Using raw \gls{CSS} in combination with HTML is no doubt the best choice when it comes to styling the report. Java has many limitations when it comes to styling and LaTeX is very strict and error prone. For a basic report such as the one generated, \gls{CSS} styling is more than enough.
+\end{itemize}
+
+Once these constraints were no longer an issue, the development of the report was much more intuitive.
 
 
 

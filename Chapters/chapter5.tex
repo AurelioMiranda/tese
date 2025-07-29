@@ -218,13 +218,14 @@ The report was implemented with the goal of providing a clear, concise and struc
 \begin{itemize} 
 	\item \textbf{PDF with Java:} The major issue that producing HTML code with Acceleo instead of a direct PDF with Java fixes is that producing PDFs with Java code, although more practical on the surface, has many limitations when it comes to designing and structuring PDFs. In addition, the verbose is very unintuitive and can quickly grow in complexity.
 	\item \textbf{Extensibility:} Since HTML is a simple and well known language, adding details and making changes is straightforward when comparing it to other tools like LaTeX. In this case, the usage of LaTeX isn't really justified since it is more directed to academic circumstances and not fast paced development.
-	\item \textbf{Styling Issues:} Using raw \gls{CSS} in combination with HTML is no doubt the best choice when it comes to styling the report. Java has many limitations when it comes to styling and LaTeX is very strict and error prone. For a basic report such as the one generated, \gls{CSS} styling is more than enough.
+	\item \textbf{Styling Issues:} Using raw \gls{CSS} in combination with \gls{HTML} is no doubt the best choice when it comes to styling the report. Java has many limitations when it comes to styling and LaTeX is very strict and error prone. For a basic report such as the one generated, \gls{CSS} styling is more than enough.
 \end{itemize}
 
-Once these constraints were no longer an issue, the development of the report was much more intuitive.
+Once these constraints were no longer an issue, the development of the report was much more intuitive. The base was made with \gls{HTML} and \gls{CSS}, which enabled a high degree of custom styles while also simplifying the integration of useful information. 
 
+Since the first iteration of the report was done in \gls{HTML}, the transition to PDF was mostly seamless, 
 
-
+The report has many features, its high customization enables the creation of different parts of the report when needed, hence omitting redundant of unwanted sections. One of the core elements is the \gls{ROS} specific option, which highlights \gls{ROS} specific components that were generated or ported from the model. This allows \gls{ROS} developers to have a much clearer idea of how parts of the input model were represented in the \gls{ROS} part of the code, for instance, what thread corresponds to a Publisher\footnote{Publishers generate and publish data (sensor readings, etc).} or Subscriber\footnote{Subscribers listen for and process data sent by Publishers.}.
 
 
 

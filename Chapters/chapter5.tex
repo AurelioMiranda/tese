@@ -208,7 +208,7 @@ This is an example of the JSON produced by a traceability analysis:
 		},(...)
 \end{verbatim}
 
-As we can see, it relates the model to the code in various forms, mainly code traces, file and package locations and qualified names. On top of that, it provides additional info that is useful for both developers and end users, developers can easily use this JSON as input for various tools (generating an alternate report from the one provided for example) and users can use it to trace parts of the code dedicated to a specific component or subcomponent using a combination of the file locations and the code traces.
+As we can see, it relates the model to the code in various forms, mainly code traces, file and package locations and qualified names. On top of that, it provides additional info that is useful for both developers and end users, developers can easily use this \gls{JSON} as input for various tools (generating an alternate report from the one provided for example) and users can use it to trace parts of the code dedicated to a specific component or subcomponent using a combination of the file locations and the code traces.
 
 \subsection{Report}
 \label{sec:impl_report}
@@ -223,9 +223,9 @@ The report was implemented with the goal of providing a clear, concise and struc
 
 Once these constraints were no longer an issue, the development of the report was much more intuitive. The base was made with \gls{HTML} and \gls{CSS}, which enabled a high degree of custom styles while also simplifying the integration of useful information. 
 
-Since the first iteration of the report was done in \gls{HTML}, the transition to PDF was mostly seamless, 
+Since the first iteration of the report was done in \gls{HTML}, the transition to PDF was mostly seamless, however, its implementation was done not by Java code, but via Workflow. This was at a later stage, a more detailed explanation can be found in Section~\ref{label}.
 
-The report has many features, its high customization enables the creation of different parts of the report when needed, hence omitting redundant of unwanted sections. One of the core elements is the \gls{ROS} specific option, which highlights \gls{ROS} specific components that were generated or ported from the model. This allows \gls{ROS} developers to have a much clearer idea of how parts of the input model were represented in the \gls{ROS} part of the code, for instance, what thread corresponds to a Publisher\footnote{Publishers generate and publish data (sensor readings, etc).} or Subscriber\footnote{Subscribers listen for and process data sent by Publishers.}.
+The report has many features, its high customization enables the creation of different parts when needed, hence omitting redundant or unwanted sections. One of the core elements is the \gls{ROS} specific option, which highlights \gls{ROS} specific components that were generated or ported from the model. This allows \gls{ROS} developers to have a much clearer idea of how parts of the input model were represented in the \gls{ROS} part of the code, for instance, what thread corresponds to a Publisher\footnote{Publishers generate and publish data (sensor readings, etc).} or Subscriber\footnote{Subscribers listen for and process data sent by Publishers.}.
 
 
 

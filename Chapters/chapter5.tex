@@ -130,7 +130,7 @@ As the implementation methodology was done iteratively and following the plan di
 \subsection{Naming Conventions}
 \label{sec:impl_name_conv}
 
-The implementation of naming conventions was straight forward since the demo developed in Section~\ref{sec:proof_of_concept} was a pretty big portion of the whole thing. The main addition to the already done work was the introduction of dynamic naming conventions that depend on the selected language, for example: in C++, classes are declared in PascalCase, whereas variables are declared in snake\_case, the following generated code illustrates that very well:
+The implementation of naming conventions was straight forward since the demo developed in Section~\ref{sec:proof_of_concept} was a pretty big portion of the whole thing. Using Acceleo we are able to modify the properties coming from the model as they are added into the C++ file, in this case, the name is formatted according to the selected convention. The main addition to the prototype work was the introduction of dynamic naming conventions that depend on the selected language, for example: in C++, classes are declared in PascalCase, whereas variables are declared in snake\_case, the following generated code illustrates that very well:
 
 \begin{verbatim}
 	class ImageDisplay : public rclcpp::Node
@@ -145,15 +145,17 @@ The implementation of naming conventions was straight forward since the demo dev
 		nd_spinner_sub_ = this->create_subscription(...)
 \end{verbatim}
 
-As we can see, ImageDisplay and image\_subscriber\_sub\_ are both identifiers but each one has a different format. In contrast, the previous implementation without configuration was strictly be \textit{Image\_Display} and \textit{Image\_Subscriber\_Sub\_}.
+As we can see, ImageDisplay and image\_subscriber\_sub\_ are both identifiers but each one has a different format. In contrast, the previous implementation without configuration was strictly be \textit{Image\_Display} and \textit{Image\_Subscriber\_Sub\_}. These names come directly from the \gls{AADL} model as \textbf{\textit{Image\_Display} and \textit{Image\_Subscriber}}.
 
 To summarize, the whole naming convention implementation consisted in:
 
 \begin{itemize} 
-	\item The ability to change identifier (class, variable, method) formats dynamically from a list of implemented options (TODO: list all options).
-	\item Based on the selected language, assign different styles to different identifiers (TODO: example in C++).
+	\item The ability to change identifier (class, variable, method) formats dynamically from a list of implemented options (camelCase, UPPERCASE, lowercase, snake\_case and UPPER\_SNAKE\_CASE).
+	\item Based on the selected language, assign different styles to different identifiers.
 	\item Option to input a prefix or suffix in every identifier\footnote{This affix is not affected by the naming convention.}.
 \end{itemize}
+
+This implementation was very important since the remaining features used it to the fullest, hence why it needed to be the first.
 
 
 \subsection{Comments}
@@ -170,7 +172,7 @@ The implementation of dynamic code comments allow the user to get much more cont
 
 Figure~\ref{fig:comment} illustrates how the comments vary depending on the component, this also provides a degree of separation that helps developers understand where parts of the input model are being implemented.
 
-More examples of code comments (with before and after) can be found in the Annex~\ref{annex}.
+More examples of code comments (with before and after) can be found in the Appendix~\ref{app:comment}.
 
 
 \subsection{Traceability}
@@ -216,18 +218,18 @@ This is an example of the JSON produced by a traceability analysis:
 		},(...)
 \end{verbatim}
 
-As we can see, it relates the model to the code in various forms, mainly code traces, file and package locations and qualified names. On top of that, it provides additional info that is useful for both developers and end users, developers can easily use this \gls{JSON} as input for various tools (generating an alternate report from the one provided for example) and users can use it to trace parts of the code dedicated to a specific component or subcomponent using a combination of the file locations and the code traces.
+As we can see, it relates the model to the code in various forms, mainly code traces, qualified names, file and package locations. On top of that, it provides additional info that is useful for both developers and end users, developers can easily use this \gls{JSON} as input for various tools (generating an alternate report from the one provided for example) and users can use it to trace parts of the code dedicated to a specific component or subcomponent using a combination of the file locations and the code traces.
 
 In addition to this, traceability links were created using Capra to ensure that the \gls{JSON} file can be directly related to the C++ files using the \textit{@trace} indicative.
 
 \subsection{Report}
 \label{sec:impl_report}
 
-The report was implemented with the goal of providing a clear, concise and structured way of visualizing exactly how the model translates to code. To do this, the initial report is generated in HTML and then converted to PDF format. This is important since it overcomes a few constraints, mainly:
+The report was implemented with the goal of providing a clear, concise and structured way of visualizing exactly how the model translates to code. To do this, the report is generated in \gls{HTML} using Acceleo. This is important since it overcomes a few constraints, mainly:
 
 \begin{itemize} 
-	\item \textbf{PDF with Java:} The major issue that producing HTML code with Acceleo instead of a direct PDF with Java fixes is that producing PDFs with Java code, although more practical on the surface, has many limitations when it comes to designing and structuring PDFs. In addition, the verbose is very unintuitive and can quickly grow in complexity.
-	\item \textbf{Extensibility:} Since HTML is a simple and well known language, adding details and making changes is straightforward when comparing it to other tools like LaTeX. In this case, the usage of LaTeX isn't really justified since it is more directed to academic circumstances and not fast paced development.
+	\item \textbf{PDF with Java:} The major issue that producing \gls{HTML} code with Acceleo instead of a direct PDF with Java fixes is that producing PDFs with Java code, although more practical on the surface, has many limitations when it comes to designing and structuring PDFs. In addition, the verbose is very unintuitive and can quickly grow in complexity.
+	\item \textbf{Extensibility:} Since \gls{HTML} is a simple and well known language, adding details and making changes is straightforward when comparing it to other tools like LaTeX. In this case, the usage of LaTeX isn't really justified since it is more directed to academic circumstances and not fast paced development. 
 	\item \textbf{Styling Issues:} Using raw \gls{CSS} in combination with \gls{HTML} is no doubt the best choice when it comes to styling the report. Java has many limitations when it comes to styling and LaTeX is very strict and error prone. For a basic report such as the one generated, \gls{CSS} styling is more than enough.
 \end{itemize}
 
@@ -235,7 +237,7 @@ Once these constraints were no longer an issue, the development of the report wa
 
 Since the first iteration of the report was done in \gls{HTML}, the transition to PDF was mostly seamless, however, its implementation was done not by Java code, but via Workflow. This was at a later stage, a more detailed explanation can be found in Section~\ref{label}.
 
-The report has many features, its high customization enables the creation of different parts when needed, hence omitting redundant or unwanted sections. One of the core elements is the \gls{ROS} specific option, which highlights \gls{ROS} specific components that were generated or ported from the model. This allows \gls{ROS} developers to have a much clearer idea of how parts of the input model were represented in the \gls{ROS} part of the code, for instance, what thread corresponds to a Publisher\footnote{Publishers generate and publish data (sensor readings, etc).} or Subscriber\footnote{Subscribers listen for and process data sent by Publishers.}.
+The report has many features, its high customization enables the creation of different parts when needed, hence omitting redundant or unwanted sections according to user needs. One of the core elements is the \gls{ROS} specific option, which highlights \gls{ROS} specific components that were generated or ported from the model. This allows \gls{ROS} developers to have a much clearer idea of how parts of the input model were represented in the \gls{ROS} part of the code, for instance, what thread corresponds to a Publisher\footnote{Publishers generate and publish data (sensor readings, etc).} or Subscriber\footnote{Subscribers listen for and process data sent by Publishers.}.
 
 
 

@@ -198,6 +198,7 @@ This is an example of the JSON produced by a traceability analysis:
 				"name": "Image_Broadcaster",
 				"qualifiedName": "Robot_Vision_I_Instance::Usb_Cam_Nd::Image_Broadcaster",
 				"codeTrace": "@trace name='Image_Broadcaster'",
+				"line": "15",
 				"type": "thread",
 				"properties": {
 					"Dispatch_Protocol": "",
@@ -208,6 +209,7 @@ This is an example of the JSON produced by a traceability analysis:
 				"name": "UsbSpinner",
 				"qualifiedName": "Robot_Vision_I_Instance::Usb_Cam_Nd::UsbSpinner",
 				"codeTrace": "@trace name='UsbSpinner'",
+				"line" : "20",
 				"type": "thread",
 				"properties": {
 					"Dispatch_Protocol": "",
@@ -218,7 +220,15 @@ This is an example of the JSON produced by a traceability analysis:
 		},(...)
 \end{verbatim}
 
-As we can see, it relates the model to the code in various forms, mainly code traces, qualified names, file and package locations. On top of that, it provides additional info that is useful for both developers and end users, developers can easily use this \gls{JSON} as input for various tools (generating an alternate report from the one provided for example) and users can use it to trace parts of the code dedicated to a specific component or subcomponent using a combination of the file locations and the code traces.
+As we can see, it relates the model to the code in various forms, mainly code traces, qualified names, file and package locations. On top of that, it provides additional info that is useful for both developers and end users, developers can easily use this \gls{JSON} as input for various tools (generating an alternate report from the one provided for example) and users can use it to trace parts of the code dedicated to a specific component or subcomponent using a combination of the file locations, code traces and line number.
+
+The way the line number is detected is quite complex in practice but more straightforward in theory:
+
+\begin{itemize} 
+	\item When traceability is enabled, the code generates with traces, those traces are not language or tool specific, hence they don't get picked up by other tools or as language syntax.
+	\item The same traces are generated in the \gls{JSON}.
+	\item Using the \gls{JSON} and the traces corresponding to sub components in the larger component (which is represented by a C++ file) the C++ files are scavenged for traces, which, when found, get saved directly below the \textit{codeTrace}, as the line correspondent to it.
+\end{itemize}
 
 In addition to this, traceability links were created using Capra to ensure that the \gls{JSON} file can be directly related to the C++ files using the \textit{@trace} indicative.
 
@@ -238,6 +248,11 @@ Once these constraints were no longer an issue, the development of the report wa
 Since the first iteration of the report was done in \gls{HTML}, the transition to PDF was mostly seamless, however, its implementation was done not by Java code, but via Workflow. This was at a later stage, a more detailed explanation can be found in Section~\ref{label}.
 
 The report has many features, its high customization enables the creation of different parts when needed, hence omitting redundant or unwanted sections according to user needs. One of the core elements is the \gls{ROS} specific option, which highlights \gls{ROS} specific components that were generated or ported from the model. This allows \gls{ROS} developers to have a much clearer idea of how parts of the input model were represented in the \gls{ROS} part of the code, for instance, what thread corresponds to a Publisher\footnote{Publishers generate and publish data (sensor readings, etc).} or Subscriber\footnote{Subscribers listen for and process data sent by Publishers.}.
+
+\subsection{Code Quality Checker}
+\label{sec:impl_code_qual_checker}
+
+A fine addition to the code generator was the introduction of a code quality checker powered by \textit{Cppchecker}
 
 
 

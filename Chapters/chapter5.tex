@@ -252,7 +252,40 @@ The report has many features, its high customization enables the creation of dif
 \subsection{Code Quality Checker}
 \label{sec:impl_code_qual_checker}
 
-A fine addition to the code generator was the introduction of a code quality checker powered by \textit{Cppchecker}
+A fine addition to the code generator was the introduction of a code quality checker powered by \textit{Cppchecker}.
+
+\subsubsection{Cppchecker}
+\label{sec:impl_side_cppchecker}
+
+\textit{Cppcheck} is a static analysis tool for C and C++ code, it's designed to detect a wide range of programming errors, potential bugs, and code style issues without executing the program. \textit{Cppcheck} analyzes the source code to identify problems such as memory leaks, uninitialized variables, unused functions, and violations of coding best practices. It's a lightweight, platform-independent, and highly configurable tool, which makes it suitable for integration into our code generation workflow.
+
+\textit{Cppcheck} has both an open source and a commercial version, in this case, 
+
+\subsection{ROS and C++ separation}
+\label{sec:impl_ros_separation}
+
+One of the underlining problems of the base generated code was the fact that \gls{ROS} code and C++ code where closely coupled together. This is an issue since most of the C++ implementation is \gls{ROS} independent, meaning that it could, in theory, be reused in contexts where \gls{ROS} is not available or not needed. However, since the generated code is tight coupled with \gls{ROS}, it forces the presence of ROS-specific dependencies even in parts of the system that do not require them. 
+
+To combat this, a new approach to code generation was implemented. The main goal was to port the \gls{ROS} code inside the C++ files onto another folder, adjacent to the remaining C++ files. This can be better understood visually, we part from this:
+
+\begin{verbatim}
+src/
+	 Color_Tracker_process.cpp
+	 Image_Display_2_process.cpp
+\end{verbatim}
+
+
+And we split the files into their \gls{ROS} and C++ counterparts, like so:
+
+\begin{verbatim}
+src/
+	 ros/
+		 Color_Tracker_process_ros.cpp
+		 Image_Display_2_process_ros.cpp
+	 impl/
+		 Color_Tracker_process.cpp
+		 Image_Display_2_process.cpp
+\end{verbatim}
 
 
 

@@ -279,14 +279,30 @@ And we split the files into their \gls{ROS} and C++ counterparts, like so:
 
 \begin{verbatim}
 src/
-	 ros/
-		 Color_Tracker_process_ros.cpp
-		 Image_Display_2_process_ros.cpp
 	 impl/
-		 Color_Tracker_process.cpp
-		 Image_Display_2_process.cpp
+		 Color_Tracker_logic.cpp
+		 Image_Display_2_logic.cpp
+	 ros/
+		 Color_Tracker_node.cpp
+		 Image_Display_2_node.cpp
 \end{verbatim}
 
+
+
+\subsection{Legacy Code Integration}
+\label{sec:impl_legacy_code}
+
+The main problem that legacy code integration solves is the following:
+
+There are C++ libraries that need to be used by specific \gls{ROS} components, these libraries should be included in the \gls{ROS} project when needed.
+
+To put it simply, in order to produce the functionality that the input model entices, certain legacy libraries need to be included, not just in the project, but called in the code aswell. The way it was done is clear:
+
+\begin{itemize} 
+	\item Firstly, libraries that the code will need based on model components used are listed.
+	\item Then, the code for those libraries is copied to the project folder.
+	\item Lastly, this newly copied code is called in certain places based on functional necessity.
+\end{itemize}
 
 
 

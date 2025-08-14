@@ -35,7 +35,30 @@ When code comments are toggled on, the code from Figure~\ref{figapp:nocomment_ex
 	\label{figapp:comment_example1}
 \end{figure}
 
+\section{Integration and Regression Tests}
+\label{app:int_and_reg_tests}
 
+
+\bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{xltabular}{\textwidth}{X X X}
+	\caption{Feature dependency table}
+	\label{tab:app_int_and_reg_tests}\\
+	\toprule
+	\rowcolor{Gainsboro}%
+	Feature & Depends On & Notes \\
+	\midrule
+	Identifiers & – & Core to code structure \\
+	Comments & Identifiers & Cheap to implement early \\
+	Traceability & Identifiers, Comments & Hard to retrofit later \\
+	Report & Traceability & Uses trace data \\
+	Standard\par Compliance & Report, Traceability & Enforce compliance early \\
+	Dead Code\par Elimination & Traceability, Report & Needs stable generation logic \\
+	Memory\par Optimization & Dead Code Elim, Traceability & Impacts data structures directly \\
+	Node Interface & Memory Optimization & Enables \gls{ROS} decoupling \\
+	Legacy Code\par Integration & Node Interface & Most architecture-dependent \\
+	\bottomrule
+\end{xltabular}
 
 
 

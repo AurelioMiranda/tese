@@ -22,7 +22,7 @@ Intro intro intro?
 
 This type of testing is recurrent along the development, it serves to ensure that the features implemented are functioning as intended and that the previous version of the software has retained its functionality when new features were added.
 
-\section{Feature Testing}
+\subsection{Feature Testing: August}
 \label{sec:test_feature_one}
 
 After the development of the first batch of features, the testing served to ensure that the previous version of the code generator was still working as intended and to validate the integration of the code generator configurator in the pipeline.
@@ -31,41 +31,76 @@ The report for the first volley of tests can be found in the Annex~\ref{label}, 
 
 The regression tests applied at this time were limited since the previous version of the software did not include any code generation customization, only the simple transition from model to code (\gls{M2T}), which, after generating a \gls{ROS} project in both the previous code generator and the at the time current one (with the first batch of features implemented), it was possible to verify that both generators still produced the same practical output, essentially, the code produced by both generators yields the same functionality.
 
-The integration test part was done much more in depth since the goal was to intertwine the different new features and find out if they worked in perfect harmony as expected. The following tests were conducted:
+The integration test part was done much more in depth since the goal was to intertwine the different new features and find out if they worked in perfect harmony as expected. The tests present in Table~\ref{tab:int_tests_1} were conducted.
+
+\bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{xltabular}{\textwidth}{X X X X X}
+	\caption{Feature dependency table}
+	\label{tab:int_tests_1}\\
+	\toprule
+	\rowcolor{Gainsboro}%
+	Test Case ID & Feature & Description & Expected Outcome \\
+	\midrule
+	TC-INT-01 & Identifier Management & Check that identifier config is applied in code, traceability, and report. & Same naming convention is visible in all outputs. \\
+	TC-INT-02 & Comments & Verify comment style and formatting are preserved in all files. & All comments retain exact style and placement. \\
+	TC-INT-03 & Traceability & Ensure model elements map to the correct code location and report entry. & JSON and HTML show accurate paths and line numbers. \\
+	TC-INT-04 & Report Generation & Ensure generation metrics are passed from Java generator to report. & Report displays correct counts and settings. \\
+	TC-INT-05 & Code Quality \& Report Sync & Verify quality checker warnings appear in both XML and report. & Both outputs show the same warning details. \\
+	TC-INT-07 & Cross-Feature Stability & Test large models with custom identifiers, comments, and style violations. & All features work together without breaking. \\
+\end{xltabular}
+
+After conducting these tests, the following was concluded:
 
 \begin{itemize}
-	\item \textbf{TC-INT-01 – Identifier Consistency:} Verify that the identifier configuration set in the \texttt{config.generator} model is applied consistently in generated C++ code and reflected in the traceability file as well as in the report.
+	\item \textbf{TC-INT-01 – Identifier Consistency:} Verified that the identifier configuration set in the \texttt{config.generator} model is applied consistently in generated C++ code and reflected in the traceability file as well as in the report.
 	
-	\item \textbf{TC-INT-02 – Comment Preservation Across Modules:} Generate code from a model containing both single-line and multi-line comments, verifying that:
+	\item \textbf{TC-INT-02 – Comments:} Generated code containing both single-line and multi-line comments, verified that:
 	\begin{enumerate}
 		\item Acceleo templates correctly output the comments.
 		\item Java generator preserves formatting.
 	\end{enumerate}
 	
-	\item \textbf{TC-INT-03 – Traceability Link Accuracy:} Confirm that model elements are mapped to the correct files and line numbers in generated code, and that these mappings are:
+	\item \textbf{TC-INT-03 – Traceability Link Accuracy:} Confirmed that model elements are mapped to the correct files and line numbers in generated code, and that these mappings are:
 	\begin{enumerate}
 		\item Present in the \gls{JSON} traceability output.
 		\item Referenced in the \gls{HTML} report.
 	\end{enumerate}
 	
-	\item \textbf{TC-INT-04 – Report Generation Data Flow:} Metrics collected during generation (number of components, code quality warnings) are passed from the Java generator to the report module and rendered correctly in the final report.
+	\item \textbf{TC-INT-04 – Report Generation Data Flow:} Metrics collected during generation (number of components, code quality warnings) are passed to the Acceleo generator rendered correctly in the report.
 	
-	\item \textbf{TC-INT-05 – Code Quality \& Report Synchronization:} Trigger a known style violation in the model, generate code, and verify that:
+	\item \textbf{TC-INT-05 – Code Quality \& Report Synchronization:} Triggered a known style violation in the model, generated code, and verified that:
 	\begin{enumerate}
-		\item The code quality checker detects it and outputs XML.
+		\item The code quality checker detects it and outputs XML accurately referencing it.
 		\item The Java generator correctly embeds this warning into the final HTML reportx.
 	\end{enumerate}
 	
-	\item \textbf{TC-INT-07 – Cross-Feature Stability:} Use a large, complex model with:
+	\item \textbf{TC-INT-07 – Cross-Feature Stability:} Used a large, complex model with:
 	\begin{itemize}
 		\item Custom identifiers
 		\item Extensive comments
 		\item Nested subcomponents
 		\item Known style violations
 	\end{itemize}
-	Verify that all features (identifier config, comments, traceability, reporting, quality checking) work together without breaking any module.
+	Verified that all features (identifier config, comments, traceability, reporting, quality checking) work together without breaking any module.
 \end{itemize}
 
+The proof of achievement of the features above can be found on~\ref{label}
+
+\bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{xltabular}{\textwidth}{X X X X X}
+\caption{Feature dependency table}
+\label{tab:reg_tests_1}\\
+\toprule
+\rowcolor{Gainsboro}%
+Test Case ID & Feature & Description & Expected Outcome \\
+\midrule
+TC-REG-01 & Regression & Compare output with older version for unchanged models. & Output is functionally identical. \\
+TC-REG-02 & Regression & Generate code for previously passing models. & Generation succeeds with no new errors. \\
+TC-REG-03 & Regression & Measure generation time for unchanged models. & Timing does not exceed threshold. \\
+TC-REG-04 & Regression & Test legacy models without new features enabled. & Output has no formatting or syntax changes. \\
+\end{xltabular}
 
 
 

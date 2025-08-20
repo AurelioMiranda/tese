@@ -323,9 +323,28 @@ The solution for this are workflows. Workflows allows the automation of certain 
 This allows for the execution of specific parts of the code generation in an isolated way, as well as the execution of every part needed to produce a complete and functional \gls{ROS} project, on top of that, \gls{JUnit} tests based on workflows are also possible and already a common pattern on the \gls{RAMSES} project.
 
 
+\subsection{Execution Times}
+\label{sec:exec_times}
 
+With the workflow built and running, it was possible to get an idea of the execution times of each part of the workflow.
 
+\subsubsection{First Workflow Execution Time Test}
+\label{sec:exec_times_v1}
 
+To perform the first volley of workflow execution time tests, a functional \gls{AADL} model was picked due to its correctness and previous usage in some examples. The configuration was also tuned to its maxed settings, meaning that every option was checked (report generation, traceability, etc) so that it would produce a better range of timetables.
+
+Additionally, 15 execution runs where documented, those runs can be found in the Appendix~\ref{tab:workflow_exec_times_1}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{exec_times1.png}
+	\caption{Code generation execution times}
+	\label{fig:exec_times_1}
+\end{figure}
+
+Taking a look at Figure~\ref{fig:exec_times_1} we can see that naturally some parts of the workflow take more time than others, mainly the code generation and the report generation.
+
+The Launch, CMake and Package files take much less time than the other ones due to their simplicity and to the fact that they generate a single file, as opposed to the Code generation which, in this case, generates 7 C++ code files. The report takes even longer than that because, on top of documenting the generated files and build an HTML report, it also checks those files for code quality issues, which ends up taking even more time. The JSON Trace file is pretty straightforward, however, since it scavenges the code files for the exact placement of the traces, it does end up with an execution time bigger than the other single file generations.
 
 
 

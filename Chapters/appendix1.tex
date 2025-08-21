@@ -35,6 +35,9 @@ When code comments are toggled on, the code from Figure~\ref{figapp:nocomment_ex
 	\label{figapp:comment_example1}
 \end{figure}
 
+
+\newpage
+
 \section{Integration and Regression Tests}
 \label{app:int_and_reg_tests}
 
@@ -68,7 +71,7 @@ When code comments are toggled on, the code from Figure~\ref{figapp:nocomment_ex
 \bgroup
 \rowcolors{1}{}{GhostWhite}
 \begin{xltabular}{\textwidth}{X X X X X X X X X X}
-	\caption{First run of workflow execution times (in ms)}
+	\caption{First run of workflow execution times (in ms) for an average model with the set of configs from~\ref{app:config_first_batch}}
 	\label{tab:workflow_exec_times_1}\\
 	\toprule
 	\rowcolor{Gainsboro}%
@@ -94,6 +97,36 @@ Run & Code & Launch & CMake & Package & Trace & Report & Total Steps & Total & P
 
 
 
+\section{Generator Configuration Options}
+\label{app:configs}
+
+
+\subsection*{Complete Project Configuration}
+\label{app:config_first_batch}
+
+\begin{description}
+	\item[Naming]
+	\begin{description}
+		\item[Style:] \texttt{STANDARD}
+		\item[Affix:] \texttt{Telecom\_}
+		\item[Affix position:] \texttt{PREFIX}
+	\end{description}
+	
+	\item[Report]
+	\begin{description}
+		\item[Generate:] \texttt{true}
+		\item[Include traceability:] \texttt{true}
+		\item[Include summary tables:] \texttt{true}
+		\item[Include ROS summaries:] \texttt{true}
+		\item[Show detected errors:] \texttt{true}
+	\end{description}
+	
+	\item[Decoupling] Enabled
+	
+	\item[Comments] \texttt{true}
+	
+	\item[Traceability] \texttt{true}
+\end{description}
 
 
 

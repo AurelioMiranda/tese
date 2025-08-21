@@ -322,6 +322,9 @@ The solution for this are workflows. Workflows allows the automation of certain 
 
 This allows for the execution of specific parts of the code generation in an isolated way, as well as the execution of every part needed to produce a complete and functional \gls{ROS} project, on top of that, \gls{JUnit} tests based on workflows are also possible and already a common pattern on the \gls{RAMSES} project.
 
+The custom workflow component created was the AcceleoGeneratorComponent, which simply parsed all the inputs (AADL input model, configuration and output folder) and executed the Java class responsible for the specific code generation.
+
+The beauty of this component is that it is optimized to every single Acceleo Java class present in \gls{RAMSES}, meaning that, in the workflow, every Java class can be represented by a AcceleoGeneratorComponent which facilitates the sequential execution and removes the need to have components specific to a certain class.
 
 \subsection{Execution Times}
 \label{sec:exec_times}
@@ -331,9 +334,9 @@ With the workflow built and running, it was possible to get an idea of the execu
 \subsubsection{First Workflow Execution Time Test}
 \label{sec:exec_times_v1}
 
-To perform the first volley of workflow execution time tests, a functional \gls{AADL} model was picked due to its correctness and previous usage in some examples. The configuration was also tuned to its maxed settings, meaning that every option was checked (report generation, traceability, etc) so that it would produce a better range of timetables.
+To perform the first volley of workflow execution time tests, a functional \gls{AADL} model was picked due to its correctness and previous usage in some examples. The configuration was also tuned to its maxed settings, meaning that every option was checked (report generation, traceability, etc) so that it would produce a better range of timetables, the complete configuration details for the this context can be found in~\ref{app:config_first_batch}.
 
-Additionally, 15 execution runs where documented, those runs can be found in the Appendix~\ref{tab:workflow_exec_times_1}.
+In this phase, 15 execution runs where documented, which can be found in the Appendix~\ref{tab:workflow_exec_times_1}.
 
 \begin{figure}[htbp]
 	\centering
@@ -345,6 +348,17 @@ Additionally, 15 execution runs where documented, those runs can be found in the
 Taking a look at Figure~\ref{fig:exec_times_1} we can see that naturally some parts of the workflow take more time than others, mainly the code generation and the report generation.
 
 The Launch, CMake and Package files take much less time than the other ones due to their simplicity and to the fact that they generate a single file, as opposed to the Code generation which, in this case, generates 7 C++ code files. The report takes even longer than that because, on top of documenting the generated files and build an HTML report, it also checks those files for code quality issues, which ends up taking even more time. The JSON Trace file is pretty straightforward, however, since it scavenges the code files for the exact placement of the traces, it does end up with an execution time bigger than the other single file generations.
+
+Since the base project did not have a workflow that successfully implemented the ancient Java code, it is not possible to directly compare the execution times of the old version of the code generation with the new one. However, we can estimate the time it took to execute a project generation in the ancient generator with the information from Table~\ref{app:workflow_exec_time}, which, after measuring the time it takes to generate the Launch, CMake, Package and C++ files, comes around to 231,6ms, essentially half of the current average execution time of 479,9ms. This is expected since both the Trace and the Report take a significant amount of time. This interval can be even bigger if we consider that the original code generator did not even have a configuration file.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{avg_exec_times_1.png}
+	\caption{Average code generation execution times}
+	\label{fig:avg_exec_times_1}
+\end{figure}
+
+As mentioned previously, Figure~\ref{fig:avg_exec_times_1} confirms that the average execution time seems to have doubled with the introduction of more processing heavy modules (Trace and Report), this is not a big issue as the total execution time is still below 500ms which is still very acceptable for the current conditions.
 
 
 

@@ -45,6 +45,7 @@ In order to better understand what features will be implemented, when and why, t
 	Dead Code\par Elimination & Traceability, Report & Needs stable generation logic \\
 	Memory\par Optimization & Dead Code Elim, Traceability & Impacts data structures directly \\
 	Node Interface & Memory Optimization & Enables \gls{ROS} decoupling \\
+	File Management & Node Interface & Facilitates file management operations \\
 	Legacy Code\par Integration & Node Interface & Most architecture-dependent \\
 	\bottomrule
 \end{xltabular}
@@ -103,7 +104,7 @@ The structural layer cements what was done before and adds to it with an optimiz
 \subsection{Architecture Layer}
 \label{sec:arch_layer}
 
-The Architecture Layer (Table~\ref{tab:arch_layer}) introduces features that abstract and modularize the generated code to support scalability and maintainability. The node interface abstraction separates platform-specific code (\gls{ROS} dependencies) from core logic, facilitating reuse and easier updates. Legacy code integration is the most complex and architecture-dependent feature, involving interfacing with existing external codebases, which requires careful design and planning to avoid integration pitfalls.
+The Architecture Layer (Table~\ref{tab:arch_layer}) introduces features that abstract and modularize the generated code to support scalability and maintainability. The node interface abstraction separates platform-specific code (\gls{ROS} dependencies) from core logic, facilitating reuse and easier updates. File management is a quality of life feature which is very sensitive as file naming and location must be consistent at all times. Legacy code integration is the most complex and architecture-dependent feature, involving interfacing with existing external codebases, which requires careful design and planning to avoid integration pitfalls.
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}
@@ -115,6 +116,7 @@ The Architecture Layer (Table~\ref{tab:arch_layer}) introduces features that abs
 Feature & Depends On & Notes \\
 \midrule
 Node Interface & Memory Optimization & Architecture-dependent.\par Needs careful planning. \\
+File Management & Node Interface & Affects every file directly \\
 Legacy Code Integration & Node Interface & Undefined scope and\par likely the most architecture-sensitive \\
 \bottomrule
 \end{xltabular}
@@ -289,6 +291,27 @@ src/
 
 With the files now separated, it is possible to reuse the C++ code present in the impl folder without the \gls{ROS} dependencies. This also opens more the window to the inclusion of company specific libraries that can, if needed, be split into \gls{ROS} and C++ only counterparts.
 
+
+\subsection{File Management}
+\label{sec:impl_file_mng}
+
+The intent of having a file management option in the configuration was to dynamically manage how the files are generated, including if they overwrite previously generated files.
+
+The main addition however was the ability to add a header prefix to every generated code file, further facilitating copyright and licensing enforcement.
+
+This file header can be any phrase or character but due to operating system restrictions, some character have to be filtered out, here is an example of this filtration:
+
+\begin{verbatim}
+  ..CON:my*file?<>|aux\0COM1  "
+
+			↓
+
+CON_my_file____aux_0COM1___
+\end{verbatim}
+
+By default, any forbidden character is replaced by an underline and spaces at the start and end of the word are trimmed. This eliminates eventual errors in the code execution.
+
+A good example of the result of this file header implementation is, based of the files in Section~\ref{ROS and C++ separation} is the following:
 
 \subsection{Legacy Code Integration}
 \label{sec:impl_legacy_code}

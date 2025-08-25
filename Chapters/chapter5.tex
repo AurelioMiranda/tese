@@ -311,7 +311,25 @@ CON_my_file____aux_0COM1___
 
 By default, any forbidden character is replaced by an underline and spaces at the start and end of the word are trimmed. This eliminates eventual errors in the code execution.
 
-A good example of the result of this file header implementation is, based of the files in Section~\ref{ROS and C++ separation} is the following:
+A good example of the result of this file header implementation is, based of the files in Section~\ref{sec:impl_ros_separation}, when adding the header \textit{Nova"} becomes:
+
+\begin{verbatim}
+	src/
+		 impl/
+			 Nova_Color_Tracker_logic.cpp
+			 Nova_Image_Display_2_logic.cpp
+		 ros/
+			 Nova_Color_Tracker_node.cpp
+			 Nova_Image_Display_2_node.cpp
+\end{verbatim}
+
+Note that the apostrophe is transformed into an underline as mentioned previously.
+
+The overriding system is another file management option. Previously, the code generator simply generated the files in any circumstance, effectively replacing every file, every time. In a simple model this is not an issue, however, in a larger model this can quickly become a performance bottleneck since it implies generating everything, every time. 
+
+When overriding is enabled, the generator does not change, it still generates every file every time, when it is disabled however, it only generates files that are not yet present. For instance, if we have a complete project, no new files will be generated or substituted, in contrast, if one file is missing, the generator will generate only the missing file.
+
+Even preliminary tests produced a significant difference in execution time when overriding is disabled\footnote{Up to 500ms less than the override enabled counterpart.}, proving that it is worth it to give the user the choice between generating the whole project or just specific parts of it.
 
 \subsection{Legacy Code Integration}
 \label{sec:impl_legacy_code}

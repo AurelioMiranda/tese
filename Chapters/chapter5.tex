@@ -291,6 +291,19 @@ src/
 
 With the files now separated, it is possible to reuse the C++ code present in the impl folder without the \gls{ROS} dependencies. This also opens more the window to the inclusion of company specific libraries that can, if needed, be split into \gls{ROS} and C++ only counterparts.
 
+To further improve on the \gls{ROS} side of the customization, there is also the option to choose the thread executor for the given node\footnote{This also takes effect when decoupling is disabled.}. There are three fundamental thread executors, they can be described as follows:
+
+\begin{itemize} 
+	\item The Single Threaded Executor processes all callbacks (from incoming messages, timers, services, and events) of one or more nodes in a single thread, ensuring that only one callback executes at a time.
+	\item The Multi-Threaded Executor creates a configurable number of threads to allow for processing multiple messages or events in parallel.
+	\item  The Static Single-Threaded Executor optimizes the runtime costs for scanning the structure of a node in terms of subscriptions, timers, service servers, action servers, etc. It performs this scan only once when the node is added, while the other two executors regularly scan for such changes. 
+\end{itemize}
+
+These three options fundamentally do not change how the generated runtime application works, but they give it different options when it comes to managing execution performance.
+
+\begin{tcolorbox}[colback=blue!5, colframe=blue!40!black] Some complex applications might benefit from multi-threading while more simple ones can offer the fairly same performance in any threading type.
+\end{tcolorbox}
+
 
 \subsection{File Management}
 \label{sec:impl_file_mng}
@@ -345,6 +358,11 @@ To put it simply, in order to produce the functionality that the input model ent
 	\item Then, the code for those libraries is copied to the project folder.
 	\item Lastly, this newly copied code is called in certain places based on functional necessity.
 \end{itemize}
+
+\subsection{Generation Hooks}
+\label{sec:impl_gen_hooks}
+
+The main problem that legacy code integration solves is the following:
 
 
 \section{Workflows}

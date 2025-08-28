@@ -362,7 +362,9 @@ To put it simply, in order to produce the functionality that the input model ent
 \subsection{Generation Hooks}
 \label{sec:impl_gen_hooks}
 
-The main problem that legacy code integration solves is the following:
+The need to run certain scripts before or after project execution is very valuable. Either being quick cleanup scripts to prepare the project folder for a new version or post generation scripts to automatically test the generated project, these scripts can bring value and a higher of automation to any project.
+
+For those reasons, generation hooks where included in the configuration language. The premise is fairly simple: to execute user crated code before or after the actual code generation.
 
 
 \section{Workflows}
@@ -381,9 +383,25 @@ The solution for this are workflows. Workflows allows the automation of certain 
 
 This allows for the execution of specific parts of the code generation in an isolated way, as well as the execution of every part needed to produce a complete and functional \gls{ROS} project, on top of that, \gls{JUnit} tests based on workflows are also possible and already a common pattern on the \gls{RAMSES} project.
 
+\subsection{Acceleo Workflow Component}
+\label{sec:workflows_acceleo}
+
 The custom workflow component created was the AcceleoGeneratorComponent, which simply parsed all the inputs (AADL input model, configuration and output folder) and executed the Java class responsible for the specific code generation.
 
 The beauty of this component is that it is optimized to every single Acceleo Java class present in \gls{RAMSES}, meaning that, in the workflow, every Java class can be represented by a AcceleoGeneratorComponent which facilitates the sequential execution and removes the need to have components specific to a certain class.
+
+
+\subsection{Dynamic Acceleo Workflow Executor}
+\label{sec:workflows_dynamic_executor}
+
+The custom component described in the previous Section~\ref{sec:workflows_acceleo} works flawlessly for its main purpose, however, a key issue arose: instead of feeding the template to the model, we feed the class that that template represents. This is an issue since if we want to execute a specific Acceleo template we need its class.
+
+The solution to this problem was clear: instead of calling the classes independently, the component would call a generic class that would handle any Acceleo template. This did not come without drawbacks, mainly that handling every template the same way reduced their overall specialty. This was an issue that the previous component solved by integrating additional functionality in each individual class as needed.
+
+Essentially the two architecture choices where either full specialization but low integration capabilities or high integration and low specialization. However, the third option was both.
+
+A new version of the Acceleo custom Workflow component was devised, the premise was that the component would receive the template name (not the class name) and search for the class represented by the given component, if none was found the component would fallback to the generic Acceleo generator class. This hybrid architecture means that, when feeding a template name that does not have a Java class associated, the Workflow will execute it seamlessly, provided it has an \gls{AADL} model and a configuration file. Similarly, if there is the need for a more in depth execution, a Java implementation of the template can still be done.
+
 
 \subsection{Execution Times}
 \label{sec:exec_times}

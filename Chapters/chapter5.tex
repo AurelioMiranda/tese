@@ -403,6 +403,14 @@ Essentially the two architecture choices where either full specialization but lo
 A new version of the Acceleo custom Workflow component was devised, the premise was that the component would receive the template name (not the class name) and search for the class represented by the given component, if none was found the component would fallback to the generic Acceleo generator class. This hybrid architecture means that, when feeding a template name that does not have a Java class associated, the Workflow will execute it seamlessly, provided it has an \gls{AADL} model and a configuration file. Similarly, if there is the need for a more in depth execution, a Java implementation of the template can still be done.
 
 
+\subsection{Script Workflow Executor}
+\label{sec:workflows_script_executor}
+
+One of the features mentioned both in the feature model~\ref{label} and in the client meeting~\ref{label} was the ability to execute pre or post generation hooks, essentially scripts fully done by the end user that perform various actions from deleting/creating files to executing automated test cases. 
+
+This functionality was primarily aimed to be present in the \gls{DSL}, however, in the very specific case of the \gls{RAMSES} environment, a different option is more viable and already implemented: System Command Component.
+
+
 \subsection{Execution Times}
 \label{sec:exec_times}
 

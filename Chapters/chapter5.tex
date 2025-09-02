@@ -408,7 +408,19 @@ A new version of the Acceleo custom Workflow component was devised, the premise 
 
 One of the features mentioned both in the feature model~\ref{label} and in the client meeting~\ref{label} was the ability to execute pre or post generation hooks, essentially scripts fully done by the end user that perform various actions from deleting/creating files to executing automated test cases. 
 
-This functionality was primarily aimed to be present in the \gls{DSL}, however, in the very specific case of the \gls{RAMSES} environment, a different option is more viable and already implemented: System Command Component.
+This functionality was primarily aimed to be present in the \gls{DSL} as a way to execute Java code to consequently run a command script, however, in the very specific case of the \gls{RAMSES} environment, a different option is more viable and already implemented: System Command Component.
+
+The System Command Components allows for the execution of commands in a terminal (in this case a Windows terminal) by passing values in its Workflow component properties.
+
+When running a script before code generation occurs, we need the following:
+
+\begin{itemize} 
+	\item \textbf{Arguments: } $\backslash$c, pregen.bat\footnote{This represents executable that we want to run.}
+	\item \textbf{Command: } cmd
+	\item \textbf{Working Directory: } file:/C:/Users/user/robot\_vision\_i\_instance
+\end{itemize}
+
+With this information, the SystemCommandComponent runs a terminal on the given directory that executes the command \textit{cmd $\backslash$c pregen.bat}, effectively executing the file \textit{pregen.bat}.
 
 
 \subsection{Execution Times}

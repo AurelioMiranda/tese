@@ -366,6 +366,26 @@ The need to run certain scripts before or after project execution is very valuab
 
 For those reasons, generation hooks where included in the configuration language. The premise is fairly simple: to execute user crated code before or after the actual code generation.
 
+\subsection{Multiple Configurations}
+\label{sec:impl_multi_config}
+
+When testing the previously finished features, a few issues stood out: 
+
+\begin{itemize} 
+	\item The difficulty to quickly change from one configuration to the other.
+	\item Handling multiple configurations at the same time.
+\end{itemize}
+
+The main problem is that, if we want to create and customize a new configuration we have to start from scratch and use a new file. To combat this issue, a new way of creating configurations was introduced: the list of configurations.
+
+The premise is that instead of having multiple files, each one representing a different coding language, there is a single file with a list of configurations.
+
+**visual example here**
+
+This way, instead of handling multiple files we can, in a single one, manage every single configuration and the same configuration can be used by different generators since each one can find the configuration it needs.
+
+This is an addition, not a restriction, so, as we will explore more in the next section~\ref{sec:workflows}, we can still use a single configuration as input or a list of configurations, further improving the flexibility of the code generator.
+
 
 \section{Workflows}
 \label{sec:workflows}

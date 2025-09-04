@@ -364,7 +364,9 @@ To put it simply, in order to produce the functionality that the input model ent
 
 The need to run certain scripts before or after project execution is very valuable. Either being quick cleanup scripts to prepare the project folder for a new version or post generation scripts to automatically test the generated project, these scripts can bring value and a higher of automation to any project.
 
-For those reasons, generation hooks where included in the configuration language. The premise is fairly simple: to execute user crated code before or after the actual code generation.
+For those reasons, generation hooks where included in the configuration language. The premise is fairly simple: to execute user created code before or after the actual code generation.
+
+Even though that option is available in the configuration, in the specific case of \gls{RAMSES}, there is no need to define a component that executes a script, meaning that there is already a way to execute terminal based commands in the project. The definition was still kept in the configuration language although it was not implemented in practice due to a more practical option that is depicted in Section~\ref{sec:workflows_script_executor}.
 
 \subsection{Multiple Configurations}
 \label{sec:impl_multi_config}
@@ -380,7 +382,32 @@ The main problem is that, if we want to create and customize a new configuration
 
 The premise is that instead of having multiple files, each one representing a different coding language, there is a single file with a list of configurations.
 
-**visual example here**
+
+\begin{tikzpicture}[
+		level distance=12mm,
+		sibling distance=25mm,
+		every node/.style={draw, rounded corners, align=center, minimum width=2.5cm, minimum height=8mm}
+		]
+		
+		% Left tree: Configurations
+		\node {<Configurations>}
+		child {node {<configurations> (global)}}
+		child {node {<configurations> (language=C)}};
+		
+\end{tikzpicture}
+\hspace{2cm}
+\begin{tikzpicture}[
+		level distance=12mm,
+		sibling distance=25mm,
+		every node/.style={draw, rounded corners, align=center, minimum width=2.5cm, minimum height=8mm}
+		]
+		
+		% Right tree: GeneratorConfig
+		\node {<GeneratorConfig>}
+		child {node {<configuration>}};
+		
+	\end{tikzpicture}
+
 
 This way, instead of handling multiple files we can, in a single one, manage every single configuration and the same configuration can be used by different generators since each one can find the configuration it needs.
 

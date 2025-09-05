@@ -382,34 +382,51 @@ The main problem is that, if we want to create and customize a new configuration
 
 The premise is that instead of having multiple files, each one representing a different coding language, there is a single file with a list of configurations.
 
-
+\begin{figure}[h]
+	\centering
 \begin{tikzpicture}[
-		level distance=12mm,
-		sibling distance=25mm,
-		every node/.style={draw, rounded corners, align=center, minimum width=2.5cm, minimum height=8mm}
-		]
-		
-		% Left tree: Configurations
-		\node {<Configurations>}
-		child {node {<configurations> (global)}}
-		child {node {<configurations> (language=C)}};
-		
+	level distance=12mm,
+	level 1/.style={sibling distance=40mm}, % distance between Config 1 / Config 2
+	level 2/.style={sibling distance=25mm},
+	every node/.style={
+		draw, rounded corners, align=center,
+		minimum width=2.5cm, minimum height=8mm
+	}
+	]
+	
+	% Left tree: Configurations
+	\node {Configurations}
+	child {node {Config 1}
+		child {node {C++}}
+	}
+	child {node {Config 2}
+		child {node {C}}
+		child {node {Trace On}}
+	};
+	
 \end{tikzpicture}
-\hspace{2cm}
+\hspace{1cm}
 \begin{tikzpicture}[
-		level distance=12mm,
-		sibling distance=25mm,
-		every node/.style={draw, rounded corners, align=center, minimum width=2.5cm, minimum height=8mm}
-		]
-		
-		% Right tree: GeneratorConfig
-		\node {<GeneratorConfig>}
-		child {node {<configuration>}};
-		
-	\end{tikzpicture}
+	level distance=12mm,
+	sibling distance=25mm,
+	every node/.style={
+		draw, rounded corners, align=center,
+		minimum width=2.5cm, minimum height=8mm
+	}
+	]
+	
+	% Right tree: Single Configuration
+	\node {Config 1}
+	child {node {C++}}
+	child {node {Trace On}};
+	
+\end{tikzpicture}
+\caption{Comparison between multiple configurations (left) and a single configuration (right).}
+\label{fig:tree_config_comparison}
+\end{figure}
 
 
-This way, instead of handling multiple files we can, in a single one, manage every single configuration and the same configuration can be used by different generators since each one can find the configuration it needs.
+This way, instead of handling multiple files we can, like illustrated in Figure~\ref{fig:tree_config_comparison}, manage every single configuration in one file and the same configuration can be used by different generators since each one can find the configuration it needs.
 
 This is an addition, not a restriction, so, as we will explore more in the next section~\ref{sec:workflows}, we can still use a single configuration as input or a list of configurations, further improving the flexibility of the code generator.
 

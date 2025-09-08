@@ -13,9 +13,7 @@
 
 \epigraph{ \textit{This chapter documents the software testing done throughout the development of the thesis. It highlights how the specific tests where done, in what context and their results.}}
 
-
-Intro intro intro?
-
+Software testing was conducted specifically for the configuration of the code generation part of \gls{RAMSES}. This means that the goal was to ensure that the newly developed configuration options did not modify the runtime results of the generated software, hence maintaining the core goal of the input model.
 
 \section{Feature Testing}
 \label{sec:test_feature}
@@ -85,7 +83,25 @@ After conducting these tests, the following was concluded:
 	Verified that all features (identifier config, comments, traceability, reporting, quality checking) work together without breaking any module.
 \end{itemize}
 
-The proof of achievement of the features above can be found on~\ref{label}
+
+\section{Unit Testing}
+\label{sec:test_unit}
+
+In order to automate the testing of the added features as development progressed unit tests were developed. By comparing the functional version of the generated projects against a newly generated version of the same project, we are able to detect differences in the end result which can point out flaws when a branch of the code generation is modified. 
+
+Essentially, what we test can be visually described by Figure~\ref{fig:testingFlowchart}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\textwidth]{testingFlowchart.png}
+	\caption{Flowchart of the testing strategy for generated code (made by the author)}
+	\label{fig:testingFlowchart}
+\end{figure}
+
+By using this architecture, it is only necessary to verify the correctness of the generated code once. The subsequent generations can be then compared to this already correct premise to determine errors or changes in the code that are not intended.
+
+An obvious flaw of this model is that, not only does it need complete manual validation in the start, but it's also very rigid when it comes to file comparison, comparing each file line-by-line.
+
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}

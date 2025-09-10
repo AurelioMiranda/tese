@@ -93,15 +93,36 @@ Essentially, what we test can be visually described by Figure~\ref{fig:testingFl
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.7\textwidth]{testingFlowchart.png}
+	\includegraphics[width=0.55\textwidth]{testingFlowchart.png}
 	\caption{Flowchart of the testing strategy for generated code (made by the author)}
 	\label{fig:testingFlowchart}
 \end{figure}
 
 By using this architecture, it is only necessary to verify the correctness of the generated code once. The subsequent generations can be then compared to this already correct premise to determine errors or changes in the code that are not intended.
 
-An obvious flaw of this model is that, not only does it need complete manual validation in the start, but it's also very rigid when it comes to file comparison, comparing each file line-by-line.
+An obvious flaw of this model is that, not only does it need complete manual validation in the start, but it's also very rigid when it comes to file comparison, comparing each file line-by-line\footnote{The comparison is not overly rigid and allows for exceptions such as the generated date and order changes in \gls{XML} files.}.
 
+These flaws can also be seen as benefits, since the code needs to be testes rigorously to ensure maximum code quality when generated. This can only be achieve by actually executing the generated projects and verifying their functionality.
+
+The unit tests were made to be as flexible as possible, allowing for different configurations and different models to be tested in a single run, providing insights in multiple generated projects in a single test execution as can be observed in Figure~\ref{fig:testingResults1}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.55\textwidth]{testingResults1.png}
+	\caption{Testing results of 3 different models}
+	\label{fig:testingResults1}
+\end{figure}
+
+The tests also account for certain projects not having the need for certain files such as the traceability or the report file. This behavior is translated by simply skipping the test as can be observed in Figure~\ref{fig:testingResultsSkip1}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.55\textwidth]{testingResultsSkip1.png}
+	\caption{Skipped Trace, CppCheck and Report files as those are not present}
+	\label{fig:testingResultsSkip1}
+\end{figure}
+
+As a guardrail, if the files are present in the control project or in the generated project that will generate an error. This ensures that the generator produces only what is needed and no file is missing.
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}

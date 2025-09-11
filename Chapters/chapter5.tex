@@ -176,6 +176,8 @@ Figure~\ref{fig:comment} illustrates how the comments vary depending on the comp
 
 More examples of code comments (with before and after) can be found in the Appendix~\ref{app:comment}.
 
+In addition to this, there is also the possibility to display a Copyright Notice in the first lines of every file along with an author reference. This small detail is a best practice that aligns with industry standards and serves multiple practical purposes such as clarifying ownership of the code, preventing copyright infringement and overall maintaining professionalism.
+
 
 \subsection{Traceability}
 \label{sec:impl_trace}
@@ -254,9 +256,11 @@ The report has many features, its high customization enables the creation of dif
 \subsection{Code Quality Checker}
 \label{sec:impl_code_qual_checker}
 
-A fine addition to the code generator was the introduction of a code quality checker powered by \textit{Cppchecker}.
+A fine addition to the code generator was the introduction of a code quality checker powered by \textit{Cppcheck}, which analyses every generated code file an points out errors immediately after generation. This allows the end user to quickly identify syntax errors and common code problems\footnote{This certainty is based on the capability that \textit{Cppcheck} has to report code errors. It does not guarantee that the code is semantically functional, just syntactically correct.}
 
-\subsubsection{Cppchecker}
+Moreover, the code can be analyses at any point, meaning that \textit{Cppcheck} can verify the correctness of user generated code if needed. Providing value even after being used for its main purpose.
+
+\subsubsection{Cppcheck}
 \label{sec:impl_side_cppchecker}
 
 \textit{Cppcheck} is a static analysis tool for C and C++ code, it's designed to detect a wide range of programming errors, potential bugs, and code style issues without executing the program. \textit{Cppcheck} analyzes the source code to identify problems such as memory leaks, uninitialized variables, unused functions, and violations of coding best practices. It's a lightweight, platform-independent, and highly configurable tool, which makes it suitable for integration into our code generation workflow.
@@ -368,6 +372,8 @@ For those reasons, generation hooks where included in the configuration language
 
 Even though that option is available in the configuration, in the specific case of \gls{RAMSES}, there is no need to define a component that executes a script, meaning that there is already a way to execute terminal based commands in the project. The definition was still kept in the configuration language although it was not implemented in practice due to a more practical option that is depicted in Section~\ref{sec:workflows_script_executor}.
 
+************** TODO: Describe generation hooks applied in testing
+
 \subsection{Multiple Configurations}
 \label{sec:impl_multi_config}
 
@@ -454,6 +460,8 @@ The custom workflow component created was the AcceleoGeneratorComponent, which s
 
 The beauty of this component is that it is optimized to every single Acceleo Java class present in \gls{RAMSES}, meaning that, in the workflow, every Java class can be represented by a AcceleoGeneratorComponent which facilitates the sequential execution and removes the need to have components specific to a certain class.
 
+In a similar fashion, changing the inputs of the generation is also much simpler than before as there is a property for each of those (\gls{AADL} model, configuration model, working directory and output folder) in the workflow, facilitating the change in the AcceleoGeneratorComponents: a simple change to the property will affect all the workflow components that use that property.
+
 
 \subsection{Dynamic Acceleo Workflow Executor}
 \label{sec:workflows_dynamic_executor}
@@ -470,7 +478,7 @@ A new version of the Acceleo custom Workflow component was devised, the premise 
 \subsection{Script Workflow Executor}
 \label{sec:workflows_script_executor}
 
-One of the features mentioned both in the feature model~\ref{label} and in the client meeting~\ref{label} was the ability to execute pre or post generation hooks, essentially scripts fully done by the end user that perform various actions from deleting/creating files to executing automated test cases. 
+One of the features mentioned both in the feature model~\ref{label} and in the client meeting~\ref{label} was the ability to execute pre or post generation hooks as discussed in Section~\ref{sec:impl_gen_hooks}. 
 
 This functionality was primarily aimed to be present in the \gls{DSL} as a way to execute Java code to consequently run a command script, however, in the very specific case of the \gls{RAMSES} environment, a different option is more viable and already implemented: System Command Component.
 
@@ -520,6 +528,28 @@ Since the base project did not have a workflow that successfully implemented the
 \end{figure}
 
 As mentioned previously, Figure~\ref{fig:avg_exec_times_1} confirms that the average execution time seems to have doubled with the introduction of more processing heavy modules (Trace and Report), this is not a big issue as the total execution time is still below 500ms which is still very acceptable for the current conditions.
+
+
+
+
+\section{Domain Specific Language}
+\label{sec:dsl}
+
+In order to customize the output of \gls{RAMSES}'s code generation, a \gls{DSL} was created using the Ecore framework. Which enabled a clean and straightforward way of defining configuration options based on code generation needs.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

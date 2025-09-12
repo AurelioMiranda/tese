@@ -113,7 +113,7 @@ The unit tests were made to be as flexible as possible, allowing for different c
 	\label{fig:testingResults1}
 \end{figure}
 
-The tests also account for certain projects not having the need for certain files such as the traceability or the report file. This behavior is translated by simply skipping the test as can be observed in Figure~\ref{fig:testingResultsSkip1}.
+The tests also account for certain projects not generating certain files such as the traceability or the report file. This behavior is translated by simply skipping the test as can be observed in Figure~\ref{fig:testingResultsSkip1}. Similar tests also verify the existence of folders and files that are a requirement for any \gls{ROS} project and need to be present after generation.
 
 \begin{figure}[htbp]
 	\centering
@@ -121,6 +121,8 @@ The tests also account for certain projects not having the need for certain file
 	\caption{Skipped Trace, CppCheck and Report files as those are not present}
 	\label{fig:testingResultsSkip1}
 \end{figure}
+
+In addition, the test runs also validate the existence of executable both in the launch and make configurations, notably these executables have to exists in both files. 
 
 As a guardrail, if files are present in the control project but not in the generated project that will generate an error and vice versa. This ensures that the generator produces only what is needed and no file is missing.
 

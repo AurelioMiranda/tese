@@ -545,9 +545,36 @@ The configuration language as a base can be used in two formats:
 \end{itemize}
 
 
+As specified in Section~\ref{sec:impl_multi_config}, this choice is highly beneficial since it provides more flexibility to the usage of the configuration language itself with no notable drawbacks.
 
+Going more in depth, the \gls{DSL} offers specific options given each topic, notably:
 
+\begin{itemize}  
+	\item \textbf{Language\footnote{Currently only 2 options, will be expanded in the future.}: } C++ or C.
+	\item \textbf{Naming Convention\footnote{Derived directly from Section~\ref{sec:example}}: } Style (UPPER\_CASE, lower\_case, etc), affix and affix position.
+	\item \textbf{Report: } Generate (whether the report gets generated or not), include traceability, include summary tables, include logic summaries (in the case of \gls{RAMSES}, \gls{ROS} summaries), show detected errors and open automatically.
+	\item \textbf{Business Logic: } Decouple (separate from the code) and executor choice (Single executor, multiple or single static executor).
+	\item \textbf{Files: } Overwrite existing, output directory and header prefix.
+	\item \textbf{Code comments: } Enable, copyright notice and author.
+	\item \textbf{Traceability: } Enable and produce diagram.
+	\item \textbf{Extension: } Pre and post generation scripts.
+\end{itemize}
 
+These options control each part of the generated project and together they offer a high degree of customization to the generated code. 
+
+\subsection{Language}
+\label{sec:dsl_lang}
+
+The language option defines the targeted language for the current customization. Meaning that the rest of the options may act differently based on language. On top of that, the language also serves as a distinction between different configurations in the configuration list, allowing for the quicker identification of the selected language in the generation.
+
+This option also serves to map the code identifiers to their language specific casing\footnote{This only applies when the naming convention is set to STANDARD.}, allowing for a dynaming identifier naming, for instance: allowing \textit{Classes} to be \textit{Pascal\_Case} while simultaneously having \textit{Variables} in \textit{snake\_case}.
+
+This option is highly extensible and, as \gls{RAMSES} grows, can be extended with many other languages such as Java, Assembly, Kotlin, etc.
+
+\subsection{Naming Convention}
+\label{sec:dsl_name}
+
+soon
 
 
 

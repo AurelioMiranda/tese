@@ -567,14 +567,16 @@ These options control each part of the generated project and together they offer
 
 The language option defines the targeted language for the current customization. Meaning that the rest of the options may act differently based on language. On top of that, the language also serves as a distinction between different configurations in the configuration list, allowing for the quicker identification of the selected language in the generation.
 
-This option also serves to map the code identifiers to their language specific casing\footnote{This only applies when the naming convention is set to STANDARD.}, allowing for a dynaming identifier naming, for instance: allowing \textit{Classes} to be \textit{Pascal\_Case} while simultaneously having \textit{Variables} in \textit{snake\_case}.
+This option also serves to map the code identifiers to their language specific casing\footnote{This only applies when the naming convention is set to STANDARD.} as explained in Section~\ref{sec:dsl_lang}.
 
 This option is highly extensible and, as \gls{RAMSES} grows, can be extended with many other languages such as Java, Assembly, Kotlin, etc.
 
 \subsection{Naming Convention}
 \label{sec:dsl_name}
 
-soon
+The essence of the naming convention option is simple: to automatically change the casing on identifiers\footnote{text}.
+
+The \textit{STANDARD} naming convention allows for a dynamic identifier naming, for instance: allowing \textit{Classes} to be \textit{Pascal\_Case} while simultaneously having \textit{Variables} in \textit{snake\_case}. This is very useful for specific restrictions where languages need different casing based on identifier (Classes, methods, variables, constants, etc).
 
 
 

@@ -18,7 +18,7 @@
 \section{Industry Partner Meeting}
 \label{sec:industry_meeting}
 
-The first meeting with an industry partner revealed to be very useful with many insights to note, particularly that a few features were highlighted and prioritized in order to maintain a good development speed and an overall better plan. Most of the previously thought of features (Identifiers, Traceability, Report, etc) were endorsed, however, a new feature was suggested by an expert \gls{ROS} developer: the separation of \gls{ROS} specific code and C++ specific code, meaning that code that is specific to \gls{ROS} can be isolated as it is very similar along the various generated files. This will essentially be done with an interface that will implement \gls{ROS} code on C++ only files, which effectively serves as a separation of concerns.
+The first meeting with an industry partner revealed to be very useful with many insights to note, particularly that a few features were highlighted and prioritized in order to maintain a good development speed and an overall better plan. Most of the previously thought of features (\Glspl{identifier}, Traceability, Report, etc) were endorsed, however, a new feature was suggested by an expert \gls{ROS} developer: the separation of \gls{ROS} specific code and C++ specific code, meaning that code that is specific to \gls{ROS} can be isolated as it is very similar along the various generated files. This will essentially be done with an interface that will implement \gls{ROS} code on C++ only files, which effectively serves as a separation of concerns.
 
 \begin{tcolorbox}[colback=green!5, colframe=green!40!black] This meeting provided extremely valuable insight as the industry partner has been using \gls{ROS} for over seven years, effectively distilling their experience into actionable knowledge. \end{tcolorbox}
 
@@ -37,9 +37,9 @@ In order to better understand what features will be implemented, when and why, t
 	\rowcolor{Gainsboro}%
 	Feature & Depends On & Notes \\
 	\midrule
-	Identifiers & – & Core to code structure \\
-	Comments & Identifiers & Cheap to implement early \\
-	Traceability & Identifiers, Comments & Hard to retrofit later \\
+	\Glspl{identifier} & – & Core to code structure \\
+	Comments & \Glspl{identifier} & Cheap to implement early \\
+	Traceability & \Glspl{identifier}, Comments & Hard to retrofit later \\
 	Report & Traceability & Uses trace data \\
 	Standard\par Compliance & Report, Traceability & Enforce compliance early \\
 	Dead Code\par Elimination & Traceability, Report & Needs stable generation logic \\
@@ -57,7 +57,7 @@ Table~\ref{tab:impl_plan} presents the planned order of feature implementation b
 \subsection{Core and Metadata Layer}
 \label{sec:code_and_meta}
 
-The Core and Metadata Layer (Table~\ref{tab:core_and_meta}) includes foundational features that establish the basic code structure and metadata necessary for subsequent processing. Features such as identifiers and comments form the backbone of the generator, while traceability and reporting provide essential tools for debugging and verification. Their relatively low to medium complexity allows them to be developed early, enabling smooth integration of more advanced features later.
+The Core and Metadata Layer (Table~\ref{tab:core_and_meta}) includes foundational features that establish the basic code structure and metadata necessary for subsequent processing. Features such as \glspl{identifier} and comments form the backbone of the generator, while traceability and reporting provide essential tools for debugging and verification. Their relatively low to medium complexity allows them to be developed early, enabling smooth integration of more advanced features later.
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}
@@ -68,8 +68,8 @@ The Core and Metadata Layer (Table~\ref{tab:core_and_meta}) includes foundationa
 	\rowcolor{Gainsboro}%
 	Feature   & Complexity  & Notes \\
 	\midrule
-	Identifiers & Low & Nearly complete. \\
-	Comments & Very Low & Can parallel identifier completion. \\
+	\Glspl{identifier} & Low & Nearly complete. \\
+	Comments & Very Low & Can parallel \gls{identifier} completion. \\
 	Traceability & Medium & Requires structured tagging throughout the generator. \\
 	Report & Low-Medium & Build once traceability is present; not deeply complex. \\
 	\bottomrule
@@ -147,14 +147,14 @@ The implementation of naming conventions was straight forward since the demo dev
 		nd_spinner_sub_ = this->create_subscription(...)
 \end{verbatim}
 
-As we can see, ImageDisplay and image\_subscriber\_sub\_ are both identifiers but each one has a different format. In contrast, the previous implementation without configuration was strictly be \textit{Image\_Display} and \textit{Image\_Subscriber\_Sub\_}. These names come directly from the \gls{AADL} model as \textbf{\textit{Image\_Display} and \textit{Image\_Subscriber}}.
+As we can see, ImageDisplay and image\_subscriber\_sub\_ are both \glspl{identifier} but each one has a different format. In contrast, the previous implementation without configuration was strictly be \textit{Image\_Display} and \textit{Image\_Subscriber\_Sub\_}. These names come directly from the \gls{AADL} model as \textbf{\textit{Image\_Display} and \textit{Image\_Subscriber}}.
 
 To summarize, the whole naming convention implementation consisted in:
 
 \begin{itemize} 
-	\item The ability to change identifier (class, variable, method) formats dynamically from a list of implemented options (camelCase, UPPERCASE, lowercase, snake\_case and UPPER\_SNAKE\_CASE).
-	\item Based on the selected language, assign different styles to different identifiers.
-	\item Option to input a prefix or suffix in every identifier\footnote{This affix is not affected by the naming convention.}.
+	\item The ability to change \gls{identifier} (class, variable, method) formats dynamically from a list of implemented options (camelCase, UPPERCASE, lowercase, snake\_case and UPPER\_SNAKE\_CASE).
+	\item Based on the selected language, assign different styles to different \glspl{identifier}.
+	\item Option to input a prefix or suffix in every \gls{identifier}\footnote{This affix is not affected by the naming convention.}.
 \end{itemize}
 
 This implementation was very important since the remaining features used it to the fullest, hence why it needed to be the first.
@@ -567,16 +567,33 @@ These options control each part of the generated project and together they offer
 
 The language option defines the targeted language for the current customization. Meaning that the rest of the options may act differently based on language. On top of that, the language also serves as a distinction between different configurations in the configuration list, allowing for the quicker identification of the selected language in the generation.
 
-This option also serves to map the code identifiers to their language specific casing\footnote{This only applies when the naming convention is set to STANDARD.} as explained in Section~\ref{sec:dsl_lang}.
+This option also serves to map the code \glspl{identifier} to their language specific casing\footnote{This only applies when the naming convention is set to STANDARD.} as explained in Section~\ref{sec:dsl_lang}.
 
 This option is highly extensible and, as \gls{RAMSES} grows, can be extended with many other languages such as Java, Assembly, Kotlin, etc.
 
 \subsection{Naming Convention}
 \label{sec:dsl_name}
 
-The essence of the naming convention option is simple: to automatically change the casing on identifiers\footnote{text}.
+The essence of the naming convention option is simple: to automatically change the casing on \glspl{identifier}.
 
-The \textit{STANDARD} naming convention allows for a dynamic identifier naming, for instance: allowing \textit{Classes} to be \textit{Pascal\_Case} while simultaneously having \textit{Variables} in \textit{snake\_case}. This is very useful for specific restrictions where languages need different casing based on identifier (Classes, methods, variables, constants, etc).
+\subsubsection{Identifier Style}
+\label{sec:dsl_name_style}
+
+The format on the style is done by analyzing the selected option in the configuration and then applying the style that corresponds to that option before code generation takes place. On top of the code, this also applies to every other instance of that identifier (CMake files for example), ensuring that every reference to that \gls{identifier} still preserves the style.
+
+Most styles simply change every \gls{identifier} to the same style, examples of this are \textit{snake\_case}, \textit{PascalCase}, \textit{camelCase} and many others. The \textit{DEFAULT} option leaves identifiers exactly as they have been written in the model, allowing for an effective nullification of the formatting process.
+
+The \textit{STANDARD} naming convention differs from the others as it allows for a dynamic \gls{identifier} naming, for instance: it allows \textit{Classes} to be \textit{Pascal\_Case} while simultaneously having \textit{Variables} in \textit{snake\_case}. This is very useful for specific restrictions where languages need different casing based on \gls{identifier} (Classes, methods, variables, constants, etc). This specific casing is very configurable and can be adapted to different programming languages, further improving the adaptability of the \gls{DSL}.
+
+
+\subsubsection{Identifier Affix}
+\label{sec:dsl_name_affix}
+
+To complement the previous formatting, we can also add specific text (an affix) to the start or end of all \glspl{identifier}, this, then again, preserves the functionality while also adding a layer of customization to the code that offers many benefits such as: ************* say benefits ***************
+
+The affix is not affected by the style formatting.
+
+
 
 
 

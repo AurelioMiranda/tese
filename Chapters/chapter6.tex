@@ -40,18 +40,18 @@ The integration test part was done much more in depth since the goal was to inte
 	\rowcolor{Gainsboro}%
 	Test Case ID & Feature & Description & Expected Outcome \\
 	\midrule
-	TC-INT-01 & Identifier Management & Check that identifier config is applied in code, traceability, and report. & Same naming convention is visible in all outputs. \\
+	TC-INT-01 & \Gls{identifier} Management & Check that \gls{identifier} config is applied in code, traceability, and report. & Same naming convention is visible in all outputs. \\
 	TC-INT-02 & Comments & Verify comment style and formatting are preserved in all files. & All comments retain exact style and placement. \\
 	TC-INT-03 & Traceability & Ensure model elements map to the correct code location and report entry. & JSON and HTML show accurate paths and line numbers. \\
 	TC-INT-04 & Report Generation & Ensure generation metrics are passed from Java generator to report. & Report displays correct counts and settings. \\
 	TC-INT-05 & Code Quality \& Report Sync & Verify quality checker warnings appear in both XML and report. & Both outputs show the same warning details. \\
-	TC-INT-07 & Cross-Feature Stability & Test large models with custom identifiers, comments, and style violations. & All features work together without breaking. \\
+	TC-INT-07 & Cross-Feature Stability & Test large models with custom \glspl{identifier}, comments, and style violations. & All features work together without breaking. \\
 \end{xltabular}
 
 After conducting these tests, the following was concluded:
 
 \begin{itemize}
-	\item \textbf{TC-INT-01 – Identifier Consistency:} Verified that the identifier configuration set in the \texttt{config.generator} model is applied consistently in generated C++ code and reflected in the traceability file as well as in the report.
+	\item \textbf{TC-INT-01 – \Gls{identifier} Consistency:} Verified that the \gls{identifier} configuration set in the \texttt{config.generator} model is applied consistently in generated C++ code and reflected in the traceability file as well as in the report.
 	
 	\item \textbf{TC-INT-02 – Comments:} Generated code containing both single-line and multi-line comments, verified that:
 	\begin{enumerate}
@@ -75,12 +75,12 @@ After conducting these tests, the following was concluded:
 	
 	\item \textbf{TC-INT-07 – Cross-Feature Stability:} Used a large, complex model with:
 	\begin{itemize}
-		\item Custom identifiers
+		\item Custom \glspl{identifier}
 		\item Extensive comments
 		\item Nested subcomponents
 		\item Known style violations
 	\end{itemize}
-	Verified that all features (identifier config, comments, traceability, reporting, quality checking) work together without breaking any module.
+	Verified that all features (\gls{identifier} config, comments, traceability, reporting, quality checking) work together without breaking any module.
 \end{itemize}
 
 

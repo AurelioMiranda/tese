@@ -105,7 +105,7 @@ To better understand how \gls{RAMSES} holds up against the competition in terms 
 	\rowcolor{Gainsboro}%
 	Feature   & Simulink  & OpenModelica  & OpenAPI   & \gls{RAMSES} \\
 	\midrule
-	Identifiers\footnotemark[1] & Yes& No & Yes   & No \\
+	\Glspl{identifier}\footnotemark[1] & Yes& No & Yes   & No \\
 	Legacy Code Integration & Yes & No & Yes\footnotemark[2]{} & No \\
 	Generational Hooks & Yes & Yes\footnotemark[2]{} & Yes & No \\
 	Traceability & Yes & No & Yes & Yes\footnotemark[2]{} \\
@@ -123,7 +123,7 @@ To better understand how \gls{RAMSES} holds up against the competition in terms 
 	\footnotetext[3]{Normal code generation \textit{might} generate compliant code, but its not very certain.}
 	\footnotetext[4]{Limited functionality or abstraction.}
 
-As can be observed in Table~\ref{tab:code_gen_config_comparison}, features like dynamic identifier naming and legacy code integration are crucial, yet only present in some of the analyzed solutions, these features work well to achieve compliance standards imposed in the industry~\cite{Misra_C_2025, Misra_Cpp_2023}, which is not natively supported by most apps like OpenModelica or \gls{RAMSES}. 
+As can be observed in Table~\ref{tab:code_gen_config_comparison}, features like dynamic \gls{identifier} naming and legacy code integration are crucial, yet only present in some of the analyzed solutions, these features work well to achieve compliance standards imposed in the industry~\cite{Misra_C_2025, Misra_Cpp_2023}, which is not natively supported by most apps like OpenModelica or \gls{RAMSES}. 
 
 Generational hooks\footnote{Predefined extension points that allow developers to insert custom code or override generated behavior without modifying the generator itself.} are extremely useful since they allow for automated code customization during code generation, this explains why they are common in most code generators evaluated, though absent in \gls{RAMSES}. Protected areas serve a similar function, however they allow for the modification of generated code, simply put, generational hooks modify the code before it is written, protected areas modify the code after it is written.
 

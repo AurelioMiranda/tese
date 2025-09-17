@@ -51,9 +51,9 @@ When code comments are toggled on, the code from Figure~\ref{figapp:nocomment_ex
 	\rowcolor{Gainsboro}%
 	Feature & Depends On & Notes \\
 	\midrule
-	Identifiers & – & Core to code structure \\
-	Comments & Identifiers & Cheap to implement early \\
-	Traceability & Identifiers, Comments & Hard to retrofit later \\
+	\Glspl{identifier} & – & Core to code structure \\
+	Comments & \Glspl{identifier} & Cheap to implement early \\
+	Traceability & \Glspl{identifier}, Comments & Hard to retrofit later \\
 	Report & Traceability & Uses trace data \\
 	Standard\par Compliance & Report, Traceability & Enforce compliance early \\
 	Dead Code\par Elimination & Traceability, Report & Needs stable generation logic \\

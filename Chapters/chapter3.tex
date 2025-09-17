@@ -103,7 +103,7 @@ These characteristics will make the configuration language robust, maintainable,
 While naming and formatting are important, a powerful configuration system must go further. The following dimensions should be within scope:
 
 \begin{enumerate}
-	\item \textbf{Artifact Naming and Structuring:} Control over file names, folder layout, and identifier styles.
+	\item \textbf{Artifact Naming and Structuring:} Control over file names, folder layout, and \gls{identifier} styles.
 	\item \textbf{Component Mapping Rules:} Declarative rules that assign \gls{AADL} components to target platform concepts (RTOS tasks, processes, etc).
 	\item \textbf{Code Instrumentation:} Hooks for logging, tracing, or runtime checks (insertion of `assert` or instrumentation macros).
 	\item \textbf{Conditional Feature Flags:} Ability to enable or disable parts of the generator (generate test stubs, insert wrappers).
@@ -122,7 +122,7 @@ In order to better understand the whole concept of the \gls{DSL} to be built dur
 \subsection{How it works}
 \label{sec:how_it_works}
 
-The selected feature to be implemented by the prototype was the Identifier Modification option, which essentially means having a higher control over the generated function, variable, and class names in the generated code. This features was chosen since it is fairly straight forward to implement and also decently portable, as discussed in section~\ref{sec:config_language_characteristics}. 
+The selected feature to be implemented by the prototype was the \Gls{identifier} Modification option, which essentially means having a higher control over the generated function, variable, and class names in the generated code. This features was chosen since it is fairly straight forward to implement and also decently portable, as discussed in section~\ref{sec:config_language_characteristics}. 
 
 Lets take the following example:
 
@@ -134,7 +134,7 @@ class MyNode : public rclcpp::Node {
 	}
 \end{verbatim}
 
-A simple Node class has the class identifier \texttt{MyNode}. In the case of \gls{RAMSES}, MyNode would be inherited from the \gls{AADL} model, meaning that, in order to change the code nomenclature of MyNode, we would have to either manually change the generated code or changing the name of the node in it's corresponding \gls{AADL} model file and then regenerate the code.
+A simple Node class has the class \gls{identifier} \texttt{MyNode}. In the case of \gls{RAMSES}, MyNode would be inherited from the \gls{AADL} model, meaning that, in order to change the code nomenclature of MyNode, we would have to either manually change the generated code or changing the name of the node in it's corresponding \gls{AADL} model file and then regenerate the code.
 
 Both options are feasible in this case, however, with growing system complexity this small change becomes incrementally harder and more prone to errors.
 
@@ -143,7 +143,7 @@ The developed prototype focuses directly on that front, providing an adjacent co
 \begin{enumerate}
 	\item The placeholder code is built, in this case it was from a taskset style project\footnote{This project is a \gls{DSML} that communicates task sets and automatically generates C code using Acceleo, targeting the RT-POSIX real-time gls{API}.}
 	\item The target naming convention is selected in the configuration model
-	\item The final code is generated with the now correct identifier nomenclature.
+	\item The final code is generated with the now correct \gls{identifier} nomenclature.
 \end{enumerate}
  
  
@@ -163,7 +163,7 @@ The configuration model is not tightly coupled to the main workflow and is not m
 \subsection{Practical Example}
 \label{sec:practical_example}
  
-Let's take a look at a practical example of the prototype. Since the placeholder code has already been defined and altered to allow for dinamic identifier changes, all we have to do is select the naming convention on the configuration model.
+Let's take a look at a practical example of the prototype. Since the placeholder code has already been defined and altered to allow for dinamic \gls{identifier} changes, all we have to do is select the naming convention on the configuration model.
 
 \begin{figure}[htbp]
 	\centering
@@ -192,17 +192,17 @@ Taking in the result from Figure~\ref{fig:prototype_default_option} we can get a
 	\label{fig:prototype_snake_case}
 \end{figure}
 
-Comparing Figure~\ref{fig:prototype_default_option} with Figure~\ref{fig:prototype_snake_case}, we can clearly see where the configuration model applies its modifications: always on the identifiers and never on anything else, especially not on the keywords\footnote{Keywords like \textit{Void} are common and easy to identify. In this observed case however, in both Figures~\ref{fig:prototype_default_option} and~\ref{fig:prototype_snake_case} we see that \textit{thread\_config\_t} is also present but this is a \textit{Struct}, which, while not an exclusive keyword, it serves a purpose like \textit{Void} or \textit{int} and is \textbf{not} an identifier.}.
+Comparing Figure~\ref{fig:prototype_default_option} with Figure~\ref{fig:prototype_snake_case}, we can clearly see where the configuration model applies its modifications: always on the \glspl{identifier} and never on anything else, especially not on the keywords\footnote{Keywords like \textit{Void} are common and easy to identify. In this observed case however, in both Figures~\ref{fig:prototype_default_option} and~\ref{fig:prototype_snake_case} we see that \textit{thread\_config\_t} is also present but this is a \textit{Struct}, which, while not an exclusive keyword, it serves a purpose like \textit{Void} or \textit{int} and is \textbf{not} an \gls{identifier}.}.
 
 The idenfitiers (in this case the name of the function\footnote{T1} and the name of the variable\footnote{t\_1\_info}) change seamlessly according to the selected naming convention in the configurator. This is the expected behaviour for the features to be implemented, they should provide additional value while also keeping the base generated code available if the user does not wish to modify it at all. 
 
 \subsubsection{User Feedback}
 
-In order to test the functionality and receive a third party opinion, a simple user testing was done with two users, specifically \gls{RAMSES} developers that work directly with \gls{AADL}. The procedure was simple and direct, users were instructed to the premise of the prototype, then they would perform tasks (in this case just one task: change the identifier name to X) and then they would be questioned in the usefulness of the feature, the applications it could have and overall thoughts.
+In order to test the functionality and receive a third party opinion, a simple user testing was done with two users, specifically \gls{RAMSES} developers that work directly with \gls{AADL}. The procedure was simple and direct, users were instructed to the premise of the prototype, then they would perform tasks (in this case just one task: change the \gls{identifier} name to X) and then they would be questioned in the usefulness of the feature, the applications it could have and overall thoughts.
 
 Upon doing this testing, the users defined the feature as a flexible addition to coding generation with many application to real life and industry scenarios. Users also noted that this functionality improves information treatment between teams as different people have different ways to write models names, the prototype proves that naming normalization can also improve team cohesion.
 
-Users commented that this functionality supports the ability to create multiple versions of functionally equivalent code just with naming differences. This also aligns with the required feature of supportign coding standards for the selected language\footnote{Currently C++, however there are plans to include C.}, given that some languages require identifiers to use a certain nomenclature~\cite{Google_cpp_style_guide, Python_coding_style}, which can clash with \gls{AADL} node names.
+Users commented that this functionality supports the ability to create multiple versions of functionally equivalent code just with naming differences. This also aligns with the required feature of supportign coding standards for the selected language\footnote{Currently C++, however there are plans to include C.}, given that some languages require \glspl{identifier} to use a certain nomenclature~\cite{Google_cpp_style_guide, Python_coding_style}, which can clash with \gls{AADL} node names.
 
 Overall the prototype, although simple, was well received and proved to give value for the \gls{AADL} to code pipeline.
 
@@ -211,7 +211,7 @@ Overall the prototype, although simple, was well received and proved to give val
 
 Even though its application is specific, the code developed for the prototype is fairly generic. This means that most of the logic and code used for this prototype can be ported directly to RAMSES without much issue, effectively implementing the feature, albeit testing will still be performed.
 
-The naming convention change logic is pretty straight forward considering identifiers, and those come from model properties. From there the properties that represent identifiers are formatted as they are being added to the code, effectively making sure the main model stays untouched while the properties extracted are modified into the desired outcome. This makes sure only the specific selected properties are modified and the rest of the code generates as normal.
+The naming convention change logic is pretty straight forward considering \glspl{identifier}, and those come from model properties. From there the properties that represent \glspl{identifier} are formatted as they are being added to the code, effectively making sure the main model stays untouched while the properties extracted are modified into the desired outcome. This makes sure only the specific selected properties are modified and the rest of the code generates as normal.
 
 The algorithm used for the naming transformation has many fallbacks that make it so even if a property name is especially complex, cases like short names are handled with care and specific styles like snake\_case, while having complex patterns, can be easily defined with Regex. 
 ~\cite{eclipse_emf}
@@ -224,7 +224,7 @@ As the configuration model is built on Ecore, the modification of naming styles 
 	\label{fig:prototype_new_naming}
 \end{figure}
 
-Figure~\ref{fig:prototype_new_naming} explains the steps in a clear but still abstract manner, the Ecore model needs to be modified to include the new naming style, which in turn will generate the coding logic that we can use in Acceleo to transform the identifiers by improving the current name formatting algorithm to accommodate the new change.
+Figure~\ref{fig:prototype_new_naming} explains the steps in a clear but still abstract manner, the Ecore model needs to be modified to include the new naming style, which in turn will generate the coding logic that we can use in Acceleo to transform the \glspl{identifier} by improving the current name formatting algorithm to accommodate the new change.
 
 \subsubsection{Multiple Models in Acceleo}
 

@@ -589,9 +589,24 @@ The \textit{STANDARD} naming convention differs from the others as it allows for
 \subsubsection{Identifier Affix}
 \label{sec:dsl_name_affix}
 
-To complement the previous formatting, we can also add specific text (an affix) to the start or end of all \glspl{identifier}, this, then again, preserves the functionality while also adding a layer of customization to the code that offers many benefits such as: ************* say benefits ***************
+To complement the previous formatting, we can also add specific text (an affix) to the start or end of all \glspl{identifier}, this, then again, preserves the functionality while also adding a layer of customization to the code that offers many benefits such as improved readability, clearer namespace separation and reduced risk of naming conflicts.
 
-The affix is not affected by the style formatting.
+Moreover, the affix is not affected by the styling format, this is done to give more choice to the end user, if we wish to have the affix not follow the selected casing that is the default behavior. On the other hand, if we do wish the affix to follow certain casing the solution is to simply write it according to that casing. This will not work with the \textit{STANDARD} convention since that type of formatting dynamically changes the casing based on the usage of the text.
+
+
+\subsection{Report}
+\label{sec:dsl_report}
+
+The report generation option offers various ways to customize the generated report that complements the code. This report is optional and, since it does take a good bit of time to be generated, can be turned off when not needed.
+
+The report gives a lot of insight on the generated code, firstly it goes on detail about the technologies, build system and models used to generate the code, giving the time of generation and the output folder as well. Along with this, a navigation section also gets generated which facilitates the finding of a specific component or section. Before the components, a short summary of the generation is displayed with info such as number of generated files, threads, code language and configurations applied. Every single process (originated from the \gls{AADL} model) is documented in the components section, detailing the file they are located on and the threads managed by them, optionally a \gls{ROS} process summary might be generated as well for each component. 
+
+\subsubsection{Error Detection}
+\label{sec:dsl_report_err_det}
+
+One of the reasons for the longer time of generation of the report when comparing to other parts of the generation is the error detection.
+
+This functionality is loosely tied with the report in order to better display the results of the Cppcheck tool, which was already explained in Section~\ref{sec:impl_side_cppchecker}. However, since the output of Cppcheck is not user friendly\footnote{It's not easy to read since it comes in XML format.} the best way to display is using the report.
 
 
 

@@ -129,7 +129,7 @@ As a guardrail, if files are present in the control project but not in the gener
 \bgroup
 \rowcolors{1}{}{GhostWhite}
 \begin{xltabular}{\textwidth}{X X X X X}
-\caption{Feature dependency table}
+\caption{Regression test table}
 \label{tab:reg_tests_1}\\
 \toprule
 \rowcolor{Gainsboro}%
@@ -140,6 +140,20 @@ TC-REG-02 & Regression & Generate code for previously passing models. & Generati
 TC-REG-03 & Regression & Measure generation time for unchanged models. & Timing does not exceed threshold. \\
 TC-REG-04 & Regression & Test legacy models without new features enabled. & Output has no formatting or syntax changes. \\
 \end{xltabular}
+
+
+The tests described in table~\ref{tab:reg_tests_1} were proven true via \gls{JUnit} tests, which not only were able to verify the present tests but also additional ones that are not present in this table. The full detailed list of tests can be found in the Appendix~\ref{app:unit_tests}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

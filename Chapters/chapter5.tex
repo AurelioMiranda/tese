@@ -249,9 +249,13 @@ The report was implemented with the goal of providing a clear, concise and struc
 
 Once these constraints were no longer an issue, the development of the report was much more intuitive. The base was made with \gls{HTML} and \gls{CSS}, which enabled a high degree of custom styles while also simplifying the integration of useful information. 
 
-Since the first iteration of the report was done in \gls{HTML}, the transition to PDF was mostly seamless, however, its implementation was done not by Java code, but via Workflow. This was at a later stage, a more detailed explanation can be found in Section~\ref{sec:workflows}.
+Since the first iteration of the report was done in \gls{HTML}, the transition to PDF was mostly seamless, however, its implementation was done by Java code along with a Workflow. This was at a later stage, a more detailed explanation can be found in Section~\ref{sec:workflows}.
 
 The report has many features, its high customization enables the creation of different parts when needed, hence omitting redundant or unwanted sections according to user needs. One of the core elements is the \gls{ROS} specific option, which highlights \gls{ROS} specific components that were generated or ported from the model. This allows \gls{ROS} developers to have a much clearer idea of how parts of the input model were represented in the \gls{ROS} part of the code, for instance, what thread corresponds to a Publisher\footnote{Publishers generate and publish data (sensor readings, etc).} or Subscriber\footnote{Subscribers listen for and process data sent by Publishers.}.
+
+The report takes a longer time of generation when comparing to other parts of the generation, this is because it also includes error reporting, which analyses every code file for errors.
+
+This functionality is loosely tied with the report in order to better display the results of the Cppcheck tool, which was already explained in Section~\ref{sec:impl_side_cppchecker}. However, since the output of Cppcheck is not user friendly\footnote{It's not easy to read since it comes in XML format.} the best way to display is using the report.
 
 \subsection{Code Quality Checker}
 \label{sec:impl_code_qual_checker}
@@ -599,14 +603,28 @@ Moreover, the affix is not affected by the styling format, this is done to give 
 
 The report generation option offers various ways to customize the generated report that complements the code. This report is optional and, since it does take a good bit of time to be generated, can be turned off when not needed.
 
+Other customization options include the logic summaries and summary tables, which add condensed info to the end of certain parts of the report. Traceability can also be toggled on, this will include direct links to components, threads and models if those are present.
+
+Along with these options there's also the option to toggle the detected errors on or off. If this option is toggled off the analysis will not be performed.
+
+Lastly, there's the option to automatically open the report, which was not implemented due to it benefiting from a more developed product, in short, it will be easier to implement and manage later when \gls{RAMSES} reaches a near ready state.
+
 The report gives a lot of insight on the generated code, firstly it goes on detail about the technologies, build system and models used to generate the code, giving the time of generation and the output folder as well. Along with this, a navigation section also gets generated which facilitates the finding of a specific component or section. Before the components, a short summary of the generation is displayed with info such as number of generated files, threads, code language and configurations applied. Every single process (originated from the \gls{AADL} model) is documented in the components section, detailing the file they are located on and the threads managed by them, optionally a \gls{ROS} process summary might be generated as well for each component. 
 
-\subsubsection{Error Detection}
-\label{sec:dsl_report_err_det}
 
-One of the reasons for the longer time of generation of the report when comparing to other parts of the generation is the error detection.
+\subsection{Business Logic}
+\label{sec:dsl_business_logic}
 
-This functionality is loosely tied with the report in order to better display the results of the Cppcheck tool, which was already explained in Section~\ref{sec:impl_side_cppchecker}. However, since the output of Cppcheck is not user friendly\footnote{It's not easy to read since it comes in XML format.} the best way to display is using the report.
+The business logic options handle the technology specific part of the generation, in this case, its \gls{ROS}. 
+
+The decoupling option splits the C++ code from the \gls{ROS} specific code with a simple toggle, while the executor option offers a predefined choice between the thread executors used in runtime.
+
+
+\subsection{Files}
+\label{sec:dsl_files}
+
+
+
 
 
 

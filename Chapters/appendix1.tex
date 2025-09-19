@@ -146,7 +146,34 @@ Run & Code & Launch & CMake & Package & Trace & Report & Total Steps & Total & P
 \end{figure}
 
 
+\newpage
 
+\section{Tests}
+\label{app:unit_tests}
+
+
+\bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{xltabular}{\textwidth}{X X X}
+	\caption{Code generation verification tests}
+	\label{tab:codegen_tests}\\
+	\toprule
+	\rowcolor{Gainsboro}%
+	Test Case ID & Feature & Description \\
+	\midrule
+	TC-CG-01 & ROS Package Structure & Verify presence of expected folders (\texttt{src}, \texttt{src/launch}) and required files (\texttt{CMakeLists.txt}, \texttt{package.xml}, \texttt{launch.xml}). \\
+	TC-CG-02 & Source Code Equivalence & Compare generated \texttt{src} folder with control reference. \\
+	TC-CG-03 & Launch File Equivalence & Compare generated \texttt{launch.xml} with control reference at node/remap level. \\
+	TC-CG-04 & CMake Consistency & Compare generated \texttt{CMakeLists.txt} with expected reference. \\
+	TC-CG-05 & Package Metadata & Compare generated \texttt{package.xml} with expected reference. \\
+	TC-CG-06 & Trace Output & Verify \texttt{trace.json} against control reference. \\
+	TC-CG-07 & HTML Report & Compare generated report (\texttt{report.html}) with expected. \\
+	TC-CG-08 & Static Analysis Report & Compare generated \texttt{cppcheck-report.xml} with control reference. \\
+	TC-CG-09 & Node–CMake Consistency & Ensure executables referenced in \texttt{launch.xml} are defined as targets in \texttt{CMakeLists.txt} (with optional \_Node suffix).  \\
+	TC-CG-10 & Colcon Build (Disabled) & Attempt build of generated workspace using \texttt{colcon}. Currently disabled due to environment constraints. \\
+	\bottomrule
+\end{xltabular}
+\egroup
 
 
 

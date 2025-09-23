@@ -42,11 +42,13 @@ In order to better understand what features will be implemented, when and why, t
 	Traceability & \Glspl{identifier}, Comments & Hard to retrofit later \\
 	Report & Traceability & Uses trace data \\
 	Standard\par Compliance & Report, Traceability & Enforce compliance early \\
-	Dead Code\par Detection & Traceability, Report & Needs stable generation logic \\
-	Memory\par Optimization & Dead Code Elim, Traceability & Impacts data structures directly \\
-	Node Interface & Memory Optimization & Enables \gls{ROS} decoupling \\
-	File Management & Node Interface & Facilitates file management operations \\
-	Legacy Code\par Integration & Node Interface & Most architecture-dependent \\
+	Code Quality\par Analysis & Report & Needs stable generation logic \\
+	Business Logic\par Separation & - & Enables \gls{ROS} decoupling \\
+	File Management & All & Facilitates file management operations \\
+	Generation Hooks & - & Adds autonomy to generation \\
+	Multi Configuration & - & Easier configuration management \\
+	Build Integration & - & File generation management \\
+	Legacy Code\par Integration & Business Logic & Most architecture-dependent \\
 	\bottomrule
 \end{xltabular}
 
@@ -256,6 +258,8 @@ The report has many features, its high customization enables the creation of dif
 The report takes a longer time of generation when comparing to other parts of the generation, this is because it also includes error reporting, which analyses every code file for errors.
 
 This functionality is loosely tied with the report in order to better display the results of the Cppcheck tool, which was already explained in Section~\ref{sec:impl_side_cppchecker}. However, since the output of Cppcheck is not user friendly\footnote{It's not easy to read since it comes in XML format.} the best way to display is using the report.
+
+The contents of this report give a lot of insight on the generated code, they go into detail about the technologies, build system and models used to generate the code, giving the time of generation and the output folder as well. Along with this, a navigation section also gets generated which facilitates the finding of a specific component or section. Before the components, a short summary of the generation is displayed with info such as number of generated files, threads, code language and configurations applied. Every single process (originated from the \gls{AADL} model) is documented in the components section, detailing the file they are located on and the threads managed by them, optionally a \gls{ROS} process summary might be generated as well for each component. 
 
 \subsection{Code Quality Checker}
 \label{sec:impl_code_qual_checker}
@@ -616,8 +620,6 @@ Other customization options include the logic summaries and summary tables, whic
 Along with these options there's also the option to toggle the detected errors on or off. If this option is toggled off the analysis will not be performed.
 
 Lastly, there's the option to automatically open the report, which was not implemented due to it benefiting from a more developed product, in short, it will be easier to implement and manage later when \gls{RAMSES} reaches a near ready state.
-
-The report gives a lot of insight on the generated code, firstly it goes on detail about the technologies, build system and models used to generate the code, giving the time of generation and the output folder as well. Along with this, a navigation section also gets generated which facilitates the finding of a specific component or section. Before the components, a short summary of the generation is displayed with info such as number of generated files, threads, code language and configurations applied. Every single process (originated from the \gls{AADL} model) is documented in the components section, detailing the file they are located on and the threads managed by them, optionally a \gls{ROS} process summary might be generated as well for each component. 
 
 
 \subsection{Business Logic}

@@ -363,13 +363,19 @@ The main problem that legacy code integration solves is the following:
 
 There are C++ libraries that need to be used by specific \gls{ROS} components, these libraries should be included in the \gls{ROS} project when needed.
 
-To put it simply, in order to produce the functionality that the input model entices, certain legacy libraries need to be included, not just in the project, but called in the code aswell. The way it was done is clear:
+To put it simply, in order to produce the functionality that the input model entices, certain legacy libraries need to be included, not just in the project, but called in the code as well. The way it was done is clear:
 
 \begin{itemize} 
-	\item Firstly, libraries that the code will need based on model components used are listed.
-	\item Then, the code for those libraries is copied to the project folder.
-	\item Lastly, this newly copied code is called in certain places based on functional necessity.
+	\item Firstly, libraries that the code will need, based on model components used, are listed.
+	\item Then, the code for those libraries is copied or referenced in the project folder.
+	\item Lastly, this code is called in certain places based on functional necessity.
 \end{itemize}
+
+For this to work it is crucial to accurately detect which components already have libraries associated to them. This comes before the component is even instanciated, meaning: when we write the \gls{AADL} system we want, the components used by that system already have libraries associated to them. This is done by explicitly including the libraries in the components properties.
+
+The ancient code generator\footnote{The non configurable version of the code generator, done by António.} already somewhat entailed to this functionality by not generating a skeleton when the library property was present, however, it lacked actually referencing that library properly and including it in the project.
+
+The solution to this was straightforward: to include the libraries (when the configuration defined so) and their reference properly in the generated code.
 
 \subsection{Generation Hooks}
 \label{sec:impl_gen_hooks}

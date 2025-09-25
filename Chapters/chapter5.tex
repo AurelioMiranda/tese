@@ -377,6 +377,8 @@ The ancient code generator\footnote{The non configurable version of the code gen
 
 The solution to this was straightforward: to include the libraries (when the configuration defined so) and their reference properly in the generated code.
 
+The base for choosing the libraries is to analyze the properties of each process in the input model. The property \textit{Source\_text} reveals the library implemented by that process, meaning that it is not necessary to implement it again so we skip the code generation entirely for that specific process. In the end of the source code generation, the libraries needed by those projects are imported to the project and added to the \textit{/lib/} folder or referenced directly in the make file.
+
 \subsection{Generation Hooks}
 \label{sec:impl_gen_hooks}
 
@@ -674,6 +676,13 @@ Simple configuration that only requires the path of either the script to be exec
 \label{sec:dsl_build}
 
 This simple configuration allows the user to individually toggle the generation of the \textit{source}, \textit{make}, \textit{package} and \textit{launch} files as described in Section~\ref{sec:impl_build_options}.
+
+
+
+\subsection{Legacy Libraries}
+\label{sec:dsl_legacy}
+
+The options available to manage the configuration are simple yet effective: the legacy libraries can either be included or not and when included can be referenced or copied.
 
 
 

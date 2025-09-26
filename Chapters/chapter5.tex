@@ -38,7 +38,7 @@ In order to better understand what features will be implemented, when and why, t
 	Feature & Depends On & Notes \\
 	\midrule
 	\Glspl{identifier} & – & Core to code structure \\
-	Comments & \Glspl{identifier} & Cheap to implement early \\
+	Comments & \Glspl{identifier} & Low implementation cost early \\
 	Traceability & \Glspl{identifier}, Comments & Hard to retrofit later \\
 	Report & Traceability & Uses trace data \\
 	Standard\par Compliance & Report, Traceability & Enforce compliance early \\
@@ -117,9 +117,9 @@ The Architecture Layer (Table~\ref{tab:arch_layer}) introduces features that abs
 \rowcolor{Gainsboro}%
 Feature & Depends On & Notes \\
 \midrule
-Node Interface & Memory Optimization & Architecture-dependent.\par Needs careful planning. \\
-File Management & Node Interface & Affects every file directly \\
-Legacy Code Integration & Node Interface & Undefined scope and\par likely the most architecture-sensitive \\
+Business Logic Separation & Memory Optimization & Architecture-dependent.\par Needs careful planning. \\
+File Management & All & Affects every file directly \\
+Legacy Code Integration & Business Logic & Undefined scope and\par likely the most architecture-sensitive \\
 \bottomrule
 \end{xltabular}
 
@@ -134,7 +134,7 @@ As the implementation methodology was done iteratively and following the plan di
 \subsection{Naming Conventions}
 \label{sec:impl_name_conv}
 
-The implementation of naming conventions was straight forward since the demo developed in Section~\ref{sec:proof_of_concept} was a pretty big portion of the whole thing. Using Acceleo we are able to modify the properties coming from the model as they are added into the C++ file, in this case, the name is formatted according to the selected convention. The main addition to the prototype work was the introduction of dynamic naming conventions that depend on the selected language, for example: in C++, classes are declared in PascalCase, whereas variables are declared in snake\_case, the following generated code illustrates that very well:
+The implementation of naming conventions was straight forward since the demo developed in Section~\ref{sec:proof_of_concept} was substantial part of the complete mechanism. Using Acceleo we are able to modify the properties coming from the model as they are added into the C++ file, in this case, the name is formatted according to the selected convention. The main addition to the prototype work was the introduction of dynamic naming conventions that depend on the selected language, for example: in C++, classes are declared in PascalCase, whereas variables are declared in snake\_case, the following generated code illustrates that very well:
 
 \begin{verbatim}
 	class ImageDisplay : public rclcpp::Node
@@ -149,7 +149,7 @@ The implementation of naming conventions was straight forward since the demo dev
 		nd_spinner_sub_ = this->create_subscription(...)
 \end{verbatim}
 
-As we can see, ImageDisplay and image\_subscriber\_sub\_ are both \glspl{identifier} but each one has a different format. In contrast, the previous implementation without configuration was strictly be \textit{Image\_Display} and \textit{Image\_Subscriber\_Sub\_}. These names come directly from the \gls{AADL} model as \textbf{\textit{Image\_Display} and \textit{Image\_Subscriber}}.
+As shown in the generated code, ImageDisplay and image\_subscriber\_sub\_ are both \glspl{identifier} but each one has a different format. In contrast, the previous implementation without configuration was strictly be \textit{Image\_Display} and \textit{Image\_Subscriber\_Sub\_}. These names come directly from the \gls{AADL} model as \textbf{\textit{Image\_Display} and \textit{Image\_Subscriber}}.
 
 To summarize, the whole naming convention implementation consisted in:
 
@@ -159,7 +159,7 @@ To summarize, the whole naming convention implementation consisted in:
 	\item Option to input a prefix or suffix in every \gls{identifier}\footnote{This affix is not affected by the naming convention.}.
 \end{itemize}
 
-This implementation was very important since the remaining features used it to the fullest, hence why it needed to be the first.
+This implementation was very important since the remaining features used it to the fullest, hence why it needed to be the first, on top of that, it improves readability and enforces language-specific best practices, which are critical in mixed-language projects (in the case of \gls{RAMSES}: C++ vs ROS).
 
 
 \subsection{Comments}
@@ -186,9 +186,9 @@ In addition to this, there is also the possibility to display a Copyright Notice
 
 The implementation of traceability is related with the report feature, however, traceability can exist without a report and a report can exist without traceability~\ref{sec:impl_report}. The main idea of traceability is to relate the coding files directly to the model so we are able to verify that a certain file came from a certain part of the model.
 
-The base construction of the trace file was done in JSON, this provides information while still maintaining a structure that can easily be ported elsewhere.
+The base construction of the trace file was done in \gls{JSON}, this choice came from the fact that \gls{JSON} provides information while still maintaining a structure that can easily be ported elsewhere and can easily be machine readable.
 
-This is an example of the JSON produced by a traceability analysis:
+This is an example of the \gls{JSON} produced by a traceability analysis:
 
 \begin{verbatim}
 {
@@ -226,7 +226,7 @@ This is an example of the JSON produced by a traceability analysis:
 		},(...)
 \end{verbatim}
 
-As we can see, it relates the model to the code in various forms, mainly code traces, qualified names, file and package locations. On top of that, it provides additional info that is useful for both developers and end users, developers can easily use this \gls{JSON} as input for various tools (generating an alternate report from the one provided for example) and users can use it to trace parts of the code dedicated to a specific component or subcomponent using a combination of the file locations, code traces and line number.
+As shown in the code above, the \gls{JSON} relates the model to the code in various forms, mainly code traces, qualified names, file and package locations. On top of that, it provides additional info that is useful for both developers and end users, developers can easily use this \gls{JSON} as input for various tools (generating an alternate report from the one provided for example) and users can use it to trace parts of the code dedicated to a specific component or subcomponent using a combination of the file locations, code traces and line number.
 
 The way the line number is detected is quite complex in practice but more straightforward in theory:
 
@@ -236,7 +236,11 @@ The way the line number is detected is quite complex in practice but more straig
 	\item Using the \gls{JSON} and the traces corresponding to sub components in the larger component (which is represented by a C++ file) the C++ files are scavenged for traces, which, when found, get saved directly below the \textit{codeTrace}, as the line correspondent to it.
 \end{itemize}
 
+Using \gls{JSON} simplified a lot the process of assigning the correct line to the correct trace since \gls{JSON} can be manipulated with Java code in a simple and effective way.
+
 In addition to this, traceability links were created using Capra to ensure that the \gls{JSON} file can be directly related to the C++ files using the \textit{@trace} indicative.
+
+Traceability ensures to the end user that the generated code came directly from the model that he chose, moreover it simplifies the search for a specific representation of a model component inside the code or vice versa.
 
 \subsection{Report}
 \label{sec:impl_report}
@@ -257,7 +261,7 @@ The report has many features, its high customization enables the creation of dif
 
 The report takes a longer time of generation when comparing to other parts of the generation, this is because it also includes error reporting, which analyses every code file for errors.
 
-This functionality is loosely tied with the report in order to better display the results of the Cppcheck tool, which was already explained in Section~\ref{sec:impl_side_cppchecker}. However, since the output of Cppcheck is not user friendly\footnote{It's not easy to read since it comes in XML format.} the best way to display is using the report.
+This functionality is loosely tied with the report in order to better display the results of the Cppcheck tool, which was already explained in Section~\ref{sec:impl_side_cppchecker}. However, since the output of Cppcheck is difficult for end users to interpret\footnote{It's not easy to read since it comes in XML format.} the best way to display is using the report.
 
 The contents of this report give a lot of insight on the generated code, they go into detail about the technologies, build system and models used to generate the code, giving the time of generation and the output folder as well. Along with this, a navigation section also gets generated which facilitates the finding of a specific component or section. Before the components, a short summary of the generation is displayed with info such as number of generated files, threads, code language and configurations applied. Every single process (originated from the \gls{AADL} model) is documented in the components section, detailing the file they are located on and the threads managed by them, optionally a \gls{ROS} process summary might be generated as well for each component. 
 

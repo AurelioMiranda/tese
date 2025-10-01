@@ -84,6 +84,17 @@ After conducting these tests, the following was concluded:
 \end{itemize}
 
 
+
+\subsection{Feature Testing: October}
+\label{sec:test_feature_two}
+
+Testings in October were done with the intent of solidifying the already robust configuration language, but also to fundamentally change the way tests are performed in order to better adhere to the \gls{RAMSES} architecture logic.
+
+The initial tests were conducted with a "parameterized" way in mind, meaning that the architecture prioritized code efficiency albeit with an addition of complexity. This in of itself is not an issue at all, the tests were still very efficient, accurate and highly maintainable\footnote{To add a new test only one function needs to be added, at least.}. However, the current \gls{RAMSES} architecture benefited more from running tests in an isolated, standalone form, meaning that it would be better if it was possible to run specific test of the generated code without the need to run the whole test strip. For this goal, the parameterized way of testing was inefficient, since it entails that every test is generic and there is no way to quickly modify specific parameters in a single test.
+
+So, the test class was re-written to have one method per test, per model. Meaning that instead of ten generic tests ran with parameterized values, there would be fifty \footnote{At that point in time, with five models.} specific tests, ten for each test model.
+
+
 \section{Unit Testing}
 \label{sec:test_unit}
 

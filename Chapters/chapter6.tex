@@ -70,14 +70,13 @@ After conducting these tests, the following was concluded:
 	\item \textbf{TC-INT-05 – Code Quality \& Report Synchronization:} Triggered a known style violation in the model, generated code, and verified that:
 	\begin{enumerate}
 		\item The code quality checker detects it and outputs XML accurately referencing it.
-		\item The Java generator correctly embeds this warning into the final HTML reportx.
+		\item The Java generator correctly embeds this warning into the final HTML report.
 	\end{enumerate}
 	
 	\item \textbf{TC-INT-07 – Cross-Feature Stability:} Used a large, complex model with:
 	\begin{itemize}
 		\item Custom \glspl{identifier}
 		\item Extensive comments
-		\item Nested subcomponents
 		\item Known style violations
 	\end{itemize}
 	Verified that all features (\gls{identifier} config, comments, traceability, reporting, quality checking) work together without breaking any module.
@@ -93,6 +92,49 @@ Testings in October were done with the intent of solidifying the already robust 
 The initial tests were conducted with a "parameterized" way in mind, meaning that the architecture prioritized code efficiency albeit with an addition of complexity. This in of itself is not an issue at all, the tests were still very efficient, accurate and highly maintainable\footnote{To add a new test only one function needs to be added, at least.}. However, the current \gls{RAMSES} architecture benefited more from running tests in an isolated, standalone form, meaning that it would be better if it was possible to run specific test of the generated code without the need to run the whole test strip. For this goal, the parameterized way of testing was inefficient, since it entails that every test is generic and there is no way to quickly modify specific parameters in a single test.
 
 So, the test class was re-written to have one method per test, per model. Meaning that instead of ten generic tests ran with parameterized values, there would be fifty \footnote{At that point in time, with five models.} specific tests, ten for each test model.
+
+The features tested in Section~\ref{sec:test_feature_one} were re-tested and their behavior remained, as expected, the same. On top of that, new integration tests were performed to ensure that new features behave as intended, mainly:
+
+\begin{itemize}
+	\item \textbf{TC-INT-08 – Business Logic Decoupling:} Verified that when the DSL specifies decoupled business logic, the generated code separates logic into independent modules, allowing tasks to execute without unnecessary dependencies.
+	
+	\item \textbf{TC-INT-09 – Executor Behavior:} Configured models with different executor types and confirmed that:
+	\begin{enumerate}
+		\item Multi-threaded execution logic is correctly generated when requested.
+		\item Static single-thread execution is applied as configured.
+	\end{enumerate}
+	
+	\item \textbf{TC-INT-10 – File Management:} Generated code using models with various file settings and confirmed that:
+	\begin{enumerate}
+		\item Existing files remain unchanged when overwriting is disabled.
+		\item Configured header prefixes are correctly applied in all files.
+	\end{enumerate}
+	
+	\item \textbf{TC-INT-11 – Extension Script Execution:} Added pre and post generation scripts to the DSL and verified that:
+	\begin{enumerate}
+		\item Pre-generation scripts execute successfully before code generation starts.
+		\item Post-generation scripts run correctly after generation completes.
+	\end{enumerate}
+	
+	\item \textbf{TC-INT-12 – Build Integration Artifacts:} Configured build integration options in the DSL and confirmed that:
+	\begin{enumerate}
+		\item Source files, Makefile, package files, and launch scripts are generated according to the configuration.
+		\item Disabling specific build outputs correctly prevents their generation without affecting other features.
+	\end{enumerate}
+	
+	\item \textbf{TC-INT-13 – Legacy Library Handling:} Added legacy library configuration to the DSL and verified that:
+	\begin{enumerate}
+		\item Library headers are correctly included in the generated code.
+		\item Libraries are copied into the project folder when requested.
+	\end{enumerate}
+	
+	\item \textbf{TC-INT-14 – Target OS Adaptation:} Configured different target operating systems and confirmed that:
+	\begin{enumerate}
+		\item Generated code includes OS-specific adaptations for Linux, Windows, and MacOS.
+	\end{enumerate}
+\end{itemize}
+
+These tests ensured that the new features provided, in fact, additional and specific functionalities that work as predicted.
 
 
 \section{Unit Testing}

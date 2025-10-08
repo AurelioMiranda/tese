@@ -180,6 +180,8 @@ More examples of code comments (with before and after) can be found in the Appen
 
 In addition to this, there is also the possibility to display a Copyright Notice in the first lines of every file along with an author reference. This small detail is a best practice that aligns with industry standards and serves multiple practical purposes such as clarifying ownership of the code, preventing copyright infringement and overall maintaining professionalism.
 
+Code comments provide additional value to the code itself and help the flow of development by providing core information to the end user when needed.
+
 
 \subsection{Traceability}
 \label{sec:impl_trace}
@@ -265,6 +267,8 @@ This functionality is loosely tied with the report in order to better display th
 
 The contents of this report give a lot of insight on the generated code, they go into detail about the technologies, build system and models used to generate the code, giving the time of generation and the output folder as well. Along with this, a navigation section also gets generated which facilitates the finding of a specific component or section. Before the components, a short summary of the generation is displayed with info such as number of generated files, threads, code language and configurations applied. Every single process (originated from the \gls{AADL} model) is documented in the components section, detailing the file they are located on and the threads managed by them, optionally a \gls{ROS} process summary might be generated as well for each component. 
 
+In a way, the report serves as the bridge that unifies all the details of the project together in a condensed but clear manner, including: configuration used, source file location, content generated, and summaries of that content.
+
 \subsection{Code Quality Checker}
 \label{sec:impl_code_qual_checker}
 
@@ -277,7 +281,7 @@ Moreover, the code can be analyses at any point, meaning that \textit{Cppcheck} 
 
 \textit{Cppcheck} is a static analysis tool for C and C++ code, it's designed to detect a wide range of programming errors, potential bugs, and code style issues without executing the program. \textit{Cppcheck} analyzes the source code to identify problems such as memory leaks, uninitialized variables, unused functions, and violations of coding best practices. It's a lightweight, platform-independent, and highly configurable tool, which makes it suitable for integration into our code generation workflow.
 
-\textit{Cppcheck} has both an open source and a commercial version, in this case, 
+\textit{Cppcheck} has both an open source and a commercial version, in this case, the open source version was chosen due to \gls{RAMSES} being in a development state. If the commercial version is deemed necessary, the change will not impact the current setup significantly as \textit{Cppcheck} will only be stricter when it comes to code rule application, meaning that it will apply more rules on top of the current ones, generating a more enriched error report.
 
 \subsection{ROS and C++ separation}
 \label{sec:impl_ros_separation}

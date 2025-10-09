@@ -8,7 +8,7 @@
 
 \typeout{NT FILE chapter5.tex}%
 
-\chapter{System Design and Realization}
+\chapter{Implementation and Integration into RAMSES}
 \label{cha:impl}
 
 
@@ -130,6 +130,10 @@ The last layer of implementation has a higher degree of abstraction and requires
 
 
 As the implementation methodology was done iteratively and following the plan discussed in Section~\ref{sec:impl_plan}, the first feature to implement was the naming conventions.
+
+
+\begin{tcolorbox}[colback=green!5, colframe=green!40!black] Implementation = "how \gls{RAMSES} interprets and applies the DSL to affect code generation". \end{tcolorbox}
+
 
 \subsection{Naming Conventions}
 \label{sec:impl_name_conv}
@@ -610,6 +614,10 @@ Going more in depth, the \gls{DSL} offers specific options given each topic, not
 \end{itemize}
 
 These options control each part of the generated project and together they offer a high degree of customization to the generated code. 
+
+
+\begin{tcolorbox}[colback=green!5, colframe=green!40!black] DSL = "the configuration schema and semantics".  
+It's independent from but used by \gls{RAMSES}. \end{tcolorbox}
 
 \subsection{Language}
 \label{sec:dsl_lang}

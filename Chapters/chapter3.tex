@@ -21,7 +21,7 @@
 
 RAMSES has served as a robust model-to-code generator for \gls{AADL} based systems, yet it suffers from a fundamental architectural constraint: it assumes a uniform target environment. This assumption does not hold in real-world industrial projects, where system heterogeneity, legacy integration, and domain-specific standards define a constantly shifting context.
 
-The core issue lies in RAMSES' transformation pipeline: it entangles policy decisions (naming, structure, integration style) with generation logic. These decisions, hardcoded in ATL transformations, reflect the assumptions of RAMSES' authors more than the needs of end users~\cite{AtlasTransformationLanguage}. Altering them involves modifying the transformation source itself, often a hard and error-prone task~\cite{Mittal_Blouin_Bhobe_Bandyopadhyay_2022}.
+The core issue lies in RAMSES' transformation pipeline: it entangles policy decisions (naming, structure, integration style) with generation logic. These decisions, hard coded in ATL transformations, reflect the assumptions of RAMSES' authors more than the needs of end users~\cite{AtlasTransformationLanguage}. Altering them involves modifying the transformation source itself, often a hard and error-prone task~\cite{Mittal_Blouin_Bhobe_Bandyopadhyay_2022}.
 
 Consider a simple use case: a company mandates that all task-level functions use `snake\_case` and include a `COMPONENT\_` prefix. RAMSES, which might generate `ComputeTask` by default, offers no way to enforce those rules. A change in naming becomes a traversal through ATL templates and helpers. This is not scalable, and in safety-critical software, it is not acceptable.
 
@@ -156,14 +156,14 @@ For a clearer understanding of the flow of the prototype, lets take a look at fi
 	\label{fig:prototype_flowchart}
 \end{figure}
 
-The user interacts with the main model (Taskset in this case) and \textit{can} interact with the configuration model aswell, if thats the case, the user will see changes in the code in accordance to the options selected in the configuration model.
+The user interacts with the main model (Taskset in this case) and \textit{can} interact with the configuration model as well, if that's the case, the user will see changes in the code in accordance to the options selected in the configuration model.
 
 The configuration model is not tightly coupled to the main workflow and is not mandatory, it works alongside the main model but provides extra options and choices to the user in terms of code customization, effectively elevating a bit more the code quality of the given taskset generated code.
 
 \subsection{Practical Example}
 \label{sec:practical_example}
  
-Let's take a look at a practical example of the prototype. Since the placeholder code has already been defined and altered to allow for dinamic \gls{identifier} changes, all we have to do is select the naming convention on the configuration model.
+Let's take a look at a practical example of the prototype. Since the placeholder code has already been defined and altered to allow for dynamic \gls{identifier} changes, all we have to do is select the naming convention on the configuration model.
 
 \begin{figure}[htbp]
 	\centering
@@ -194,7 +194,7 @@ Taking in the result from Figure~\ref{fig:prototype_default_option} we can get a
 
 Comparing Figure~\ref{fig:prototype_default_option} with Figure~\ref{fig:prototype_snake_case}, we can clearly see where the configuration model applies its modifications: always on the \glspl{identifier} and never on anything else, especially not on the keywords\footnote{Keywords like \textit{Void} are common and easy to identify. In this observed case however, in both Figures~\ref{fig:prototype_default_option} and~\ref{fig:prototype_snake_case} we see that \textit{thread\_config\_t} is also present but this is a \textit{Struct}, which, while not an exclusive keyword, it serves a purpose like \textit{Void} or \textit{int} and is \textbf{not} an \gls{identifier}.}.
 
-The idenfitiers (in this case the name of the function\footnote{T1} and the name of the variable\footnote{t\_1\_info}) change seamlessly according to the selected naming convention in the configurator. This is the expected behaviour for the features to be implemented, they should provide additional value while also keeping the base generated code available if the user does not wish to modify it at all. 
+The idenfitiers (in this case the name of the function\footnote{T1} and the name of the variable\footnote{t\_1\_info}) change seamlessly according to the selected naming convention in the configurator. This is the expected behavior for the features to be implemented, they should provide additional value while also keeping the base generated code available if the user does not wish to modify it at all. 
 
 \subsubsection{User Feedback}
 
@@ -202,7 +202,7 @@ In order to test the functionality and receive a third party opinion, a simple u
 
 Upon doing this testing, the users defined the feature as a flexible addition to coding generation with many application to real life and industry scenarios. Users also noted that this functionality improves information treatment between teams as different people have different ways to write models names, the prototype proves that naming normalization can also improve team cohesion.
 
-Users commented that this functionality supports the ability to create multiple versions of functionally equivalent code just with naming differences. This also aligns with the required feature of supportign coding standards for the selected language\footnote{Currently C++, however there are plans to include C.}, given that some languages require \glspl{identifier} to use a certain nomenclature~\cite{Google_cpp_style_guide, Python_coding_style}, which can clash with \gls{AADL} node names.
+Users commented that this functionality supports the ability to create multiple versions of functionally equivalent code just with naming differences. This also aligns with the required feature of supporting coding standards for the selected language\footnote{Currently C++, however there are plans to include C.}, given that some languages require \glspl{identifier} to use a certain nomenclature~\cite{Google_cpp_style_guide, Python_coding_style}, which can clash with \gls{AADL} node names.
 
 Overall the prototype, although simple, was well received and proved to give value for the \gls{AADL} to code pipeline.
 
@@ -228,7 +228,7 @@ Figure~\ref{fig:prototype_new_naming} explains the steps in a clear but still ab
 
 \subsubsection{Multiple Models in Acceleo}
 
-Working with 2 Ecore models was not very straightforward. Although Acceleo provides the resources needed to work with multiple Ecore models, Eclipse itself does not allow for multiple input models in a single run configuration~\cite{acceleo_multi_model_problem}. To work around this, a custom \textit{main()} method was made to register the metamodels into the resources, effectively allowing for the usage of both metamodels. This issue, while small, presented a fairly decent deal of complications for the development of the prototype, specifically because Acceleo documentation on the matter was scarce and community forums were unhelpful.
+Working with 2 Ecore models was not very straightforward. Although Acceleo provides the resources needed to work with multiple Ecore models, Eclipse itself does not allow for multiple input models in a single run configuration~\cite{acceleo_multi_model_problem}. To work around this, a custom \textit{main()} method was made to register the \glspl{metamodel} into the resources, effectively allowing for the usage of both \glspl{metamodel}. This issue, while small, presented a fairly decent deal of complications for the development of the prototype, specifically because Acceleo documentation on the matter was scarce and community forums were unhelpful.
 
 Nevertheless, this solution allows not just for the usage of multiple models in this prototype but also in any other projects that need an Acceleo program with 2 or model Ecore models as inputs.
 

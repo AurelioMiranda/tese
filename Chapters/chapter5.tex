@@ -18,7 +18,9 @@
 \section{Industry Partner Meeting}
 \label{sec:industry_meeting}
 
-The first meeting with an industry partner revealed to be very useful with many insights to note, particularly that a few features were highlighted and prioritized in order to maintain a good development speed and an overall better plan. Most of the previously thought of features (\Glspl{identifier}, Traceability, Report, etc) were endorsed, however, a new feature was suggested by an expert \gls{ROS} developer: the separation of \gls{ROS} specific code and C++ specific code, meaning that code that is specific to \gls{ROS} can be isolated as it is very similar along the various generated files. This will essentially be done with an interface that will implement \gls{ROS} code on C++ only files, which effectively serves as a separation of concerns.
+The first meeting with an industry partner revealed to be very useful with many insights to note, particularly that a few features were highlighted and prioritized in order to maintain a good development speed and an overall better plan. Most of the previously thought of features (\Glspl{identifier}, Traceability, Report, etc) were endorsed, however, a new feature was suggested by an expert \gls{ROS} developer: the separation of \gls{ROS} specific code and C++ specific code, meaning that code that is specific to \gls{ROS} can be isolated as it is very similar along the various generated files. This is essentially done with an interface that implements \gls{ROS} code on C++ only files, which effectively serves as a separation of concerns.
+
+TODO: provide more insight **************************
 
 \begin{tcolorbox}[colback=green!5, colframe=green!40!black] This meeting provided extremely valuable insight as the industry partner has been using \gls{ROS} for over seven years, effectively distilling their experience into actionable knowledge. \end{tcolorbox}
 
@@ -26,7 +28,7 @@ The first meeting with an industry partner revealed to be very useful with many 
 \section{Implementation Plan} 
 \label{sec:impl_plan}
 
-In order to better understand what features will be implemented, when and why, the implementation will be done by layers, each layers will depend on things done previously on other layers, hence some features are developed before others.
+In order to better understand what features are implemented, when and why, the implementation was done by layers: each layers depends on things done previously on other layers, hence some features are developed before others.
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}
@@ -49,6 +51,7 @@ In order to better understand what features will be implemented, when and why, t
 	Multi Configuration & - & Easier configuration management \\
 	Build Integration & - & File generation management \\
 	Legacy Code\par Integration & Business Logic & Most architecture-dependent \\
+	Target Operating\par System & Business Logic & - \\
 	\bottomrule
 \end{xltabular}
 
@@ -78,7 +81,7 @@ The Core and Metadata Layer (Table~\ref{tab:core_and_meta}) includes foundationa
 \end{xltabular}
 
 
-This first layer will serve as a base for other features to come since it has fairly straightforward but very useful features.
+This first layer serves as a base for other features since it has fairly straightforward but very useful features.
 
 
 \subsection{Structural Optimization Layer}
@@ -96,7 +99,7 @@ The Structural Optimization Layer (Table~\ref{tab:struct_opt_layer}) focuses on 
 	Feature & Depends On & Notes \\
 	\midrule
 	Standard Compliance & Report, Traceability & Defining and checking rules\par requires steady effort. \\
-	Dead Code Detection & Traceability, Report & Non-trivial static analysis\par in model-to-code context. \\
+	Dead Code Detection & Traceability, Report & Done by Cppcheck. \\
 	Memory Optimization & Dead Code Det, Traceability & Impacts core data structure generation.\par Error-prone. \\
 	\bottomrule
 \end{xltabular}
@@ -106,7 +109,7 @@ The structural layer cements what was done before and adds to it with an optimiz
 \subsection{Architecture Layer}
 \label{sec:arch_layer}
 
-The Architecture Layer (Table~\ref{tab:arch_layer}) introduces features that abstract and modularize the generated code to support scalability and maintainability. The node interface abstraction separates platform-specific code (\gls{ROS} dependencies) from core logic, facilitating reuse and easier updates. File management is a quality of life feature which is very sensitive as file naming and location must be consistent at all times. Legacy code integration is the most complex and architecture-dependent feature, involving interfacing with existing external codebases, which requires careful design and planning to avoid integration pitfalls.
+The Architecture Layer (Table~\ref{tab:arch_layer}) introduces features that abstract and modularize the generated code to support scalability and maintainability. The node interface abstraction separates platform-specific code (\gls{ROS} dependencies) from core logic, facilitating reuse and easier updates. File management is a quality of life feature which is very sensitive as file naming and location must be consistent at all times. Legacy code integration is the most complex and architecture-dependent feature, involving interfacing with existing external codebases, which requires careful design and planning to avoid integration problems.
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}
@@ -123,7 +126,7 @@ Legacy Code Integration & Business Logic & Undefined scope and\par likely the mo
 \bottomrule
 \end{xltabular}
 
-The last layer of implementation has a higher degree of abstraction and requires a much more project architecture understanding than the previous layers, which is why it is done last and after every other feature layer is implemented. This will allow for the full focus to be on these core features that will have a much higher individual impact on code generation than the previous ones.
+The last layer of implementation has a higher degree of abstraction and requires a much more project architecture understanding than the previous layers, which is why it is done last and after every other feature layer is implemented. This allowed for the full focus to be on these core features that will have a much higher individual impact on code generation than the previous ones.
 
 \section{Implementation}
 \label{sec:implementation}
@@ -497,13 +500,16 @@ The process of generating files involves feeding both a configuration and input 
 \begin{itemize} 
 	\item Many Java main classes have to exist.
 	\item In order to generate everything needed to run a \gls{ROS} project many Java methods have to be run.
-	\item These methods cannot be run in a single click, as that would require a complete redesign of the current architecture.
+	\item Some classes need to be ran after, and only after others.
+	\item These methods cannot be run in a single click, as that would require a complete redesign of the current architecture making it less flexible.
 \end{itemize}
 
 
-The solution for this are workflows. Workflows allows the automation of certain tasks, e.g., reading, writing, or transforming models, by plugging together several workflow components, which are executed consecutively. A workflow component performs a certain task and can be configured with parameters.
+The solution for these issue is workflows. Workflows allow the automation of certain tasks (reading, writing, or transforming models) by plugging together several workflow components, which are executed consecutively. A workflow component performs a certain task and can be configured with parameters.
 
 This allows for the execution of specific parts of the code generation in an isolated way, as well as the execution of every part needed to produce a complete and functional \gls{ROS} project, on top of that, \gls{JUnit} tests based on workflows are also possible and already a common pattern on the \gls{RAMSES} project.
+
+Even though workflows are already used in \gls{RAMSES}, there was no concrete workflow to execute the code generation in the way it is done so far. To solve this problem, a new custom workflow component had to be developed.
 
 \subsection{Acceleo Workflow Component}
 \label{sec:workflows_acceleo}
@@ -512,7 +518,17 @@ The custom workflow component created was the AcceleoGeneratorComponent, which s
 
 The beauty of this component is that it is optimized to every single Acceleo Java class present in \gls{RAMSES}, meaning that, in the workflow, every Java class can be represented by a AcceleoGeneratorComponent which facilitates the sequential execution and removes the need to have components specific to a certain class.
 
-In a similar fashion, changing the inputs of the generation is also much simpler than before as there is a property for each of those (\gls{AADL} model, configuration model, working directory and output folder) in the workflow, facilitating the change in the AcceleoGeneratorComponents: a simple change to the property will affect all the workflow components that use that property.
+In addition to solving the previously mentioned issues, this new component was also engineered to run functions before and after generation if those functions existed in the input class, as an example, an input template A (with an associated class A) can have as methods \textit{shouldRun()}, \textit{preGeneration()} and \textit{postGeneration()} on top of the generic method \textit{doGenerate()}. These methods have key functions that help enrich the component beyond simply executing a class, namely:
+
+\begin{itemize} 
+	\item \textit{shouldRun()}: if true continues with the code generation as default, aborts generation otherwise.
+	\item \textit{preGeneration()}: executes preparations that a given template might need for generation, for example, providing additional generation arguments.
+	\item \textit{postGeneration()}: executes post generation code, for instance, filling traces with the code lines they generated in.
+\end{itemize}
+
+It is worth to note that the \textit{preGeneration()} and \textit{postGeneration()} functions are similar to generation hooks (see Section~\ref{sec:impl_gen_hooks}), however, these functions are executed at class level while generation hooks execute before or after the whole code generation process.
+
+In addition to all of these features, this custom component also simplifies changing the inputs of the generation. Sinse there is a property for each of the inputs in the workflow (\gls{AADL} model, configuration model, working directory and output folder), the change in the AcceleoGeneratorComponents is simple: a change to the property will affect all the workflow components that use that property.
 
 
 \subsection{Dynamic Acceleo Workflow Executor}
@@ -522,7 +538,7 @@ The custom component described in the previous Section~\ref{sec:workflows_accele
 
 The solution to this problem was clear: instead of calling the classes independently, the component would call a generic class that would handle any Acceleo template. This did not come without drawbacks, mainly that handling every template the same way reduced their overall specialty. This was an issue that the previous component solved by integrating additional functionality in each individual class as needed.
 
-Essentially the two architecture choices where either full specialization but low integration capabilities or high integration and low specialization. However, the third option was both.
+Essentially the two architecture choices where either full specialization but low integration capabilities or high integration and low specialization. However, there was also a hidden third option: both.
 
 A new version of the Acceleo custom Workflow component was devised, the premise was that the component would receive the template name (not the class name) and search for the class represented by the given component, if none was found the component would fallback to the generic Acceleo generator class. This hybrid architecture means that, when feeding a template name that does not have a Java class associated, the Workflow will execute it seamlessly, provided it has an \gls{AADL} model and a configuration file. Similarly, if there is the need for a more in depth execution, a Java implementation of the template can still be done.
 

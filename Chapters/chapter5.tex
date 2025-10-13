@@ -629,7 +629,7 @@ Going more in depth, the \gls{DSL} offers specific options given each topic, not
 	\item \textbf{Build Integration: } Control over generated files.
 \end{itemize}
 
-These options control each part of the generated project and together they offer a high degree of customization to the generated code. 
+These options control each part of the generated project and together they offer a high degree of customization to the generated code. The effective way of using the configuration is via the preferences window on Eclipse, where every option of every category is present in a different page.
 
 
 \begin{tcolorbox}[colback=green!5, colframe=green!40!black] DSL = "the configuration schema and semantics".  
@@ -643,6 +643,15 @@ The language option defines the targeted language for the current customization.
 This option also serves to map the code \glspl{identifier} to their language specific casing\footnote{This only applies when the naming convention is set to STANDARD.} as explained in Section~\ref{sec:dsl_lang}.
 
 This option is highly extensible and, as \gls{RAMSES} grows, can be extended with many other languages such as Java, Assembly, Kotlin, etc.
+
+This option appears in the main page of the configurations as seen in Figure~\ref{fig:eclipse_config_main}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{eclipse_config_main.png}
+	\caption{Main page of the code generation configuration}
+	\label{fig:eclipse_config_main}
+\end{figure}
 
 \subsection{Naming Convention}
 \label{sec:dsl_name}

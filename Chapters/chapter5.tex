@@ -715,6 +715,15 @@ The business logic options handle the technology specific part of the generation
 
 The decoupling option splits the C++ code from the \gls{ROS} specific code with a simple toggle, while the executor option offers a predefined choice between the thread executors used in runtime.
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{eclipse_config_business.png}
+	\caption{Page of the business logic configuration}
+	\label{fig:eclipse_config_business}
+\end{figure}
+
+As can be seen in Figure~\ref{fig:eclipse_config_business}, the decoupling choice appears as a toggle, while the executor type presents a drop down menu with every allowed executor type. These options do influence a lot of the generation process but they do not restrict any other configuration option.
+
 
 \subsection{Files}
 \label{sec:dsl_files}
@@ -753,8 +762,9 @@ Simple configuration that only requires the path of either the script to be exec
 \subsection{Build Integration}
 \label{sec:dsl_build}
 
-This simple configuration allows the user to individually toggle the generation of the \textit{source}, \textit{make}, \textit{package} and \textit{launch} files as described in Section~\ref{sec:impl_build_options}.
+This simple configuration allows the user to individually toggle the generation of the \textit{source}, \textit{make}, \textit{package} and \textit{launch} files as described in Section~\ref{sec:impl_build_options}. 
 
+Figure~\ref{fig:eclipse_config_build} illustrates how the options are displayed to the user. Each one of the options is independent from each other, meaning that they can be ticked on/off in any combination.
 
 
 \subsection{Legacy Libraries}

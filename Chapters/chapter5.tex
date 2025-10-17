@@ -647,6 +647,7 @@ At the core of the options for code generation, the basics are:
 	\item \textbf{AADL Input Model}
 	\item \textbf{Output folder}
 	\item \textbf{Target Language}
+	\item \textbf{Target Operating System}
 \end{itemize}
 
 These options are strictly necessary for code generation to take place, hence being the main options. All options presented in this Section~\ref{sec:dsl} are available to be configured under \textit{Osate > Window > Preferences > CodeGen Config} in the Osate platform.
@@ -695,6 +696,15 @@ To complement the previous formatting, we can also add specific text (an affix) 
 
 Moreover, the affix is not affected by the styling format, this is done to give more choice to the end user, if we wish to have the affix not follow the selected casing that is the default behavior. On the other hand, if we do wish the affix to follow certain casing the solution is to simply write it according to that casing. This will not work with the \textit{STANDARD} convention since that type of formatting dynamically changes the casing based on the usage of the text.
 
+All the options in the naming convention section are available to be modified in the preferences window as shown in Figure~\ref{fig:eclipse_config_naming}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{eclipse_config_naming.png}
+	\caption{Main page of the code generation configuration}
+	\label{fig:eclipse_config_naming}
+\end{figure}
+
 
 \subsection{Report}
 \label{sec:dsl_report}
@@ -707,6 +717,23 @@ Along with these options there's also the option to toggle the detected errors o
 
 Lastly, there's the option to automatically open the report, which was not implemented due to it benefiting from a more developed product, in short, it will be easier to implement and manage later when \gls{RAMSES} reaches a near ready state.
 
+Similar to the other options, this option can be modified in the preferences as shown in Figure~\ref{fig:eclipse_config_report}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{eclipse_config_report.png}
+	\caption{Main page of the report generation configuration}
+	\label{fig:eclipse_config_report}
+\end{figure}
+
+One key detail of the report configuration is that if the report generation itself is disabled (first option in Figure~\ref{fig:eclipse_config_report}), the remaining options don't alter anything, meaning that it would not matter if, for instance, \textit{"Include logic summaries"} was enabled or not since the outcome would be the same. For this reason, if the \textit{"Generate report"} option is disabled, the other options will be unmodifiable to convey to the user that those options only take effect if the first option is enabled. This behaviour can be seen in Figure~\ref{fig:eclipse_config_report_disabled}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{eclipse_config_report_disabled.png}
+	\caption{Report generation disabled}
+	\label{fig:eclipse_config_report_disabled}
+\end{figure}
 
 \subsection{Business Logic}
 \label{sec:dsl_business_logic}
@@ -763,6 +790,13 @@ Simple configuration that only requires the path of either the script to be exec
 \label{sec:dsl_build}
 
 This simple configuration allows the user to individually toggle the generation of the \textit{source}, \textit{make}, \textit{package} and \textit{launch} files as described in Section~\ref{sec:impl_build_options}. 
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{eclipse_config_build.png}
+	\caption{Page of the build configuration}
+	\label{fig:eclipse_config_build}
+\end{figure}
 
 Figure~\ref{fig:eclipse_config_build} illustrates how the options are displayed to the user. Each one of the options is independent from each other, meaning that they can be ticked on/off in any combination.
 

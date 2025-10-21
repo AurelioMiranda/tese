@@ -470,6 +470,27 @@ This way, instead of handling multiple files we can, like illustrated in Figure~
 
 This is an addition, not a restriction, so, as we will explore more in the next section~\ref{sec:workflows}, we can still use a single configuration as input or a list of configurations, further improving the flexibility of the code generator.
 
+Even though this list addition works well with the base idea of the configuration, a different issue halted the use of single file configurations entirely: the dynamic addition of programming languages.
+
+
+\subsubsection{Multiple Languages}
+\label{sec:impl_multi_language}
+
+A key contribution of the \gls{DSL} is the dynamical addition of multiple distinct configurations, however, as the language is implemented into different projects, an issue arises: adding more programming languages.
+
+At face value the solution to this is simple\footnote{To add to the already existing enumerator.} but intrinsically its more complex and involves modifying the current metamodel.
+
+TODO: visually describe the problem ********************
+
+The act of adding a new programming language option to the configuration should be possible to the end user without having to go to the trouble of changing lines of code. For this reason, the \gls{DSL} architecture suffered a tiny shift which ended up abolishing the usage of single file configurations\footnote{Note that those are still possible but only as a single configuration in the list of configurations.} due to the now need for a Language property which could not be present in the configuration itself since it didn't allow for the dynamic creation of Languages if the programming language itself is already tied to a configuration.
+
+
+\begin{tcolorbox}[colback=green!5, colframe=green!40!black] In simpler terms: the programming Language option cannot be "inside" a configuration because it will be associated with that configuration. Language options need to be in the same level as configurations in order to both be created dynamically and not depend on one another. \end{tcolorbox}
+
+
+
+ 
+
 
 \subsection{Build Integration}
 \label{sec:impl_build_options}
@@ -652,7 +673,7 @@ At the core of the options for code generation, the basics are:
 
 These options are strictly necessary for code generation to take place, hence being the main options. All options presented in this Section~\ref{sec:dsl} are available to be configured under \textit{Osate > Window > Preferences > CodeGen Config} in the Osate platform.
 
-\&Temp config to be changed
+\&Temp config preferences to be changed
 %%
 % \begin{figure}[htbp]
 %	\centering

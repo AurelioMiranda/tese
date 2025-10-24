@@ -673,14 +673,14 @@ At the core of the options for code generation, the basics are:
 
 These options are strictly necessary for code generation to take place, hence being the main options. All options presented in this Section~\ref{sec:dsl} are available to be configured under \textit{Osate > Window > Preferences > CodeGen Config} in the Osate platform.
 
-\&Temp config preferences to be changed
-%%
-% \begin{figure}[htbp]
-%	\centering
-%	\includegraphics[width=\textwidth]{eclipse_config_main.png}
-%	\caption{Main page of the code generation configuration}
-%	\label{fig:eclipse_config_main}
-%\end{figure}
+*** Temp config preferences to be changed
+
+ \begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{eclipse_config_main.png}
+	\caption{Main page of the code generation configuration}
+	\label{fig:eclipse_config_main}
+\end{figure}
 
 Figure~\ref{fig:eclipse_config_main} highlights how the main configurations appear in the preferences window. From here it is possible to select the input \gls{AADL} model, the output folder and the target language that will be fed to the generator for code generation.
 
@@ -782,6 +782,14 @@ The options on the files part of the configuration allow the user to input a nam
 
 Additionally, it also has the option to override the existing files, which by default is false.
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{eclipse_config_files.png}
+	\caption{Page of the file management configuration}
+	\label{fig:eclipse_config_files}
+\end{figure}
+
+Figure~\ref{fig:eclipse_config_files} shows the simple file management page where the options discussed previously appear.
 
 
 \subsection{Comments}
@@ -791,6 +799,14 @@ In the comment options we can input both the author and a copyright notice for a
 
 By default, all options are empty meaning no comments, author or copyright notice will generate.
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{eclipse_config_comments.png}
+	\caption{Page of the code comments configuration}
+	\label{fig:eclipse_config_comments}
+\end{figure}
+
+In Figure~\ref{fig:eclipse_config_comments} we can see the different options and how they are presented to the used in the code comments page. These options are disabled/empty by default.
 
 
 \subsection{Traceability}
@@ -800,7 +816,21 @@ The logic of the traceability is quite complex, however, its configuration optio
 
 On top of that, there is also the option to generate a traceability diagram, although that is meant for future work. TODO: veryfy this ****************************
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{eclipse_config_trace.png}
+	\caption{Page of the traceability configuration}
+	\label{fig:eclipse_config_trace}
+\end{figure}
 
+Figure~\ref{fig:eclipse_config_trace} shows the different options for traceability, as we saw previously with the case of the report generation (Section~\ref{sec:dsl_report}), the bottom 2 options are conditioned by the first one, meaning that if the first option (Enable traceability generation) is disabled, the other options are deactivated. This behavior can be seen in Figure~\ref{fig:eclipse_config_trace_disabled}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{eclipse_config_trace_disabled.png}
+	\caption{Page of the traceability configuration with traceability disabled}
+	\label{fig:eclipse_config_trace_disabled}
+\end{figure}
 
 \subsection{Extension}
 \label{sec:dsl_ext}

@@ -659,6 +659,10 @@ These options control each part of the generated project and together they offer
 It's independent from but used by \gls{RAMSES}. \end{tcolorbox}
 
 
+\subsection{Custom Preference Store Component}
+\label{sec:dsl_custom}
+
+
 \subsection{Main Options}
 \label{sec:dsl_main}
 
@@ -859,12 +863,30 @@ Figure~\ref{fig:eclipse_config_build} illustrates how the options are displayed 
 
 The options available to manage the configuration are simple yet effective: the legacy libraries can either be included or not and when included can be referenced or copied.
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{eclipse_config_legacy.png}
+	\caption{Page of the legacy configuration}
+	\label{fig:eclipse_config_legacy}
+\end{figure}
+
+Like other previous pages, the legacy page requires the inclusion of legacy libraries for the copy option to be enabled. Figure~\ref{fig:eclipse_config_legacy} illustrates how the page looks with all the options enabled and Figure~\ref{fig:eclipse_config_legacy2} shows how the disabling of the first option affects the second.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{eclipse_config_legacy2.png}
+	\caption{Page of the legacy configuration with library inclusion disabled}
+	\label{fig:eclipse_config_legacy2}
+\end{figure}
+
 
 
 \subsection{Target Operating System}
 \label{sec:dsl_os}
 
 A simple dropdown menu allows the user to choose between the 3 target operating systems: Linux, Windows and MacOS.
+
+This option is one of the core options and can be found in Figure~\ref{fig:eclipse_config_main} as it is a fundamental code generation option.
 
 
 

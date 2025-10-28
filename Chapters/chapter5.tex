@@ -662,6 +662,22 @@ It's independent from but used by \gls{RAMSES}. \end{tcolorbox}
 \subsection{Custom Preference Store Component}
 \label{sec:dsl_custom}
 
+Saving user preferences in the Eclipse workspace is a simple but effective task that allows for a direct way for the user to configure specific options.
+
+In the case of the code configuration \gls{DSL}, this preference window fits perfectly with the language. It provides a way for users to modify the options freely while also restricting and minimizing possible errors since the \gls{UI} presented has guardrails that prevent the user from introducing errors into the \gls{DSL}.
+
+This approach for the \gls{UI} however came at a cost: the storage of values was already implemented by eclipse, meaning that, by default, it was not possible to save the \gls{DSL} metamodel whole, just a key:value map.
+
+To counteract this problem, a new way of storing configuration values was developed. By implementing the Preference Store interface we were able to develop a new way of preference storage that had at its core the configuration metamodel.
+
+This essentially means that the manipulation of the very base of the \gls{DSL} itself can now be saved in Eclipse's preferences, allowing it to be used instantly.
+
+In short, instead of having to apply preference values to the metamodel, we save the preferences directly to a central metamodel, cutting the unnecessary middleman (default preferences).
+
+This model then can be used as the input for Workflows (Section~\ref{sec:workflows}) to generate code based on its configuration. Effectively giving the user control over the base metamodel while also restricting his possibilities to commit errors.
+
+This storage approach does not affect the \gls{UI} but it does simplify and improve the overall process of managing the \gls{DSL} metamodel.
+
 
 \subsection{Main Options}
 \label{sec:dsl_main}
@@ -669,7 +685,6 @@ It's independent from but used by \gls{RAMSES}. \end{tcolorbox}
 At the core of the options for code generation, the basics are:
 
 \begin{itemize}  
-	\item \textbf{AADL Input Model}
 	\item \textbf{Output folder}
 	\item \textbf{Target Language}
 	\item \textbf{Target Operating System}

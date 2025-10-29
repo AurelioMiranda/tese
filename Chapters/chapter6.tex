@@ -155,7 +155,7 @@ By using this architecture, it is only necessary to verify the correctness of th
 
 An obvious flaw of this model is that, not only does it need complete manual validation in the start, but it's also very rigid when it comes to file comparison, comparing each file line-by-line\footnote{The comparison is not overly rigid and allows for exceptions such as the generated date and order changes in \gls{XML} files.}.
 
-These flaws can also be seen as benefits, since the code needs to be testes rigorously to ensure maximum code quality when generated. This can only be achieve by actually executing the generated projects and verifying their functionality.
+These flaws can also be seen as benefits, since the code needs to be tested rigorously to ensure maximum code quality when generated. This can only be achieve by actually executing the generated projects and verifying their functionality manually.
 
 The unit tests were made to be as flexible as possible, allowing for different configurations and different models to be tested in a single run, providing insights in multiple generated projects in a single test execution as can be observed in Figure~\ref{fig:testingResults1}.
 
@@ -166,7 +166,7 @@ The unit tests were made to be as flexible as possible, allowing for different c
 	\label{fig:testingResults1}
 \end{figure}
 
-The tests also account for certain projects not generating certain files such as the traceability or the report file. This behavior is translated by simply skipping the test as can be observed in Figure~\ref{fig:testingResultsSkip1}. Similar tests also verify the existence of folders and files that are a requirement for any \gls{ROS} project and need to be present after generation.
+The tests also account for certain projects not generating unneeded files such as the traceability or the report file. This behavior is translated by simply skipping the test as can be observed in Figure~\ref{fig:testingResultsSkip1}. Similar tests also verify the existence of folders and files that are a requirement for any \gls{ROS} project and need to be present after generation.
 
 \begin{figure}[htbp]
 	\centering
@@ -196,6 +196,13 @@ TC-REG-04 & Regression & Test legacy models without new features enabled. & Outp
 
 
 The tests described in table~\ref{tab:reg_tests_1} were proven true via \gls{JUnit} tests, which not only were able to verify the present tests but also additional ones that are not present in this table. The full detailed list of tests can be found in the Appendix~\ref{app:unit_tests}
+
+All the unit tests previously described were initially done as plug-in tests, however, due to a multitude of reasons, they were later changed to standalone tests.
+
+\begin{itemize}  
+	\item \textbf{Plug-in unit tests} are tests done by launching a new Eclipse instance that loads all the resources necessary and executes the unit tests. This approach is simpler to setup but takes significantly more time to run than the standalone option due to the creation of the additional Eclipse instance.
+	\item \textbf{Standalone unit tests} do not launch a new Eclipse instance, instead they run detached from eclipse, which makes them faster with the only downside being they require more initial setup to initialize the resources and dependencies that Eclipse would normally provide.
+\end{itemize}
 
 
 

@@ -204,7 +204,7 @@ All the unit tests previously described were initially done as plug-in tests, ho
 	\item \textbf{Standalone unit tests} do not launch a new Eclipse instance, instead they run detached from eclipse, which makes them faster with the only downside being they require more initial setup to initialize the resources and dependencies that Eclipse would normally provide.
 \end{itemize}
 
-The change from plug-in tests to standalone revealed a clear advantage when it came to test execution time, out of 20 executions there was an average of 30\% of time saved, which, while it already proved efficient, having more, bigger, and complex models makes that difference noticeable. The test run times can be seem in the Appendix~\ref{app:unit_test_times}.
+The change from plug-in tests to standalone revealed a clear advantage when it came to test execution time, out of 20 executions there was an average of 20\% of time saved, which can be attributed to the standalone runs not having to initialize a new instance of Eclipse. This time reduction is inversely proportional to the amount of tests, as in, less tests will translate to an even faster average of time saved by the standalone execution, which is especially useful when running single or low amounts of tests, having an average of 60\% of time saved. Even when running large amounts of tests (>100) there is still a reduced execution time on the standalone run, albeit not as noticeable as before with around 10\% reduction. The test run times can be seem in the Appendix~\ref{app:unit_test_times}.
 
 
 

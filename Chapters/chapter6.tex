@@ -182,7 +182,7 @@ As a guardrail, if files are present in the control project but not in the gener
 \bgroup
 \rowcolors{1}{}{GhostWhite}
 \begin{xltabular}{\textwidth}{X X X X X}
-\caption{Regression test table}
+\caption{Regression test cases and expected outcomes}
 \label{tab:reg_tests_1}\\
 \toprule
 \rowcolor{Gainsboro}%
@@ -195,9 +195,11 @@ TC-REG-04 & Regression & Test legacy models without new features enabled. & Outp
 \end{xltabular}
 
 
-The tests described in table~\ref{tab:reg_tests_1} were proven true via \gls{JUnit} tests, which not only were able to verify the present tests but also additional ones that are not present in this table. The full detailed list of tests can be found in the Appendix~\ref{app:unit_tests}
+The tests described in table~\ref{tab:reg_tests_1} were proven true via \gls{JUnit} tests, which not only were able to verify the present tests but also additional ones that are not present in this table. The full detailed list of tests can be found in the Appendix~\ref{app:unit_tests}.
 
-All the unit tests previously described were initially done as plug-in tests, however, due to a multitude of reasons, they were later changed to standalone tests.
+TC-REG-02, TC-REG-03 and TC-REG-04 were easily proven by the unit test strip since this process can be automated and viewed quickly. TC-REG-01 added a layer of complexity because it pushed for manual verification which had to be done to ensure the functionality of the output code.
+
+All the unit tests previously described in this section (Section~\ref{sec:test_unit}) were initially done as plug-in tests, however, due to a multitude of reasons, they were later changed to standalone tests.
 
 \begin{itemize}  
 	\item \textbf{Plug-in unit tests} are tests done by launching a new Eclipse instance that loads all the resources necessary and executes the unit tests. This approach is simpler to setup but takes significantly more time to run than the standalone option due to the creation of the additional Eclipse instance.

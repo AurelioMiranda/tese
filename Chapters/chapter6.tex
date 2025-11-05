@@ -15,12 +15,12 @@
 
 Software testing was conducted specifically for the configuration of the code generation part of \gls{RAMSES}. This means that the goal was to ensure that the newly developed configuration options did not modify the runtime results of the generated software, hence maintaining the core goal of the input model.
 
-\section{Feature Testing}
+\section{Integration Testing}
 \label{sec:test_feature}
 
 This type of testing is recurrent along the development, it serves to ensure that the features implemented are functioning as intended and that the previous version of the software has retained its functionality when new features were added.
 
-\subsection{Feature Testing: August}
+\subsection{Integration Testing: August}
 \label{sec:test_feature_one}
 
 After the development of the first batch of features, the testing served to ensure that the previous version of the code generator was still working as intended and to validate the integration of the code generator configurator in the pipeline.
@@ -84,7 +84,7 @@ After conducting these tests, the following was concluded:
 
 
 
-\subsection{Feature Testing: October}
+\subsection{Integration Testing: October}
 \label{sec:test_feature_two}
 
 Testings in October were done with the intent of solidifying the already robust configuration language, but also to fundamentally change the way tests are performed in order to better adhere to the \gls{RAMSES} architecture logic.
@@ -137,7 +137,7 @@ The features tested in Section~\ref{sec:test_feature_one} were re-tested and the
 These tests ensured that the new features provided, in fact, additional and specific functionalities that work as predicted.
 
 
-\section{Unit Testing}
+\section{Regression Testing}
 \label{sec:test_unit}
 
 In order to automate the testing of the added features as development progressed unit tests were developed. By comparing the functional version of the generated projects against a newly generated version of the same project, we are able to detect differences in the end result which can point out flaws when a branch of the code generation is modified. 
@@ -207,6 +207,19 @@ All the unit tests previously described in this section (Section~\ref{sec:test_u
 \end{itemize}
 
 The change from plug-in tests to standalone revealed a clear advantage when it came to test execution time, out of 20 executions there was an average of 20\% of time saved, which can be attributed to the standalone runs not having to initialize a new instance of Eclipse. This time reduction is inversely proportional to the amount of tests, as in, less tests will translate to an even faster average of time saved by the standalone execution, which is especially useful when running single or low amounts of tests, having an average of 60\% of time saved. Even when running large amounts of tests (>100) there is still a reduced execution time on the standalone run, albeit not as noticeable as before with around 10\% reduction. The test run times can be seem in the Appendix~\ref{app:unit_test_times}.
+
+
+
+\section{Usability Validation}
+\label{sec:test_val}
+
+With the \gls{DSL} finalized and its features implemented it is then possible to asses how an end user will interact with the newly developed features.
+
+For this test, 5 users with a moderate/high familiarization to \gls{AADL} were picked to perform a sequence of tasks that mimicked the usage of the \gls{DSL} to its near fullest extent.
+
+The goal was not only to acquire real data in a real environment but also to highlight any flaws or issues that might have been overlooked in the development phase.
+
+
 
 
 

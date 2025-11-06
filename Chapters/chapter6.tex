@@ -25,7 +25,18 @@ This type of testing is recurrent along the development, it serves to ensure tha
 
 After the development of the first batch of features, the testing served to ensure that the previous version of the code generator was still working as intended and to validate the integration of the code generator configurator in the pipeline.
 
-The report for the first volley of tests can be found in the Annex~\ref{label}, where it is explained the purpose of each individual test and the results they withheld.
+The main testing environment for the tests in this sub section was the following:
+
+\begin{itemize} 
+	\item Eclipse version 2024-03 (4.31)
+	\item OSATE2 version 2.16.0.vfinal
+	\item RAMSES2 version Aug 26, 2025 (commit 335579b6e58a188475e7a5e7ed099b9a549bfb25)
+	\item ROS 2 Humble Hawksbill
+	\item Acceleo version 3.7.15.202402190857
+	\item MDELab Workflow version 1.9.1.202402292002
+	\item EMF - Eclipse Modeling Framework SDK version 2.37.0.v20240203-1010
+	\item Ubuntu version 22.04.5 LTS
+\end{itemize}
 
 The regression tests applied at this time were limited since the previous version of the software did not include any code generation customization, only the simple transition from model to code (\gls{M2T}), which, after generating a \gls{ROS} project in both the previous code generator and the at the time current one (with the first batch of features implemented), it was possible to verify that both generators still produced the same practical output, essentially, the code produced by both generators yields the same functionality.
 
@@ -51,29 +62,29 @@ The integration test part was done much more in depth since the goal was to inte
 After conducting these tests, the following was concluded:
 
 \begin{itemize}
-	\item \textbf{TC-INT-01 – \Gls{identifier} Consistency:} Verified that the \gls{identifier} configuration set in the \texttt{config.generator} model is applied consistently in generated C++ code and reflected in the traceability file as well as in the report.
+	\item \textbf{TC-INT-01 - \Gls{identifier} Consistency:} Verified that the \gls{identifier} configuration set in the \texttt{config.generator} model is applied consistently in generated C++ code and reflected in the traceability file as well as in the report.
 	
-	\item \textbf{TC-INT-02 – Comments:} Generated code containing both single-line and multi-line comments, verified that:
+	\item \textbf{TC-INT-02 - Comments:} Generated code containing both single-line and multi-line comments, verified that:
 	\begin{enumerate}
 		\item Acceleo templates correctly output the comments.
 		\item Java generator preserves formatting.
 	\end{enumerate}
 	
-	\item \textbf{TC-INT-03 – Traceability Link Accuracy:} Confirmed that model elements are mapped to the correct files and line numbers in generated code, and that these mappings are:
+	\item \textbf{TC-INT-03 - Traceability Link Accuracy:} Confirmed that model elements are mapped to the correct files and line numbers in generated code, and that these mappings are:
 	\begin{enumerate}
 		\item Present in the \gls{JSON} traceability output.
 		\item Referenced in the \gls{HTML} report.
 	\end{enumerate}
 	
-	\item \textbf{TC-INT-04 – Report Generation Data Flow:} Metrics collected during generation (number of components, code quality warnings) are passed to the Acceleo generator rendered correctly in the report.
+	\item \textbf{TC-INT-04 - Report Generation Data Flow:} Metrics collected during generation (number of components, code quality warnings) are passed to the Acceleo generator rendered correctly in the report.
 	
-	\item \textbf{TC-INT-05 – Code Quality \& Report Synchronization:} Triggered a known style violation in the model, generated code, and verified that:
+	\item \textbf{TC-INT-05 - Code Quality \& Report Synchronization:} Triggered a known style violation in the model, generated code, and verified that:
 	\begin{enumerate}
 		\item The code quality checker detects it and outputs XML accurately referencing it.
 		\item The Java generator correctly embeds this warning into the final HTML report.
 	\end{enumerate}
 	
-	\item \textbf{TC-INT-07 – Cross-Feature Stability:} Used a large, complex model with:
+	\item \textbf{TC-INT-07 - Cross-Feature Stability:} Used a large, complex model with:
 	\begin{itemize}
 		\item Custom \glspl{identifier}
 		\item Extensive comments
@@ -89,6 +100,8 @@ After conducting these tests, the following was concluded:
 
 Testings in October were done with the intent of solidifying the already robust configuration language, but also to fundamentally change the way tests are performed in order to better adhere to the \gls{RAMSES} architecture logic.
 
+The testing environment remained mostly the same with the exception of the switch from Ubuntu for windows to a virtual machine with linux along with the \gls{RAMSES} version changing to Oct 27, 2025 (commit 3eb5118b57903cc5077ad4218fc83e182cbab199).
+
 The initial tests were conducted with a "parameterized" way in mind, meaning that the architecture prioritized code efficiency albeit with an addition of complexity. This in of itself is not an issue at all, the tests were still very efficient, accurate and highly maintainable\footnote{To add a new test only one function needs to be added, at least.}. However, the current \gls{RAMSES} architecture benefited more from running tests in an isolated, standalone form, meaning that it would be better if it was possible to run specific test of the generated code without the need to run the whole test strip. For this goal, the parameterized way of testing was inefficient, since it entails that every test is generic and there is no way to quickly modify specific parameters in a single test.
 
 So, the test class was re-written to have one method per test, per model. Meaning that instead of ten generic tests ran with parameterized values, there would be fifty \footnote{At that point in time, with five models.} specific tests, ten for each test model.
@@ -96,39 +109,39 @@ So, the test class was re-written to have one method per test, per model. Meanin
 The features tested in Section~\ref{sec:test_feature_one} were re-tested and their behavior remained, as expected, the same. On top of that, new integration tests were performed to ensure that new features behave as intended, mainly:
 
 \begin{itemize}
-	\item \textbf{TC-INT-08 – Business Logic Decoupling:} Verified that when the DSL specifies decoupled business logic, the generated code separates logic into independent modules, allowing tasks to execute without unnecessary dependencies.
+	\item \textbf{TC-INT-08 - Business Logic Decoupling:} Verified that when the DSL specifies decoupled business logic, the generated code separates logic into independent modules, allowing tasks to execute without unnecessary dependencies.
 	
-	\item \textbf{TC-INT-09 – Executor Behavior:} Configured models with different executor types and confirmed that:
+	\item \textbf{TC-INT-09 - Executor Behavior:} Configured models with different executor types and confirmed that:
 	\begin{enumerate}
 		\item Multi-threaded execution logic is correctly generated when requested.
 		\item Static single-thread execution is applied as configured.
 	\end{enumerate}
 	
-	\item \textbf{TC-INT-10 – File Management:} Generated code using models with various file settings and confirmed that:
+	\item \textbf{TC-INT-10 - File Management:} Generated code using models with various file settings and confirmed that:
 	\begin{enumerate}
 		\item Existing files remain unchanged when overwriting is disabled.
 		\item Configured header prefixes are correctly applied in all files.
 	\end{enumerate}
 	
-	\item \textbf{TC-INT-11 – Extension Script Execution:} Added pre and post generation scripts to the DSL and verified that:
+	\item \textbf{TC-INT-11 - Extension Script Execution:} Added pre and post generation scripts to the DSL and verified that:
 	\begin{enumerate}
 		\item Pre-generation scripts execute successfully before code generation starts.
 		\item Post-generation scripts run correctly after generation completes.
 	\end{enumerate}
 	
-	\item \textbf{TC-INT-12 – Build Integration Artifacts:} Configured build integration options in the DSL and confirmed that:
+	\item \textbf{TC-INT-12 - Build Integration Artifacts:} Configured build integration options in the DSL and confirmed that:
 	\begin{enumerate}
 		\item Source files, Makefile, package files, and launch scripts are generated according to the configuration.
 		\item Disabling specific build outputs correctly prevents their generation without affecting other features.
 	\end{enumerate}
 	
-	\item \textbf{TC-INT-13 – Legacy Library Handling:} Added legacy library configuration to the DSL and verified that:
+	\item \textbf{TC-INT-13 - Legacy Library Handling:} Added legacy library configuration to the DSL and verified that:
 	\begin{enumerate}
 		\item Library headers are correctly included in the generated code.
 		\item Libraries are copied into the project folder when requested.
 	\end{enumerate}
 	
-	\item \textbf{TC-INT-14 – Target OS Adaptation:} Configured different target operating systems and confirmed that:
+	\item \textbf{TC-INT-14 - Target OS Adaptation:} Configured different target operating systems and confirmed that:
 	\begin{enumerate}
 		\item Generated code includes OS-specific adaptations for Linux, Windows, and MacOS.
 	\end{enumerate}
@@ -142,6 +155,8 @@ These tests ensured that the new features provided, in fact, additional and spec
 
 In order to automate the testing of the added features as development progressed unit tests were developed. By comparing the functional version of the generated projects against a newly generated version of the same project, we are able to detect differences in the end result which can point out flaws when a branch of the code generation is modified. 
 
+The testing environment remained the same, with only the \gls{RAMSES} version changing throughout the development.
+
 Essentially, what we test can be visually described by Figure~\ref{fig:testingFlowchart}.
 
 \begin{figure}[htbp]
@@ -152,6 +167,8 @@ Essentially, what we test can be visually described by Figure~\ref{fig:testingFl
 \end{figure}
 
 By using this architecture, it is only necessary to verify the correctness of the generated code once. The subsequent generations can be then compared to this already correct premise to determine errors or changes in the code that are not intended.
+
+This verified control code was tested thoroughly by manually generating, compiling, deploying to a target system and executing a series of runtime tests to confirm its functionality.
 
 An obvious flaw of this model is that, not only does it need complete manual validation in the start, but it's also very rigid when it comes to file comparison, comparing each file line-by-line\footnote{The comparison is not overly rigid and allows for exceptions such as the generated date and order changes in \gls{XML} files.}.
 
@@ -197,7 +214,7 @@ TC-REG-04 & Regression & Test legacy models without new features enabled. & Outp
 
 The tests described in table~\ref{tab:reg_tests_1} were proven true via \gls{JUnit} tests, which not only were able to verify the present tests but also additional ones that are not present in this table. The full detailed list of tests can be found in the Appendix~\ref{app:unit_tests}.
 
-TC-REG-02, TC-REG-03 and TC-REG-04 were easily proven by the unit test strip since this process can be automated and viewed quickly. TC-REG-01 added a layer of complexity because it pushed for manual verification which had to be done to ensure the functionality of the output code.
+TC-REG-02, TC-REG-03 and TC-REG-04 were easily proven by the unit test strip since this process can be automated and viewed quickly. TC-REG-01 added a layer of complexity because it pushed for manual verification which had to be done to ensure the functionality of the output code remained the same as the control group.
 
 All the unit tests previously described in this section (Section~\ref{sec:test_unit}) were initially done as plug-in tests, however, due to a multitude of reasons, they were later changed to standalone tests.
 
@@ -219,7 +236,7 @@ For this test, 5 users with a moderate/high familiarization to \gls{AADL} were p
 
 The goal was not only to acquire real data in a real environment but also to highlight any flaws or issues that might have been overlooked in the development phase.
 
-
+TODO: this section will be finished in the future
 
 
 

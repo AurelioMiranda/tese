@@ -20,7 +20,7 @@
 
 The first meeting with an industry partner revealed to be very useful with many insights to note, particularly that a few features were highlighted and prioritized in order to maintain a good development speed and an overall better plan. Most of the previously thought of features (\Glspl{identifier}, Traceability, Report, etc) were endorsed, however, a new feature was suggested by an expert \gls{ROS} developer: the separation of \gls{ROS} specific code and C++ specific code, meaning that code that is specific to \gls{ROS} can be isolated as it is very similar along the various generated files. This is essentially done with an interface that implements \gls{ROS} code on C++ only files, which effectively serves as a separation of concerns.
 
-TODO: provide more insight **************************
+Beyond that, the meeting also served as a sneak peak to what the final \gls{RAMSES} product would look like, including every gymmic, option, page and also a code generation dedicated section that ties perfectly with the current work.
 
 \begin{tcolorbox}[colback=green!5, colframe=green!40!black] This meeting provided extremely valuable insight as the industry partner has been using \gls{ROS} for over seven years, effectively distilling their experience into actionable knowledge. \end{tcolorbox}
 
@@ -39,7 +39,7 @@ In order to better understand what features are implemented, when and why, the i
 	\rowcolor{Gainsboro}%
 	Feature & Depends On & Notes \\
 	\midrule
-	\Glspl{identifier} & – & Core to code structure \\
+	\Glspl{identifier} & - & Core to code structure \\
 	Comments & \Glspl{identifier} & Low implementation cost early \\
 	Traceability & \Glspl{identifier}, Comments & Hard to retrofit later \\
 	Report & Traceability & Uses trace data \\
@@ -388,7 +388,7 @@ To put it simply, in order to produce the functionality that the input model ent
 
 For this to work it is crucial to accurately detect which components already have libraries associated to them. This comes before the component is even instanciated, meaning: when we write the \gls{AADL} system we want, the components used by that system already have libraries associated to them. This is done by explicitly including the libraries in the components properties.
 
-The ancient code generator\footnote{The non configurable version of the code generator, done by António.} already somewhat entailed to this functionality by not generating a skeleton when the library property was present, however, it lacked actually referencing that library properly and including it in the project.
+The baseline code generator\footnote{The non configurable version of the code generator, done by António.} already somewhat entailed to this functionality by not generating a skeleton when the library property was present, however, it lacked actually referencing that library properly and including it in the project.
 
 The solution to this was straightforward: to include the libraries (when the configuration defined so) and their reference properly in the generated code.
 
@@ -480,9 +480,25 @@ A key contribution of the \gls{DSL} is the dynamical addition of multiple distin
 
 At face value the solution to this is simple\footnote{To add to the already existing enumerator.} but intrinsically its more complex and involves modifying the current metamodel.
 
-TODO: visually describe the problem ********************
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{beforeLanguageChange.png}
+	\caption{Class diagram representing the base idea of choosing a coding language}
+	\label{fig:beforeLanguageChange}
+\end{figure}
 
-The act of adding a new programming language option to the configuration should be possible to the end user without having to go to the trouble of changing lines of code. For this reason, the \gls{DSL} architecture suffered a tiny shift which ended up abolishing the usage of single file configurations\footnote{Note that those are still possible but only as a single configuration in the list of configurations.} due to the now need for a Language property which could not be present in the configuration itself since it didn't allow for the dynamic creation of Languages if the programming language itself is already tied to a configuration.
+Figure~\ref{fig:beforeLanguageChange} represents the list of languages before the change. Since the languages are represented by an enumeration, the addition of a new language involves coding and regenerating the configuration model.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{afterLanguageChange.png}
+	\caption{New, improved class diagram representing the selection a coding language}
+	\label{fig:afterLanguageChange}
+\end{figure}
+
+As we can see in Figure~\ref{fig:afterLanguageChange}, since a coding language is now represented by a class, it is now possible to add new languages without modifying the metamodel, which makes the process more seemless and able to be automated so the end user can add their desired coding languages with a simple menu instead of having to write code.
+
+The \gls{DSL} architecture suffered a tiny shift which ended up changing the way single file configurations work. Since now a GeneratorConfig requires a reference to a Language, this Language needs to be imported via \textit{Load Resource...} to be associated with the configuration. This of course, only applies to single configuration instances since the multiple configuration architecture has a list of coding languages.
 
 
 \begin{tcolorbox}[colback=green!5, colframe=green!40!black] In simpler terms: the programming Language option cannot be "inside" a configuration because it will be associated with that configuration. Language options need to be in the same level as configurations in order to both be created dynamically and not depend on one another. \end{tcolorbox}
@@ -567,7 +583,7 @@ A new version of the Acceleo custom Workflow component was devised, the premise 
 \subsection{Script Workflow Executor}
 \label{sec:workflows_script_executor}
 
-One of the features mentioned both in the feature model~\ref{label} and in the client meeting~\ref{label} was the ability to execute pre or post generation hooks as discussed in Section~\ref{sec:impl_gen_hooks}. 
+One of the features mentioned both in the feature model~\ref{fig:feature_model} and in the client meeting~\ref{sec:industry_meeting} was the ability to execute pre or post generation hooks as discussed in Section~\ref{sec:impl_gen_hooks}. 
 
 This functionality was primarily aimed to be present in the \gls{DSL} as a way to execute Java code to consequently run a command script, however, in the very specific case of the \gls{RAMSES} environment, a different option is more viable and already implemented: System Command Component.
 
@@ -616,7 +632,7 @@ Since the base project did not have a workflow that successfully implemented the
 	\label{fig:avg_exec_times_1}
 \end{figure}
 
-As mentioned previously, Figure~\ref{fig:avg_exec_times_1} confirms that the average execution time seems to have doubled with the introduction of more processing heavy modules (Trace and Report), this is not a big issue as the total execution time is still below 500ms which is still very acceptable for the current conditions.
+As mentioned previously, Figure~\ref{fig:avg_exec_times_1} confirms that the average execution time seems to have doubled with the introduction of more processing heavy modules (Trace and Report), this is not a big issue as the total execution time is still below 500ms which is still very acceptable for the current conditions and given the huge amount of functionality and dynamicity added to the code generator.
 
 All in all, workflows proved to be an essential part of the code generation pipeline that tie together the functionality of every individual configuration option in a single, harmonized execution. In practice however, the editing of the configuration and the execution of the workflow will not be done in the raw files, but in Osate using buttons and preferences for execution and configuration respectively.
 
@@ -692,8 +708,6 @@ At the core of the options for code generation, the basics are:
 
 These options are strictly necessary for code generation to take place, hence being the main options. All options presented in this Section~\ref{sec:dsl} are available to be configured under \textit{Osate > Window > Preferences > CodeGen Config} in the Osate platform.
 
-*** Temp config preferences to be changed
-
  \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\textwidth]{eclipse_config_main.png}
@@ -701,14 +715,14 @@ These options are strictly necessary for code generation to take place, hence be
 	\label{fig:eclipse_config_main}
 \end{figure}
 
-Figure~\ref{fig:eclipse_config_main} highlights how the main configurations appear in the preferences window. From here it is possible to select the input \gls{AADL} model, the output folder and the target language that will be fed to the generator for code generation.
+Figure~\ref{fig:eclipse_config_main} highlights how the main configurations appear in the preferences window. From here it is possible to select the output folder and the target language that will be fed to the generator for code generation.
 
-This general settings are not specifically code configuration sections, those are highlighted in the subsequent subsections, mainly sections~\ref{sec:dsl_lang}, \ref{sec:dsl_name}, \ref{sec:dsl_report}, \ref{sec:dsl_business_logic}, \ref{sec:dsl_files}, \ref{sec:dsl_comments}, \ref{sec:dsl_trace}, \ref{sec:dsl_ext}, \ref{sec:dsl_build}, \ref{sec:dsl_legacy} and \ref{sec:dsl_os}.
+The remaining sub-sections of this chapter describe configuration options that refine or extend the behavior defined by these core parameters.
 
 \subsection{Language}
 \label{sec:dsl_lang}
 
-The language option defines the targeted language for the current customization. Meaning that the rest of the options may act differently based on language. On top of that, the language also serves as a distinction between different configurations in the configuration list, allowing for the quicker identification of the selected language in the generation.
+The language option defines the targeted language for the current customization. The language option also serves as a distinction between different configurations in the configuration list, allowing for the quicker identification of the selected language in the generation.
 
 This option also serves to map the code \glspl{identifier} to their language specific casing\footnote{This only applies when the naming convention is set to STANDARD.} as explained in Section~\ref{sec:dsl_lang}.
 
@@ -719,7 +733,7 @@ This option appears in the main page of the configurations as seen in Section~\r
 \subsection{Naming Convention}
 \label{sec:dsl_name}
 
-The essence of the naming convention option is simple: to automatically change the casing on \glspl{identifier}.
+The essence of the naming convention option is simple: to automatically change the casing on \glspl{identifier} to ensure consistency across all generated artifacts. It allows the user to enforce casing rules on classes, methods, variables, and constants throughout source files.
 
 \subsubsection{Identifier Style}
 \label{sec:dsl_name_style}
@@ -734,9 +748,9 @@ The \textit{STANDARD} naming convention differs from the others as it allows for
 \subsubsection{Identifier Affix}
 \label{sec:dsl_name_affix}
 
-To complement the previous formatting, we can also add specific text (an affix) to the start or end of all \glspl{identifier}, this, then again, preserves the functionality while also adding a layer of customization to the code that offers many benefits such as improved readability, clearer namespace separation and reduced risk of naming conflicts.
+Users may additionally define a prefix or suffix to be applied to all \glspl{identifier}
 
-Moreover, the affix is not affected by the styling format, this is done to give more choice to the end user, if we wish to have the affix not follow the selected casing that is the default behavior. On the other hand, if we do wish the affix to follow certain casing the solution is to simply write it according to that casing. This will not work with the \textit{STANDARD} convention since that type of formatting dynamically changes the casing based on the usage of the text.
+Moreover, the affix is not affected by the styling format, this is done to give more choice to the end user, if we wish to have the affix not follow the selected casing that is the default behavior. On the other hand, if we do wish the affix to follow certain casing the solution is to simply write it according to that casing.
 
 All the options in the naming convention section are available to be modified in the preferences window as shown in Figure~\ref{fig:eclipse_config_naming}.
 
@@ -753,11 +767,9 @@ All the options in the naming convention section are available to be modified in
 
 The report generation option offers various ways to customize the generated report that complements the code. This report is optional and, since it does take a good bit of time to be generated, can be turned off when not needed.
 
-Other customization options include the logic summaries and summary tables, which add condensed info to the end of certain parts of the report. Traceability can also be toggled on, this will include direct links to components, threads and models if those are present.
+Other customization options include the logic summaries and summary tables, which add condensed info to the end of certain parts of the report. Traceability, when enabled, will include direct links to components, threads and models in the report.
 
-Along with these options there's also the option to toggle the detected errors on or off. If this option is toggled off the analysis will not be performed.
-
-Lastly, there's the option to automatically open the report, which was not implemented due to it benefiting from a more developed product, in short, it will be easier to implement and manage later when \gls{RAMSES} reaches a near ready state.
+Along with these options there's also the option to detect errors. If this option is toggled off the analysis will not be performed.
 
 Similar to the other options, this option can be modified in the preferences as shown in Figure~\ref{fig:eclipse_config_report}.
 
@@ -791,15 +803,13 @@ The decoupling option splits the C++ code from the \gls{ROS} specific code with 
 	\label{fig:eclipse_config_business}
 \end{figure}
 
-As can be seen in Figure~\ref{fig:eclipse_config_business}, the decoupling choice appears as a toggle, while the executor type presents a drop down menu with every allowed executor type. These options do influence a lot of the generation process but they do not restrict any other configuration option.
+Figure~\ref{fig:eclipse_config_business} highlights the business logic menu options. These options do influence a lot of the generation process but they do not restrict any other configuration option.
 
 
 \subsection{Files}
 \label{sec:dsl_files}
 
-The options on the files part of the configuration allow the user to input a name for both the start of every code file and the output directory.
-
-Additionally, it also has the option to override the existing files, which by default is false.
+The file configuration controls file naming and output directory structure. Users can specify a shared filename prefix and enable or disable overwriting of existing files. This is important when regenerating code in incremental development workflows.
 
 \begin{figure}[htbp]
 	\centering
@@ -808,15 +818,15 @@ Additionally, it also has the option to override the existing files, which by de
 	\label{fig:eclipse_config_files}
 \end{figure}
 
-Figure~\ref{fig:eclipse_config_files} shows the simple file management page where the options discussed previously appear.
+Figure~\ref{fig:eclipse_config_files} shows the options that control the file management.
 
 
 \subsection{Comments}
 \label{sec:dsl_comments}
 
-In the comment options we can input both the author and a copyright notice for all code files. The comments can also be enabled/disabled. 
+In the comment options we can input both the author and a copyright notice for all code files. Documentation comments can also be enabled/disabled entirely. 
 
-By default, all options are empty meaning no comments, author or copyright notice will generate.
+By default, no comments are emitted.
 
 \begin{figure}[htbp]
 	\centering
@@ -825,16 +835,13 @@ By default, all options are empty meaning no comments, author or copyright notic
 	\label{fig:eclipse_config_comments}
 \end{figure}
 
-In Figure~\ref{fig:eclipse_config_comments} we can see the different options and how they are presented to the used in the code comments page. These options are disabled/empty by default.
+Figure~\ref{fig:eclipse_config_comments} illustrates the different code comment generation options.
 
 
 \subsection{Traceability}
 \label{sec:dsl_trace}
 
-The logic of the traceability is quite complex, however, its configuration options are pretty simple: either enabled or disabled. The same can be said for the \gls{JSON} trace, which can also be toggled to generate or not.
-
-On top of that, there is also the option to generate a traceability diagram, although that is meant for future work. TODO: veryfy this ****************************
-
+Traceability options enable or disable the generation of structured trace metadata linking model elements to corresponding code fragments. The JSON trace file may be generated independently, while diagram export is reserved for future work. 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\textwidth]{eclipse_config_trace.png}
@@ -842,7 +849,7 @@ On top of that, there is also the option to generate a traceability diagram, alt
 	\label{fig:eclipse_config_trace}
 \end{figure}
 
-Figure~\ref{fig:eclipse_config_trace} shows the different options for traceability, as we saw previously with the case of the report generation (Section~\ref{sec:dsl_report}), the bottom 2 options are conditioned by the first one, meaning that if the first option (Enable traceability generation) is disabled, the other options are deactivated. This behavior can be seen in Figure~\ref{fig:eclipse_config_trace_disabled}
+Figure~\ref{fig:eclipse_config_trace} shows the different options for traceability, as we saw previously with the case of the report generation (Section~\ref{sec:dsl_report}), if traceability generation is disabled, dependent settings become inactive. This behavior can be seen in Figure~\ref{fig:eclipse_config_trace_disabled}
 
 \begin{figure}[htbp]
 	\centering
@@ -851,17 +858,26 @@ Figure~\ref{fig:eclipse_config_trace} shows the different options for traceabili
 	\label{fig:eclipse_config_trace_disabled}
 \end{figure}
 
+
+
 \subsection{Extension}
 \label{sec:dsl_ext}
 
-Simple configuration that only requires the path of either the script to be executed before and/or after generation. Again, this option was not needed in the specific case of \gls{RAMSES} (see Section~\ref{sec:impl_gen_hooks}) but remained as it can be useful in future projects.
+The extension option represents the generation hooks (see Section~\ref{sec:impl_gen_hooks}) which were implemented with an already existing workflow component. This settings configure pre and post generation hooks that allow execution of external scripts. 
 
+These hooks enable automation without modifying the code generator. 
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{eclipse_config_extension.png}
+	\caption{Page of generation hooks for code generation}
+	\label{fig:eclipse_config_extension}
+\end{figure}
 
 \subsection{Build Integration}
 \label{sec:dsl_build}
 
-This simple configuration allows the user to individually toggle the generation of the \textit{source}, \textit{make}, \textit{package} and \textit{launch} files as described in Section~\ref{sec:impl_build_options}. 
+Build integration controls whether main project artifacts such as \textit{source}, \textit{make}, \textit{package} and \textit{launch} files are generated. 
 
 \begin{figure}[htbp]
 	\centering
@@ -870,13 +886,13 @@ This simple configuration allows the user to individually toggle the generation 
 	\label{fig:eclipse_config_build}
 \end{figure}
 
-Figure~\ref{fig:eclipse_config_build} illustrates how the options are displayed to the user. Each one of the options is independent from each other, meaning that they can be ticked on/off in any combination.
+Figure~\ref{fig:eclipse_config_build} illustrates how the options can be selected. Each one of the options is independent from each other, meaning that they can be ticked on/off in any combination.
 
 
 \subsection{Legacy Libraries}
 \label{sec:dsl_legacy}
 
-The options available to manage the configuration are simple yet effective: the legacy libraries can either be included or not and when included can be referenced or copied.
+Legacy library handling determines whether external libraries are either included or not and when included can be referenced or copied.
 
 \begin{figure}[htbp]
 	\centering
@@ -885,7 +901,7 @@ The options available to manage the configuration are simple yet effective: the 
 	\label{fig:eclipse_config_legacy}
 \end{figure}
 
-Like other previous pages, the legacy page requires the inclusion of legacy libraries for the copy option to be enabled. Figure~\ref{fig:eclipse_config_legacy} illustrates how the page looks with all the options enabled and Figure~\ref{fig:eclipse_config_legacy2} shows how the disabling of the first option affects the second.
+Like other previous pages, the legacy page requires the inclusion of legacy libraries for the copy option to be enabled. Figure~\ref{fig:eclipse_config_legacy} illustrates how the page looks with all the options enabled and Figure~\ref{fig:eclipse_config_legacy2} shows how the the copy option depends on enabling library inclusion, ensuring configuration consistency.
 
 \begin{figure}[htbp]
 	\centering
@@ -899,9 +915,9 @@ Like other previous pages, the legacy page requires the inclusion of legacy libr
 \subsection{Target Operating System}
 \label{sec:dsl_os}
 
-A simple dropdown menu allows the user to choose between the 3 target operating systems: Linux, Windows and MacOS.
+This dropdown selects platform-specific adaptations to the generated code (for instance, file paths). Supported systems are Linux, Windows, and macOS.
 
-This option is one of the core options and can be found in Figure~\ref{fig:eclipse_config_main} as it is a fundamental code generation option.
+This option is one of the core options and can be found in Figure~\ref{fig:eclipse_config_main}.
 
 
 

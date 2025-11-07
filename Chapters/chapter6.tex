@@ -20,6 +20,8 @@ Software testing was conducted specifically for the configuration of the code ge
 
 This type of testing is recurrent along the development, it serves to ensure that the features implemented are functioning as intended and that the previous version of the software has retained its functionality when new features were added.
 
+Integration testing was performed in two clear stages, matching the incremental development of the configuration language. The first phase, in August, ensured that the addition of configuration features did not change the behavior of the baseline generator. The second phase, in October, focused on the validation of the more advanced architectural and runtime-related configuration options and refinement of the testing methodology to better reflect the intended modularity of \gls{RAMSES}.
+
 \subsection{Integration Testing: August}
 \label{sec:test_feature_one}
 
@@ -98,9 +100,9 @@ After conducting these tests, the following was concluded:
 \subsection{Integration Testing: October}
 \label{sec:test_feature_two}
 
-Testings in October were done with the intent of solidifying the already robust configuration language, but also to fundamentally change the way tests are performed in order to better adhere to the \gls{RAMSES} architecture logic.
+This latter stage of integration testing concentrated on the more architecture and runtime-oriented features of configuration, as well as revising the way in which testing was performed in order to better align with the modular design principles of \gls{RAMSES}. While tests in August concentrated on baseline correctness and compatibility, tests in October focused on verifying that these advanced configuration options (business logic decoupling, executor selection, file management, and build behavior) interoperate correctly and produce expected behavior when combined.
 
-The testing environment remained mostly the same with the exception of the switch from Ubuntu for windows to a virtual machine with linux along with the \gls{RAMSES} version changing to Oct 27, 2025 (commit 3eb5118b57903cc5077ad4218fc83e182cbab199).
+The testing environment remained mostly the same, with the exception of the execution platform: testing was moved from a physical Ubuntu installation on Windows to a dedicated Linux virtual machine. The \gls{RAMSES} version was also updated to Oct 27, 2025 (commit 3eb5118b57903cc5077ad4218fc83e182cbab199).
 
 The initial tests were conducted with a "parameterized" way in mind, meaning that the architecture prioritized code efficiency albeit with an addition of complexity. This in of itself is not an issue at all, the tests were still very efficient, accurate and highly maintainable\footnote{To add a new test only one function needs to be added, at least.}. However, the current \gls{RAMSES} architecture benefited more from running tests in an isolated, standalone form, meaning that it would be better if it was possible to run specific test of the generated code without the need to run the whole test strip. For this goal, the parameterized way of testing was inefficient, since it entails that every test is generic and there is no way to quickly modify specific parameters in a single test.
 

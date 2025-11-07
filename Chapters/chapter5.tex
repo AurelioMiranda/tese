@@ -761,6 +761,9 @@ All the options in the naming convention section are available to be modified in
 	\label{fig:eclipse_config_naming}
 \end{figure}
 
+Enforcing identifier casing is especially important in parts of the toolchain where naming conventions may be interpreted semantically, such as ROS message fields and class names. Having the style configuration in the DSL ensures that all generated artifacts are syntactically consistent with the selected target environment.
+
+%TODO: review the phrase above
 
 \subsection{Report}
 \label{sec:dsl_report}
@@ -789,6 +792,8 @@ One key detail of the report configuration is that if the report generation itse
 	\label{fig:eclipse_config_report_disabled}
 \end{figure}
 
+The report serves as a form of documentation of the generated system, allowing developers to verify many properties such as scheduling, port bindings and thread structure without inspecting the generated code manually.
+
 \subsection{Business Logic}
 \label{sec:dsl_business_logic}
 
@@ -803,7 +808,9 @@ The decoupling option splits the C++ code from the \gls{ROS} specific code with 
 	\label{fig:eclipse_config_business}
 \end{figure}
 
-Figure~\ref{fig:eclipse_config_business} highlights the business logic menu options. These options do influence a lot of the generation process but they do not restrict any other configuration option.
+Figure~\ref{fig:eclipse_config_business} highlights the business logic menu options.
+
+These options isolate the platform-dependent runtime semantics (in this case the ROS node execution) from the platform-independent logic (C++ code). This separation enables the same architectural model to be plugged into different execution frameworks with small changes.
 
 
 \subsection{Files}
@@ -902,6 +909,8 @@ Legacy library handling determines whether external libraries are either include
 \end{figure}
 
 Like other previous pages, the legacy page requires the inclusion of legacy libraries for the copy option to be enabled. Figure~\ref{fig:eclipse_config_legacy} illustrates how the page looks with all the options enabled and Figure~\ref{fig:eclipse_config_legacy2} shows how the the copy option depends on enabling library inclusion, ensuring configuration consistency.
+
+The ability to either reference or copy legacy libraries supports two distinct workflows: systems where libraries are centrally maintained, and isolated embedded deployments where all dependencies must be imported directly to the projects.
 
 \begin{figure}[htbp]
 	\centering

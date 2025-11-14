@@ -236,9 +236,77 @@ With the \gls{DSL} finalized and its features implemented it is then possible to
 
 For this test, 5 users with a moderate/high familiarization to \gls{AADL} were picked to perform a sequence of tasks that mimicked the usage of the \gls{DSL} to its near fullest extent.
 
-The goal was not only to acquire real data in a real environment but also to highlight any flaws or issues that might have been overlooked in the development phase.
+The goal was not only to acquire real data in a real environment but also to highlight any flaws or issues that might have been overlooked in the development phase and to verify whether the configuration language meets the usability requirements defined earlier in Chapter~\ref{chap:challenges_and_requirements}, particularly its accessibility to users with different levels of technical expertise.
 
-TODO: this section will be finished in the future
+\subsection{Participants}
+\label{sec:test_usabl_participants}
+TODO: nr participants participants were selected for this study. All were familiar with \gls{AADL} and had experience with model-driven workflows, even though their backgrounds and technical depth varied. This group reflects the typical user base within the RAMSES ecosystem: developers, testers, and stakeholders who understand AADL semantics but may not necessarily be expert programmers. Participants remained anonymous.
+
+\subsection{Tasks}
+\label{sec:test_usabl_tasks}
+Each participant was asked to perform a sequence of tasks designed to cover every major feature of the configuration language. These tasks simulate realistic use of the \gls{DSL} and its integration with \gls{RAMSES}. The task set was organized into five groups:
+
+\begin{itemize}
+	\item \textbf{Basic Configuration:} selecting the target language, target operating system, and output folder.
+	\item \textbf{Identifier and Naming Options:} changing identifier style, applying prefixes or suffixes, and switching to the \textit{STANDARD} naming convention.
+	\item \textbf{Feature Toggles:} enabling or disabling comments, report generation, traceability, and file management options.
+	\item \textbf{Advanced Capabilities:} configuring executor type, managing business logic decoupling, referencing legacy libraries, and defining pre and post generation hooks.
+	\item \textbf{Full Workflow Validation:} triggering code generation and verifying that the outputs (generated code, reports, trace files, etc) reflect the selected configuration.
+\end{itemize}
+
+The task sequence was intentionally designed to exercise the \gls{DSL} to near full extent without requiring prior explanation of its internal implementation.
+
+\subsection{Evaluation Criteria}
+\label{sec:test_usabl_eval_crit}
+The usability evaluation followed the methodology defined in the requirements phase of the project. Both quantitative and qualitative measures were collected to assess the usability of the configuration interface and the effort required to use it.
+
+\paragraph{Quantitative data}
+\label{sec:test_usabl_quant}
+For every task and participant, the following metrics were recorded:
+
+\begin{itemize}
+	\item Task completion time.
+	\item Number and type of errors committed.
+	\item Number of help requests or clarifications needed.
+\end{itemize}
+
+\paragraph{Qualitative data}
+\label{sec:test_usabl_qual}
+During the session, the following observations were captured:
+
+\begin{itemize}
+	\item Visible misunderstandings and their severity.
+	\item User comments and verbalized expectations.
+	\item Indicators of the learning curve across tasks (increased speed or confidence).
+\end{itemize}
+
+\paragraph{Subjective evaluation}
+\label{sec:test_usabl_subj}
+After completing all tasks, each participant completed two standardized questionnaires:
+
+\begin{itemize}
+	\item \textbf{\gls{SUS}} for perceived usability.
+	\item \textbf{NASA \gls{TLX}} to assess perceived workload and cognitive demands.
+\end{itemize}
+
+These instruments provide widely accepted measures for usability and mental effort. They also enable a structured and comparable assessment.
+
+\subsection{Procedure}
+\label{sec:test_usabl_proc}
+Each session followed the same procedure:
+
+\begin{enumerate}
+	\item \textbf{Introduction:} participants were informed that they would configure a code generator using the provided interface, without receiving task-specific guidance.
+	\item \textbf{Task execution:} participants completed the predefined task sequence while the evaluator recorded times, errors, and observations. No assistance was offered unless explicitly requested.
+	\item \textbf{Post-study questionnaires:} participants completed the \gls{SUS} and NASA-\gls{TLX} questionnaires.
+	\item \textbf{Final debriefing:} participants were invited to provide additional comments and suggestions.
+\end{enumerate}
+
+All sessions were conducted individually and under identical software environments to ensure comparability.
+
+\subsection{Data Analysis}
+\label{sec:test_usabl_analysis}
+With all data collected, 
 
 
 

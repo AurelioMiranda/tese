@@ -306,14 +306,79 @@ All sessions were conducted individually and under identical software environmen
 
 \subsection{Data Analysis}
 \label{sec:test_usabl_analysis}
-With all data collected, 
+With all data collected, we can proceed with the analysis.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Usability Task Performance Summary}
+	\label{tab:usability_tasks}
+	\begin{tabular}{lccc}
+		\toprule
+		\textbf{Task} & \textbf{Completion Time (s)} & \textbf{Errors} & \textbf{Help Requests} \\
+		\midrule
+		Select target language &  &  &  \\
+		Configure naming style &  &  &  \\
+		Apply identifier prefix/suffix &  &  &  \\
+		Enable/disable comments &  &  &  \\
+		Enable/disable report generation &  &  &  \\
+		Enable/disable traceability &  &  &  \\
+		Change executor type &  &  &  \\
+		Toggle business logic decoupling &  &  &  \\
+		Configure legacy libraries &  &  &  \\
+		Add pre/post scripts &  &  &  \\
+		Trigger code generation &  &  &  \\
+		Verify outputs &  &  &  \\
+		\midrule
+		\textbf{Totals} &  &  &  \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+Table~\ref{tab:usability_tasks} illustrates the aggregated performance summary of the participants. The completion time is very much acceptable for most tasks given the lack of familiarity with the software that every participant had. We can see a spike when it comes to \gls{ROS} specific things that the casual \gls{AADL} user might not be familiar with, for instance, changing the thread executor, managing the business logic, etc.
+
+The amount of error performed was below expectations, most likely due to the simplicity and structure of the configuration language.
+
+Nevertheless, this errors where quantified in the following Table~\ref{tab:usability_errors}
+
+\begin{table}[htbp]
+	\centering
+	\caption{Categorization of User Errors}
+	\label{tab:usability_errors}
+	\begin{tabular}{lcl}
+		\toprule
+		\textbf{Error Category} & \textbf{Count} & \textbf{Description} \\
+		\midrule
+		Navigation error &  & Incorrectly locating the configuration page or submenu. \\
+		Misinterpretation &  & Misunderstanding the meaning of an option. \\
+		Configuration misuse &  & Selecting an option that conflicts with the intended task. \\
+		UI confusion &  & Confusion caused by labels, layouts, or grouping. \\
+		Missing confirmation &  & Forgetting to apply/save configuration changes. \\
+		Other &  &  \\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
 
+\subsubsection{Participant Observations}
+\label{sec:test_usabl_obs}
 
 
-
-
-
+\begin{table}[htbp]
+	\centering
+	\caption{Qualitative Observations During Testing}
+	\label{tab:usability_observations}
+	\begin{tabular}{p{3cm} p{10cm}}
+		\toprule
+		\textbf{Participant} & \textbf{Observations} \\
+		\midrule
+		P1 &  \\
+		P2 &  \\
+		P3 &  \\
+		P4 &  \\
+		P5 &  \\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
 
 

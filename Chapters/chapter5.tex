@@ -1,934 +1,393 @@
 %!TEX root = ../template.tex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% chapter5.tex
+%% chapter6.tex
 %% NOVA thesis document file
 %%
-%% Chapter with lots of dummy text
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\typeout{NT FILE chapter5.tex}%
+\typeout{NT FILE chapter6.tex}%
 
-\chapter{Implementation and Integration into RAMSES}
-\label{cha:impl}
-
-
-\epigraph{ \textit{This chapter describes the technical implementation of the proposed configuration language for RAMSES. It details how the insights from industrial collaboration informed the architectural decisions and how each feature was implemented.}}
+\chapter{Software Testing}
+\label{cha:test}
 
 
-\section{Industry Partner Meeting}
-\label{sec:industry_meeting}
+\epigraph{ \textit{This chapter documents the software testing done throughout the development of the thesis. It highlights how the specific tests where done, in what context and their results.}}
 
-The first meeting with an industry partner revealed to be very useful with many insights to note, particularly that a few features were highlighted and prioritized in order to maintain a good development speed and an overall better plan. Most of the previously thought of features (\Glspl{identifier}, Traceability, Report, etc) were endorsed, however, a new feature was suggested by an expert \gls{ROS} developer: the separation of \gls{ROS} specific code and C++ specific code, meaning that code that is specific to \gls{ROS} can be isolated as it is very similar along the various generated files. This is essentially done with an interface that implements \gls{ROS} code on C++ only files, which effectively serves as a separation of concerns.
+Software testing was conducted specifically for the configuration of the code generation part of \gls{RAMSES}. This means that the goal was to ensure that the newly developed configuration options did not modify the runtime results of the generated software, hence maintaining the core goal of the input model.
 
-Beyond that, the meeting also served as a sneak peak to what the final \gls{RAMSES} product would look like, including every gymmic, option, page and also a code generation dedicated section that ties perfectly with the current work.
+\section{Integration Testing}
+\label{sec:test_feature}
 
-\begin{tcolorbox}[colback=green!5, colframe=green!40!black] This meeting provided extremely valuable insight as the industry partner has been using \gls{ROS} for over seven years, effectively distilling their experience into actionable knowledge. \end{tcolorbox}
+This type of testing is recurrent along the development, it serves to ensure that the features implemented are functioning as intended and that the previous version of the software has retained its functionality when new features were added.
 
+Integration testing was performed in two clear stages, matching the incremental development of the configuration language. The first phase, in August, ensured that the addition of configuration features did not change the behavior of the baseline generator. The second phase, in October, focused on the validation of the more advanced architectural and runtime-related configuration options and refinement of the testing methodology to better reflect the intended modularity of \gls{RAMSES}.
 
-\section{Implementation Plan} 
-\label{sec:impl_plan}
+\subsection{Integration Testing: August}
+\label{sec:test_feature_one}
 
-In order to better understand what features are implemented, when and why, the implementation was done by layers: each layers depends on things done previously on other layers, hence some features are developed before others.
+After the development of the first batch of features, the testing served to ensure that the previous version of the code generator was still working as intended and to validate the integration of the code generator configurator in the pipeline.
+
+The main testing environment for the tests in this sub section was the following:
+
+\begin{itemize} 
+	\item Eclipse version 2024-03 (4.31)
+	\item OSATE2 version 2.16.0.vfinal
+	\item RAMSES2 version Aug 26, 2025 (commit 335579b6e58a188475e7a5e7ed099b9a549bfb25)
+	\item ROS 2 Humble Hawksbill
+	\item Acceleo version 3.7.15.202402190857
+	\item MDELab Workflow version 1.9.1.202402292002
+	\item EMF - Eclipse Modeling Framework SDK version 2.37.0.v20240203-1010
+	\item Ubuntu version 22.04.5 LTS
+\end{itemize}
+
+The regression tests applied at this time were limited since the previous version of the software did not include any code generation customization, only the simple transition from model to code (\gls{M2T}), which, after generating a \gls{ROS} project in both the previous code generator and the at the time current one (with the first batch of features implemented), it was possible to verify that both generators still produced the same practical output, essentially, the code produced by both generators yields the same functionality.
+
+The integration test part was done much more in depth since the goal was to intertwine the different new features and find out if they worked in perfect harmony as expected. The tests present in Table~\ref{tab:int_tests_1} were conducted.
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}
-\begin{xltabular}{\textwidth}{X X X}
+\begin{xltabular}{\textwidth}{X X X X X}
 	\caption{Feature dependency table}
-	\label{tab:impl_plan}\\
+	\label{tab:int_tests_1}\\
 	\toprule
 	\rowcolor{Gainsboro}%
-	Feature & Depends On & Notes \\
+	Test Case ID & Feature & Description & Expected Outcome \\
 	\midrule
-	\Glspl{identifier} & - & Core to code structure \\
-	Comments & \Glspl{identifier} & Low implementation cost early \\
-	Traceability & \Glspl{identifier}, Comments & Hard to retrofit later \\
-	Report & Traceability & Uses trace data \\
-	Standard\par Compliance & Report, Traceability & Enforce compliance early \\
-	Code Quality\par Analysis & Report & Needs stable generation logic \\
-	Business Logic\par Separation & - & Enables \gls{ROS} decoupling \\
-	File Management & All & Facilitates file management operations \\
-	Generation Hooks & - & Adds autonomy to generation \\
-	Multi Configuration & - & Easier configuration management \\
-	Build Integration & - & File generation management \\
-	Legacy Code\par Integration & Business Logic & Most architecture-dependent \\
-	Target Operating\par System & Business Logic & Increases flexibility \\
-	\bottomrule
+	TC-INT-01 & \Gls{identifier} Management & Check that \gls{identifier} config is applied in code, traceability, and report. & Same naming convention is visible in all outputs. \\
+	TC-INT-02 & Comments & Verify comment style and formatting are preserved in all files. & All comments retain exact style and placement. \\
+	TC-INT-03 & Traceability & Ensure model elements map to the correct code location and report entry. & JSON and HTML show accurate paths and line numbers. \\
+	TC-INT-04 & Report Generation & Ensure generation metrics are passed from Java generator to report. & Report displays correct counts and settings. \\
+	TC-INT-05 & Code Quality \& Report Sync & Verify quality checker warnings appear in both XML and report. & Both outputs show the same warning details. \\
+	TC-INT-07 & Cross-Feature Stability & Test large models with custom \glspl{identifier}, comments, and style violations. & All features work together without breaking. \\
 \end{xltabular}
 
+After conducting these tests, the following was concluded:
 
-Table~\ref{tab:impl_plan} presents the planned order of feature implementation based on their dependencies. Each feature may require elements developed in previous steps, ensuring a coherent and manageable progression. This dependency structure prevents rework by implementing features that provide necessary infrastructure before higher-level functionalities.
+\begin{itemize}
+	\item \textbf{TC-INT-01 - \Gls{identifier} Consistency:} Verified that the \gls{identifier} configuration set in the \texttt{config.generator} model is applied consistently in generated C++ code and reflected in the traceability file as well as in the report.
+	
+	\item \textbf{TC-INT-02 - Comments:} Generated code containing both single-line and multi-line comments, verified that:
+	\begin{enumerate}
+		\item Acceleo templates correctly output the comments.
+		\item Java generator preserves formatting.
+	\end{enumerate}
+	
+	\item \textbf{TC-INT-03 - Traceability Link Accuracy:} Confirmed that model elements are mapped to the correct files and line numbers in generated code, and that these mappings are:
+	\begin{enumerate}
+		\item Present in the \gls{JSON} traceability output.
+		\item Referenced in the \gls{HTML} report.
+	\end{enumerate}
+	
+	\item \textbf{TC-INT-04 - Report Generation Data Flow:} Metrics collected during generation (number of components, code quality warnings) are passed to the Acceleo generator rendered correctly in the report.
+	
+	\item \textbf{TC-INT-05 - Code Quality \& Report Synchronization:} Triggered a known style violation in the model, generated code, and verified that:
+	\begin{enumerate}
+		\item The code quality checker detects it and outputs XML accurately referencing it.
+		\item The Java generator correctly embeds this warning into the final HTML report.
+	\end{enumerate}
+	
+	\item \textbf{TC-INT-07 - Cross-Feature Stability:} Used a large, complex model with:
+	\begin{itemize}
+		\item Custom \glspl{identifier}
+		\item Extensive comments
+		\item Known style violations
+	\end{itemize}
+	Verified that all features (\gls{identifier} config, comments, traceability, reporting, quality checking) work together without breaking any module.
+\end{itemize}
 
 
-\subsection{Core and Metadata Layer}
-\label{sec:code_and_meta}
 
-The Core and Metadata Layer (Table~\ref{tab:core_and_meta}) includes foundational features that establish the basic code structure and metadata necessary for subsequent processing. Features such as \glspl{identifier} and comments form the backbone of the generator, while traceability and reporting provide essential tools for debugging and verification. Their relatively low to medium complexity allows them to be developed early, enabling smooth integration of more advanced features later.
+\subsection{Integration Testing: October}
+\label{sec:test_feature_two}
+
+This latter stage of integration testing concentrated on the more architecture and runtime-oriented features of configuration, as well as revising the way in which testing was performed in order to better align with the modular design principles of \gls{RAMSES}. While tests in August concentrated on baseline correctness and compatibility, tests in October focused on verifying that these advanced configuration options (business logic decoupling, executor selection, file management, and build behavior) interoperate correctly and produce expected behavior when combined.
+
+The testing environment remained mostly the same, with the exception of the execution platform: testing was moved from a physical Ubuntu installation on Windows to a dedicated Linux virtual machine. The \gls{RAMSES} version was also updated to Oct 27, 2025 (commit 3eb5118b57903cc5077ad4218fc83e182cbab199).
+
+The initial tests were conducted with a "parameterized" way in mind, meaning that the architecture prioritized code efficiency albeit with an addition of complexity. This in of itself is not an issue at all, the tests were still very efficient, accurate and highly maintainable\footnote{To add a new test only one function needs to be added, at least.}. However, the current \gls{RAMSES} architecture benefited more from running tests in an isolated, standalone form, meaning that it would be better if it was possible to run specific test of the generated code without the need to run the whole test strip. For this goal, the parameterized way of testing was inefficient, since it entails that every test is generic and there is no way to quickly modify specific parameters in a single test.
+
+So, the test class was re-written to have one method per test, per model. Meaning that instead of ten generic tests ran with parameterized values, there would be fifty \footnote{At that point in time, with five models.} specific tests, ten for each test model.
+
+The features tested in Section~\ref{sec:test_feature_one} were re-tested and their behavior remained, as expected, the same. On top of that, new integration tests were performed to ensure that new features behave as intended, mainly:
+
+\begin{itemize}
+	\item \textbf{TC-INT-08 - Business Logic Decoupling:} Verified that when the DSL specifies decoupled business logic, the generated code separates logic into independent modules, allowing tasks to execute without unnecessary dependencies.
+	
+	\item \textbf{TC-INT-09 - Executor Behavior:} Configured models with different executor types and confirmed that:
+	\begin{enumerate}
+		\item Multi-threaded execution logic is correctly generated when requested.
+		\item Static single-thread execution is applied as configured.
+	\end{enumerate}
+	
+	\item \textbf{TC-INT-10 - File Management:} Generated code using models with various file settings and confirmed that:
+	\begin{enumerate}
+		\item Existing files remain unchanged when overwriting is disabled.
+		\item Configured header prefixes are correctly applied in all files.
+	\end{enumerate}
+	
+	\item \textbf{TC-INT-11 - Extension Script Execution:} Added pre and post generation scripts to the DSL and verified that:
+	\begin{enumerate}
+		\item Pre-generation scripts execute successfully before code generation starts.
+		\item Post-generation scripts run correctly after generation completes.
+	\end{enumerate}
+	
+	\item \textbf{TC-INT-12 - Build Integration Artifacts:} Configured build integration options in the DSL and confirmed that:
+	\begin{enumerate}
+		\item Source files, Makefile, package files, and launch scripts are generated according to the configuration.
+		\item Disabling specific build outputs correctly prevents their generation without affecting other features.
+	\end{enumerate}
+	
+	\item \textbf{TC-INT-13 - Legacy Library Handling:} Added legacy library configuration to the DSL and verified that:
+	\begin{enumerate}
+		\item Library headers are correctly included in the generated code.
+		\item Libraries are copied into the project folder when requested.
+	\end{enumerate}
+	
+	\item \textbf{TC-INT-14 - Target OS Adaptation:} Configured different target operating systems and confirmed that:
+	\begin{enumerate}
+		\item Generated code includes OS-specific adaptations for Linux, Windows, and MacOS.
+	\end{enumerate}
+\end{itemize}
+
+These tests ensured that the new features provided, in fact, additional and specific functionalities that work as predicted.
+
+
+\section{Regression Testing}
+\label{sec:test_unit}
+
+In order to automate the testing of the added features as development progressed unit tests were developed. By comparing the functional version of the generated projects against a newly generated version of the same project, we are able to detect differences in the end result which can point out flaws when a branch of the code generation is modified. 
+
+The testing environment remained the same, with only the \gls{RAMSES} version changing throughout the development.
+
+Essentially, what we test can be visually described by Figure~\ref{fig:testingFlowchart}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.55\textwidth]{testingFlowchart.png}
+	\caption{Flowchart of the testing strategy for generated code (made by the author)}
+	\label{fig:testingFlowchart}
+\end{figure}
+
+By using this architecture, it is only necessary to verify the correctness of the generated code once. The subsequent generations can be then compared to this already correct premise to determine errors or changes in the code that are not intended.
+
+This verified control code was tested thoroughly by manually generating, compiling, deploying to a target system and executing a series of runtime tests to confirm its functionality.
+
+An obvious flaw of this model is that, not only does it need complete manual validation in the start, but it's also very rigid when it comes to file comparison, comparing each file line-by-line\footnote{The comparison is not overly rigid and allows for exceptions such as the generated date and order changes in \gls{XML} files.}.
+
+These flaws can also be seen as benefits, since the code needs to be tested rigorously to ensure maximum code quality when generated. This can only be achieve by actually executing the generated projects and verifying their functionality manually.
+
+The unit tests were made to be as flexible as possible, allowing for different configurations and different models to be tested in a single run, providing insights in multiple generated projects in a single test execution as can be observed in Figure~\ref{fig:testingResults1}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.55\textwidth]{testingResults1.png}
+	\caption{Testing results of 3 different models}
+	\label{fig:testingResults1}
+\end{figure}
+
+The tests also account for certain projects not generating unneeded files such as the traceability or the report file. This behavior is translated by simply skipping the test as can be observed in Figure~\ref{fig:testingResultsSkip1}. Similar tests also verify the existence of folders and files that are a requirement for any \gls{ROS} project and need to be present after generation.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.55\textwidth]{testingResultsSkip1.png}
+	\caption{Skipped Trace, CppCheck and Report files as those are not present}
+	\label{fig:testingResultsSkip1}
+\end{figure}
+
+In addition, the test runs also validate the existence of executable both in the launch and make configurations, notably these executables have to exists in both files. 
+
+As a guardrail, if files are present in the control project but not in the generated project that will generate an error and vice versa. This ensures that the generator produces only what is needed and no file is missing.
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}
-\begin{xltabular}{\textwidth}{X X X}
-	\caption{Core and Metadata features and their complexity}
-	\label{tab:core_and_meta}\\
-	\toprule
-	\rowcolor{Gainsboro}%
-	Feature   & Complexity  & Notes \\
-	\midrule
-	\Glspl{identifier} & Low & Nearly complete. \\
-	Comments & Very Low & Can parallel \gls{identifier} completion. \\
-	Traceability & Medium & Requires structured tagging throughout the generator. \\
-	Report & Low-Medium & Build once traceability is present; not deeply complex. \\
-	\bottomrule
-\end{xltabular}
-
-
-This first layer serves as a base for other features since it has fairly straightforward but very useful features.
-
-
-\subsection{Structural Optimization Layer}
-\label{sec:struct_opt_layer}
-
-The Structural Optimization Layer (Table~\ref{tab:struct_opt_layer}) focuses on improving code quality and efficiency. Standard compliance ensures generated code meets coding norms and best practices. Dead code detection and memory optimization reduce code bloat and resource consumption but require stable metadata and analysis frameworks built in previous layers. These features have higher complexity, reflecting the need for careful analysis and manipulation of generated code.
-
-\bgroup
-\rowcolors{1}{}{GhostWhite}
-\begin{xltabular}{\textwidth}{X X X}
-	\caption{Structural Optimization Layer}
-	\label{tab:struct_opt_layer}\\
-	\toprule
-	\rowcolor{Gainsboro}%
-	Feature & Depends On & Notes \\
-	\midrule
-	Standard Compliance & Report, Traceability & Defining and checking rules\par requires steady effort. \\
-	Dead Code Detection & Traceability, Report & Done by Cppcheck. \\
-	Memory Optimization & Dead Code Det, Traceability & Impacts core data structure generation.\par Error-prone. \\
-	\bottomrule
-\end{xltabular}
-
-The structural layer cements what was done before and adds to it with an optimization focused approach.
-
-\subsection{Architecture Layer}
-\label{sec:arch_layer}
-
-The Architecture Layer (Table~\ref{tab:arch_layer}) introduces features that abstract and modularize the generated code to support scalability and maintainability. The node interface abstraction separates platform-specific code (\gls{ROS} dependencies) from core logic, facilitating reuse and easier updates. File management is a quality of life feature which is very sensitive as file naming and location must be consistent at all times. Legacy code integration is the most complex and architecture-dependent feature, involving interfacing with existing external codebases, which requires careful design and planning to avoid integration problems.
-
-\bgroup
-\rowcolors{1}{}{GhostWhite}
-\begin{xltabular}{\textwidth}{X X X}
-\caption{Architecture Layer}
-\label{tab:arch_layer}\\
+\begin{xltabular}{\textwidth}{X X X X X}
+\caption{Regression test cases and expected outcomes}
+\label{tab:reg_tests_1}\\
 \toprule
 \rowcolor{Gainsboro}%
-Feature & Depends On & Notes \\
+Test Case ID & Feature & Description & Expected Outcome \\
 \midrule
-Business Logic Separation & Memory Optimization & Architecture-dependent.\par Needs careful planning. \\
-File Management & All & Affects every file directly \\
-Legacy Code Integration & Business Logic & Undefined scope and\par likely the most architecture-sensitive \\
-\bottomrule
+TC-REG-01 & Regression & Compare output with older version for unchanged models. & Output is functionally identical. \\
+TC-REG-02 & Regression & Generate code for previously passing models. & Generation succeeds with no new errors. \\
+TC-REG-03 & Regression & Measure generation time for unchanged models. & Timing does not exceed threshold. \\
+TC-REG-04 & Regression & Test legacy models without new features enabled. & Output has no formatting or syntax changes. \\
 \end{xltabular}
 
-The last layer of implementation has a higher degree of abstraction and requires a much more project architecture understanding than the previous layers, which is why it is done last and after every other feature layer is implemented. This allowed for the full focus to be on these core features that will have a much higher individual impact on code generation than the previous ones.
 
-\section{Implementation}
-\label{sec:implementation}
+The tests described in table~\ref{tab:reg_tests_1} were proven true via \gls{JUnit} tests, which not only were able to verify the present tests but also additional ones that are not present in this table. The full detailed list of tests can be found in the Appendix~\ref{app:unit_tests}.
 
+TC-REG-02, TC-REG-03 and TC-REG-04 were easily proven by the unit test strip since this process can be automated and viewed quickly. TC-REG-01 added a layer of complexity because it pushed for manual verification which had to be done to ensure the functionality of the output code remained the same as the control group.
 
-As the implementation methodology was done iteratively and following the plan discussed in Section~\ref{sec:impl_plan}, the first feature to implement was the naming conventions.
-
-
-\begin{tcolorbox}[colback=green!5, colframe=green!40!black] Implementation = "how \gls{RAMSES} interprets and applies the DSL to affect code generation". \end{tcolorbox}
-
-
-\subsection{Naming Conventions}
-\label{sec:impl_name_conv}
-
-The implementation of naming conventions was straight forward since the demo developed in Section~\ref{sec:proof_of_concept} was substantial part of the complete mechanism. Using Acceleo we are able to modify the properties coming from the model as they are added into the C++ file, in this case, the name is formatted according to the selected convention. The main addition to the prototype work was the introduction of dynamic naming conventions that depend on the selected language, for example: in C++, classes are declared in PascalCase, whereas variables are declared in snake\_case, the following generated code illustrates that very well:
-
-\begin{verbatim}
-	class ImageDisplay : public rclcpp::Node
-{
-	public:
-	
-	ImageDisplay(): Node("ImageDisplay")
-	{
-		
-		image_subscriber_sub_ = this->create_subscription(...);
-		
-		nd_spinner_sub_ = this->create_subscription(...)
-\end{verbatim}
-
-As shown in the generated code, ImageDisplay and image\_subscriber\_sub\_ are both \glspl{identifier} but each one has a different format. In contrast, the previous implementation without configuration was strictly be \textit{Image\_Display} and \textit{Image\_Subscriber\_Sub\_}. These names come directly from the \gls{AADL} model as \textbf{\textit{Image\_Display} and \textit{Image\_Subscriber}}.
-
-To summarize, the whole naming convention implementation consisted in:
-
-\begin{itemize} 
-	\item The ability to change \gls{identifier} (class, variable, method) formats dynamically from a list of implemented options (camelCase, UPPERCASE, lowercase, snake\_case and UPPER\_SNAKE\_CASE).
-	\item Based on the selected language, assign different styles to different \glspl{identifier}.
-	\item Option to input a prefix or suffix in every \gls{identifier}\footnote{This affix is not affected by the naming convention.}.
-\end{itemize}
-
-This implementation was very important since the remaining features used it to the fullest, hence why it needed to be the first, on top of that, it improves readability and enforces language-specific best practices, which are critical in mixed-language projects (in the case of \gls{RAMSES}: C++ vs ROS).
-
-
-\subsection{Comments}
-\label{sec:impl_comments}
-
-The implementation of dynamic code comments allow the user to get much more context on the code while preserving the ability to view raw, non-commented code. The way it works is pretty straight forward, the user can toggle the comments on or off, comments are dynamic according to their component and only provide essential info.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{comments.png}
-	\caption{Example of generated code with comments}
-	\label{fig:comment}
-\end{figure}
-
-Figure~\ref{fig:comment} illustrates how the comments vary depending on the component, this also provides a degree of separation that helps developers understand where parts of the input model are being implemented.
-
-More examples of code comments (with before and after) can be found in the Appendix~\ref{app:comment}.
-
-In addition to this, there is also the possibility to display a Copyright Notice in the first lines of every file along with an author reference. This small detail is a best practice that aligns with industry standards and serves multiple practical purposes such as clarifying ownership of the code, preventing copyright infringement and overall maintaining professionalism.
-
-Code comments provide additional value to the code itself and help the flow of development by providing core information to the end user when needed.
-
-
-\subsection{Traceability}
-\label{sec:impl_trace}
-
-The implementation of traceability is related with the report feature, however, traceability can exist without a report and a report can exist without traceability~\ref{sec:impl_report}. The main idea of traceability is to relate the coding files directly to the model so we are able to verify that a certain file came from a certain part of the model.
-
-The base construction of the trace file was done in \gls{JSON}, this choice came from the fact that \gls{JSON} provides information while still maintaining a structure that can easily be ported elsewhere and can easily be machine readable.
-
-This is an example of the \gls{JSON} produced by a traceability analysis:
-
-\begin{verbatim}
-{
-	"system": "Robot_Vision_I_Instance",
-	"generatedAt": "2025-07-28 16:26:49",
-	"location": "C:/Users/results",
-	"components": {
-		"Usb_Cam_Nd": {
-			"file": "robot_vision_i_instance/src/Usb_Cam_Nd_process.cpp",
-			"type": "process",
-			"subcomponent": [
-			{
-				"name": "Image_Broadcaster",
-				"qualifiedName": "Robot_Vision_I_Instance::Usb_Cam_Nd::Image_Broadcaster",
-				"codeTrace": "@trace name='Image_Broadcaster'",
-				"line": "15",
-				"type": "thread",
-				"properties": {
-					"Dispatch_Protocol": "",
-					"Period": ""
-				}
-			},
-			{
-				"name": "UsbSpinner",
-				"qualifiedName": "Robot_Vision_I_Instance::Usb_Cam_Nd::UsbSpinner",
-				"codeTrace": "@trace name='UsbSpinner'",
-				"line" : "20",
-				"type": "thread",
-				"properties": {
-					"Dispatch_Protocol": "",
-					"Period": ""
-				}
-			}
-			]
-		},(...)
-\end{verbatim}
-
-As shown in the code above, the \gls{JSON} relates the model to the code in various forms, mainly code traces, qualified names, file and package locations. On top of that, it provides additional info that is useful for both developers and end users, developers can easily use this \gls{JSON} as input for various tools (generating an alternate report from the one provided for example) and users can use it to trace parts of the code dedicated to a specific component or subcomponent using a combination of the file locations, code traces and line number.
-
-The way the line number is detected is quite complex in practice but more straightforward in theory:
-
-\begin{itemize} 
-	\item When traceability is enabled, the code generates with traces, those traces are not language or tool specific, hence they don't get picked up by other tools or as language syntax.
-	\item The same traces are generated in the \gls{JSON}.
-	\item Using the \gls{JSON} and the traces corresponding to sub components in the larger component (which is represented by a C++ file) the C++ files are scavenged for traces, which, when found, get saved directly below the \textit{codeTrace}, as the line correspondent to it.
-\end{itemize}
-
-Using \gls{JSON} simplified a lot the process of assigning the correct line to the correct trace since \gls{JSON} can be manipulated with Java code in a simple and effective way.
-
-In addition to this, traceability links were created using Capra to ensure that the \gls{JSON} file can be directly related to the C++ files using the \textit{@trace} indicative.
-
-Traceability ensures to the end user that the generated code came directly from the model that he chose, moreover it simplifies the search for a specific representation of a model component inside the code or vice versa.
-
-\subsection{Report}
-\label{sec:impl_report}
-
-The report was implemented with the goal of providing a clear, concise and structured way of visualizing exactly how the model translates to code. To do this, the report is generated in \gls{HTML} using Acceleo. This is important since it overcomes a few constraints, mainly:
-
-\begin{itemize} 
-	\item \textbf{PDF with Java:} The major issue that producing \gls{HTML} code with Acceleo instead of a direct PDF with Java fixes is that producing PDFs with Java code, although more practical on the surface, has many limitations when it comes to designing and structuring PDFs. In addition, the verbose is very unintuitive and can quickly grow in complexity.
-	\item \textbf{Extensibility:} Since \gls{HTML} is a simple and well known language, adding details and making changes is straightforward when comparing it to other tools like LaTeX. In this case, the usage of LaTeX isn't really justified since it is more directed to academic circumstances and not fast paced development. 
-	\item \textbf{Styling Issues:} Using raw \gls{CSS} in combination with \gls{HTML} is no doubt the best choice when it comes to styling the report. Java has many limitations when it comes to styling and LaTeX is very strict and error prone. For a basic report such as the one generated, \gls{CSS} styling is more than enough.
-\end{itemize}
-
-Once these constraints were no longer an issue, the development of the report was much more intuitive. The base was made with \gls{HTML} and \gls{CSS}, which enabled a high degree of custom styles while also simplifying the integration of useful information. 
-
-Since the first iteration of the report was done in \gls{HTML}, the transition to PDF was mostly seamless, however, its implementation was done by Java code along with a Workflow. This was at a later stage, a more detailed explanation can be found in Section~\ref{sec:workflows}.
-
-The report has many features, its high customization enables the creation of different parts when needed, hence omitting redundant or unwanted sections according to user needs. One of the core elements is the \gls{ROS} specific option, which highlights \gls{ROS} specific components that were generated or ported from the model. This allows \gls{ROS} developers to have a much clearer idea of how parts of the input model were represented in the \gls{ROS} part of the code, for instance, what thread corresponds to a Publisher\footnote{Publishers generate and publish data (sensor readings, etc).} or Subscriber\footnote{Subscribers listen for and process data sent by Publishers.}.
-
-The report takes a longer time of generation when comparing to other parts of the generation, this is because it also includes error reporting, which analyses every code file for errors.
-
-This functionality is loosely tied with the report in order to better display the results of the Cppcheck tool, which was already explained in Section~\ref{sec:impl_side_cppchecker}. However, since the output of Cppcheck is difficult for end users to interpret\footnote{It's not easy to read since it comes in XML format.} the best way to display is using the report.
-
-The contents of this report give a lot of insight on the generated code, they go into detail about the technologies, build system and models used to generate the code, giving the time of generation and the output folder as well. Along with this, a navigation section also gets generated which facilitates the finding of a specific component or section. Before the components, a short summary of the generation is displayed with info such as number of generated files, threads, code language and configurations applied. Every single process (originated from the \gls{AADL} model) is documented in the components section, detailing the file they are located on and the threads managed by them, optionally a \gls{ROS} process summary might be generated as well for each component. 
-
-In a way, the report serves as the bridge that unifies all the details of the project together in a condensed but clear manner, including: configuration used, source file location, content generated, and summaries of that content.
-
-\subsection{Code Quality Checker}
-\label{sec:impl_code_qual_checker}
-
-A fine addition to the code generator was the introduction of a code quality checker powered by \textit{Cppcheck}, which analyses every generated code file an points out errors immediately after generation. This allows the end user to quickly identify syntax errors and common code problems\footnote{This certainty is based on the capability that \textit{Cppcheck} has to report code errors. It does not guarantee that the code is semantically functional, just syntactically correct.}
-
-Moreover, the code can be analyses at any point, meaning that \textit{Cppcheck} can verify the correctness of user generated code if needed. Providing value even after being used for its main purpose.
-
-\subsubsection{Cppcheck}
-\label{sec:impl_side_cppchecker}
-
-\textit{Cppcheck} is a static analysis tool for C and C++ code, it's designed to detect a wide range of programming errors, potential bugs, and code style issues without executing the program. \textit{Cppcheck} analyzes the source code to identify problems such as memory leaks, uninitialized variables, unused functions, and violations of coding best practices. It's a lightweight, platform-independent, and highly configurable tool, which makes it suitable for integration into our code generation workflow.
-
-\textit{Cppcheck} has both an open source and a commercial version, in this case, the open source version was chosen due to \gls{RAMSES} being in a development state. If the commercial version is deemed necessary, the change will not impact the current setup significantly as \textit{Cppcheck} will only be stricter when it comes to code rule application, meaning that it will apply more rules on top of the current ones, generating a more enriched error report.
-
-\subsection{ROS and C++ separation}
-\label{sec:impl_ros_separation}
-
-One of the underlining problems of the base generated code was the fact that \gls{ROS} code and C++ code where closely coupled together. This is an issue since most of the C++ implementation is \gls{ROS} independent, meaning that it could, in theory, be reused in contexts where \gls{ROS} is not available or not needed. However, since the generated code is tight coupled with \gls{ROS}, it forces the presence of ROS-specific dependencies even in parts of the system that do not require them. 
-
-To combat this, a new approach to code generation was implemented. The main goal was to port the \gls{ROS} code inside the C++ files onto another folder, adjacent to the remaining C++ files. This can be better understood visually, we part from this:
-
-\begin{verbatim}
-src/
-	 Color_Tracker_process.cpp
-	 Image_Display_2_process.cpp
-\end{verbatim}
-
-
-And we split the files into their \gls{ROS} and C++ counterparts, like so:
-
-\begin{verbatim}
-src/
-	 impl/
-		 Color_Tracker_logic.cpp
-		 Image_Display_2_logic.cpp
-	 ros/
-		 Color_Tracker_node.cpp
-		 Image_Display_2_node.cpp
-\end{verbatim}
-
-With the files now separated, it is possible to reuse the C++ code present in the impl folder without the \gls{ROS} dependencies. This also opens more the window to the inclusion of company specific libraries that can, if needed, be split into \gls{ROS} and C++ only counterparts.
-
-To further improve on the \gls{ROS} side of the customization, there is also the option to choose the thread executor for the given node\footnote{This also takes effect when decoupling is disabled.}. There are three fundamental thread executors, they can be described as follows:
-
-\begin{itemize} 
-	\item The Single Threaded Executor processes all callbacks (from incoming messages, timers, services, and events) of one or more nodes in a single thread, ensuring that only one callback executes at a time.
-	\item The Multi-Threaded Executor creates a configurable number of threads to allow for processing multiple messages or events in parallel.
-	\item  The Static Single-Threaded Executor optimizes the runtime costs for scanning the structure of a node in terms of subscriptions, timers, service servers, action servers, etc. It performs this scan only once when the node is added, while the other two executors regularly scan for such changes. 
-\end{itemize}
-
-These three options fundamentally do not change how the generated runtime application works, but they give it different options when it comes to managing execution performance.
-
-\begin{tcolorbox}[colback=blue!5, colframe=blue!40!black] Some complex applications might benefit from multi-threading while more simple ones can offer the fairly same performance in any threading type.
-\end{tcolorbox}
-
-
-\subsection{File Management}
-\label{sec:impl_file_mng}
-
-The intent of having a file management option in the configuration was to dynamically manage how the files are generated, including if they overwrite previously generated files.
-
-The main addition however was the ability to add a header prefix to every generated code file, further facilitating copyright and licensing enforcement.
-
-This file header can be any phrase or character but due to operating system restrictions, some character have to be filtered out, here is an example of this filtration:
-
-\begin{verbatim}
-  ..CON:my*file?<>|aux\0COM1  "
-
-			↓
-
-CON_my_file____aux_0COM1___
-\end{verbatim}
-
-By default, any forbidden character is replaced by an underline and spaces at the start and end of the word are trimmed. This eliminates eventual errors in the code execution.
-
-A good example of the result of this file header implementation is, based of the files in Section~\ref{sec:impl_ros_separation}, when adding the header \textit{Nova"} becomes:
-
-\begin{verbatim}
-	src/
-		 impl/
-			 Nova_Color_Tracker_logic.cpp
-			 Nova_Image_Display_2_logic.cpp
-		 ros/
-			 Nova_Color_Tracker_node.cpp
-			 Nova_Image_Display_2_node.cpp
-\end{verbatim}
-
-Note that the apostrophe is transformed into an underline as mentioned previously.
-
-The overriding system is another file management option. Previously, the code generator simply generated the files in any circumstance, effectively replacing every file, every time. In a simple model this is not an issue, however, in a larger model this can quickly become a performance bottleneck since it implies generating everything, every time. 
-
-When overriding is enabled, the generator does not change, it still generates every file every time, when it is disabled however, it only generates files that are not yet present. For instance, if we have a complete project, no new files will be generated or substituted, in contrast, if one file is missing, the generator will generate only the missing file.
-
-Even preliminary tests produced a significant difference in execution time when overriding is disabled\footnote{Up to 500ms less than the override enabled counterpart.}, proving that it is worth it to give the user the choice between generating the whole project or just specific parts of it.
-
-\subsection{Legacy Code Integration}
-\label{sec:impl_legacy_code}
-
-The main problem that legacy code integration solves is the following:
-
-There are C++ libraries that need to be used by specific \gls{ROS} components, these libraries should be included in the \gls{ROS} project when needed.
-
-To put it simply, in order to produce the functionality that the input model entices, certain legacy libraries need to be included, not just in the project, but called in the code as well. The way it was done is clear:
-
-\begin{itemize} 
-	\item Firstly, libraries that the code will need, based on model components used, are listed.
-	\item Then, the code for those libraries is copied or referenced in the project folder.
-	\item Lastly, this code is called in certain places based on functional necessity.
-\end{itemize}
-
-For this to work it is crucial to accurately detect which components already have libraries associated to them. This comes before the component is even instanciated, meaning: when we write the \gls{AADL} system we want, the components used by that system already have libraries associated to them. This is done by explicitly including the libraries in the components properties.
-
-The baseline code generator\footnote{The non configurable version of the code generator, done by António.} already somewhat entailed to this functionality by not generating a skeleton when the library property was present, however, it lacked actually referencing that library properly and including it in the project.
-
-The solution to this was straightforward: to include the libraries (when the configuration defined so) and their reference properly in the generated code.
-
-The base for choosing the libraries is to analyze the properties of each process in the input model. The property \textit{Source\_text} reveals the library implemented by that process, meaning that it is not necessary to implement it again so we skip the code generation entirely for that specific process. In the end of the source code generation, the libraries needed by those projects are imported to the project and added to the \textit{/lib/} folder or referenced directly in the make file.
-
-The reference mechanism is tied to the target operating system (Section~\ref{sec:impl_os}) in the sense that the code referenced depends on the \gls{OS} to establish a path. This fixes the issues with cross-platform development, for instance, it is possible to reference the libraries with a Linux path while using a Windows based machine. 
-
-This inclusion of the legacy code libraries was of extreme importance since it was one of the core goals of the thesis (see Section~\ref{sec:obj_and_contrib}) and it's a crucial step to a complete \gls{ROS} project generation.
-
-\subsection{Generation Hooks}
-\label{sec:impl_gen_hooks}
-
-The need to run certain scripts before or after project execution is very valuable. Either being quick cleanup scripts to prepare the project folder for a new version or post generation scripts to automatically test the generated project, these scripts can bring value and a higher of automation to any project.
-
-For those reasons, generation hooks where included in the configuration language. The premise is fairly simple: to execute user created code before or after the actual code generation.
-
-Even though that option is available in the configuration, in the specific case of \gls{RAMSES}, there is no need to define a component that executes a script, meaning that there is already a way to execute terminal based commands in the project. The definition was still kept in the configuration language although it was not implemented in practice due to a more practical option that is depicted in Section~\ref{sec:workflows_script_executor}.
-
-
-\subsection{Multiple Configurations}
-\label{sec:impl_multi_config}
-
-When testing the previously finished features, a few issues stood out: 
-
-\begin{itemize} 
-	\item The difficulty to quickly change from one configuration to the other.
-	\item Handling multiple configurations at the same time.
-\end{itemize}
-
-The main problem is that, if we want to create and customize a new configuration we have to start from scratch and use a new file. To combat this issue, a new way of creating configurations was introduced: the list of configurations.
-
-The premise is that instead of having multiple files, each one representing a different coding language, there is a single file with a list of configurations.
-
-\begin{figure}[h]
-	\centering
-\begin{tikzpicture}[
-	level distance=12mm,
-	level 1/.style={sibling distance=40mm}, % distance between Config 1 / Config 2
-	level 2/.style={sibling distance=25mm},
-	every node/.style={
-		draw, rounded corners, align=center,
-		minimum width=2.5cm, minimum height=8mm
-	}
-	]
-	
-	% Left tree: Configurations
-	\node {Configurations}
-	child {node {Config 1}
-		child {node {C++}}
-		child {node {Trace On}}
-	}
-	child {node {Config 2}
-		child {node {C}}
-	};
-	
-\end{tikzpicture}
-\hspace{1cm}
-\begin{tikzpicture}[
-	level distance=12mm,
-	sibling distance=25mm,
-	every node/.style={
-		draw, rounded corners, align=center,
-		minimum width=2.5cm, minimum height=8mm
-	}
-	]
-	
-	% Right tree: Single Configuration
-	\node {Config}
-	child {node {C++}}
-	child {node {Trace On}};
-	
-\end{tikzpicture}
-\caption{Comparison between multiple configurations (left) and a single configuration (right).}
-\label{fig:tree_config_comparison}
-\end{figure}
-
-
-This way, instead of handling multiple files we can, like illustrated in Figure~\ref{fig:tree_config_comparison}, manage every single configuration in one file and the same configuration can be used by different generators since each one can find the configuration it needs.
-
-This is an addition, not a restriction, so, as we will explore more in the next section~\ref{sec:workflows}, we can still use a single configuration as input or a list of configurations, further improving the flexibility of the code generator.
-
-Even though this list addition works well with the base idea of the configuration, a different issue halted the use of single file configurations entirely: the dynamic addition of programming languages.
-
-
-\subsubsection{Multiple Languages}
-\label{sec:impl_multi_language}
-
-A key contribution of the \gls{DSL} is the dynamical addition of multiple distinct configurations, however, as the language is implemented into different projects, an issue arises: adding more programming languages.
-
-At face value the solution to this is simple\footnote{To add to the already existing enumerator.} but intrinsically its more complex and involves modifying the current metamodel.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{beforeLanguageChange.png}
-	\caption{Class diagram representing the base idea of choosing a coding language}
-	\label{fig:beforeLanguageChange}
-\end{figure}
-
-Figure~\ref{fig:beforeLanguageChange} represents the list of languages before the change. Since the languages are represented by an enumeration, the addition of a new language involves coding and regenerating the configuration model.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{afterLanguageChange.png}
-	\caption{New, improved class diagram representing the selection a coding language}
-	\label{fig:afterLanguageChange}
-\end{figure}
-
-As we can see in Figure~\ref{fig:afterLanguageChange}, since a coding language is now represented by a class, it is now possible to add new languages without modifying the metamodel, which makes the process more seemless and able to be automated so the end user can add their desired coding languages with a simple menu instead of having to write code.
-
-The \gls{DSL} architecture suffered a tiny shift which ended up changing the way single file configurations work. Since now a GeneratorConfig requires a reference to a Language, this Language needs to be imported via \textit{Load Resource...} to be associated with the configuration. This of course, only applies to single configuration instances since the multiple configuration architecture has a list of coding languages.
-
-
-\begin{tcolorbox}[colback=green!5, colframe=green!40!black] In simpler terms: the programming Language option cannot be "inside" a configuration because it will be associated with that configuration. Language options need to be in the same level as configurations in order to both be created dynamically and not depend on one another. \end{tcolorbox}
-
-
-
- 
-
-
-\subsection{Build Integration}
-\label{sec:impl_build_options}
-
-To further improve the control the user has over the generation, the option of build integration essentially allows the deactivation of the \textit{source}, \textit{make}, \textit{package} and \textit{launch} files. Since those files were always generated by default, now it is possible to generate a completely empty project (for whatever reason) or simply isolate parts of the project to find critical errors both in development and when testing.
-
-Although simple, this addition is very useful and, once again, adds to customization and control over the generated files. By default, the files previously mentioned are set to generate.
-
-
-\subsection{Target Operating System}
-\label{sec:impl_os}
-
-Since there is the possibility to want the generated project to be produced for a different operating system than the current one the user uses, instead of detecting the current \gls{OS} and assuming it as the target \gls{OS}, the configuration language has the option to produce the generated code adapted to either one of the three main operating systems: Linux, Windows and MacOS.
-
-This provides a simple but effective way to ensure portability throughout the different \glspl{OS}.
-The differences in the generated code are mainly the way to reference files and the way the make file is generated. 
-
-
-
-
-
-
-\section{Workflows}
-\label{sec:workflows}
-
-The process of generating files involves feeding both a configuration and input model to the generator, which then processes this into C++ code, an \gls{HTML} report or a traceability \gls{JSON}. There are many issues that arise from the way the generation process works, mainly that:
-
-\begin{itemize} 
-	\item Many Java main classes have to exist.
-	\item In order to generate everything needed to run a \gls{ROS} project many Java methods have to be run.
-	\item Some classes need to be ran after, and only after others.
-	\item These methods cannot be run in a single click, as that would require a complete redesign of the current architecture making it less flexible.
-\end{itemize}
-
-
-The solution for these issue is workflows. Workflows allow the automation of certain tasks (reading, writing, or transforming models) by plugging together several workflow components, which are executed consecutively. A workflow component performs a certain task and can be configured with parameters.
-
-This allows for the execution of specific parts of the code generation in an isolated way, as well as the execution of every part needed to produce a complete and functional \gls{ROS} project, on top of that, \gls{JUnit} tests based on workflows are also possible and already a common pattern on the \gls{RAMSES} project.
-
-Even though workflows are already used in \gls{RAMSES}, there was no concrete workflow to execute the code generation in the way it is done so far. To solve this problem, a new custom workflow component had to be developed.
-
-\subsection{Acceleo Workflow Component}
-\label{sec:workflows_acceleo}
-
-The custom workflow component created was the AcceleoGeneratorComponent, which simply parsed all the inputs (AADL input model, configuration and output folder) and executed the Java class responsible for the specific code generation.
-
-The beauty of this component is that it is optimized to every single Acceleo Java class present in \gls{RAMSES}, meaning that, in the workflow, every Java class can be represented by a AcceleoGeneratorComponent which facilitates the sequential execution and removes the need to have components specific to a certain class.
-
-In addition to solving the previously mentioned issues, this new component was also engineered to run functions before and after generation if those functions existed in the input class, as an example, an input template A (with an associated class A) can have as methods \textit{shouldRun()}, \textit{preGeneration()} and \textit{postGeneration()} on top of the generic method \textit{doGenerate()}. These methods have key functions that help enrich the component beyond simply executing a class, namely:
-
-\begin{itemize} 
-	\item \textit{shouldRun()}: if true continues with the code generation as default, aborts generation otherwise.
-	\item \textit{preGeneration()}: executes preparations that a given template might need for generation, for example, providing additional generation arguments.
-	\item \textit{postGeneration()}: executes post generation code, for instance, filling traces with the code lines they generated in.
-\end{itemize}
-
-It is worth to note that the \textit{preGeneration()} and \textit{postGeneration()} functions are similar to generation hooks (see Section~\ref{sec:impl_gen_hooks}), however, these functions are executed at class level while generation hooks execute before or after the whole code generation process.
-
-In addition to all of these features, this custom component also simplifies changing the inputs of the generation. Sinse there is a property for each of the inputs in the workflow (\gls{AADL} model, configuration model, working directory and output folder), the change in the AcceleoGeneratorComponents is simple: a change to the property will affect all the workflow components that use that property.
-
-
-\subsection{Dynamic Acceleo Workflow Executor}
-\label{sec:workflows_dynamic_executor}
-
-The custom component described in the previous Section~\ref{sec:workflows_acceleo} works flawlessly for its main purpose, however, a key issue arose: instead of feeding the template to the model, we feed the class that that template represents. This is an issue since if we want to execute a specific Acceleo template we need its class.
-
-The solution to this problem was clear: instead of calling the classes independently, the component would call a generic class that would handle any Acceleo template. This did not come without drawbacks, mainly that handling every template the same way reduced their overall specialty. This was an issue that the previous component solved by integrating additional functionality in each individual class as needed.
-
-Essentially the two architecture choices where either full specialization but low integration capabilities or high integration and low specialization. However, there was also a hidden third option: both.
-
-A new version of the Acceleo custom Workflow component was devised, the premise was that the component would receive the template name (not the class name) and search for the class represented by the given component, if none was found the component would fallback to the generic Acceleo generator class. This hybrid architecture means that, when feeding a template name that does not have a Java class associated, the Workflow will execute it seamlessly, provided it has an \gls{AADL} model and a configuration file. Similarly, if there is the need for a more in depth execution, a Java implementation of the template can still be done.
-
-
-\subsection{Script Workflow Executor}
-\label{sec:workflows_script_executor}
-
-One of the features mentioned both in the feature model~\ref{fig:feature_model} and in the client meeting~\ref{sec:industry_meeting} was the ability to execute pre or post generation hooks as discussed in Section~\ref{sec:impl_gen_hooks}. 
-
-This functionality was primarily aimed to be present in the \gls{DSL} as a way to execute Java code to consequently run a command script, however, in the very specific case of the \gls{RAMSES} environment, a different option is more viable and already implemented: System Command Component.
-
-The System Command Components allows for the execution of commands in a terminal (in this case a Windows terminal) by passing values in its Workflow component properties.
-
-When running a script before code generation occurs, we need the following:
-
-\begin{itemize} 
-	\item \textbf{Arguments: } $\backslash$c, pregen.bat\footnote{This represents executable that we want to run.}
-	\item \textbf{Command: } cmd
-	\item \textbf{Working Directory: } file:/C:/Users/user/robot\_vision\_i\_instance
-\end{itemize}
-
-With this information, the SystemCommandComponent runs a terminal on the given directory that executes the command \textit{cmd $\backslash$c pregen.bat}, effectively executing the file \textit{pregen.bat}.
-
-
-\subsection{Execution Times}
-\label{sec:exec_times}
-
-With the workflow built and running, it was possible to get an idea of the execution times of each part of the workflow.
-
-\subsubsection{First Workflow Execution Time Test}
-\label{sec:exec_times_v1}
-
-To perform the first volley of workflow execution time tests, a functional \gls{AADL} model was picked due to its correctness and previous usage in some examples. The configuration was also tuned to its maxed settings, meaning that every option was checked (report generation, traceability, etc) so that it would produce a better range of timetables, the complete configuration details for the this context can be found in~\ref{app:config_first_batch}.
-
-In this phase, 15 execution runs where documented, which can be found in the Appendix~\ref{tab:workflow_exec_times_1}.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{exec_times1.png}
-	\caption{Code generation execution times}
-	\label{fig:exec_times_1}
-\end{figure}
-
-Taking a look at Figure~\ref{fig:exec_times_1} we can see that naturally some parts of the workflow take more time than others, mainly the code generation and the report generation.
-
-The Launch, CMake and Package files take much less time than the other ones due to their simplicity and to the fact that they generate a single file, as opposed to the Code generation which, in this case, generates 7 C++ code files. The report takes even longer than that because, on top of documenting the generated files and build an HTML report, it also checks those files for code quality issues, which ends up taking even more time. The JSON Trace file is pretty straightforward, however, since it scavenges the code files for the exact placement of the traces, it does end up with an execution time bigger than the other single file generations.
-
-Since the base project did not have a workflow that successfully implemented the ancient Java code, it is not possible to directly compare the execution times of the old version of the code generation with the new one. However, we can estimate the time it took to execute a project generation in the ancient generator with the information from Table~\ref{app:workflow_exec_time}, which, after measuring the time it takes to generate the Launch, CMake, Package and C++ files, comes around to 231,6ms, essentially half of the current average execution time of 479,9ms. This is expected since both the Trace and the Report take a significant amount of time. This interval can be even bigger if we consider that the original code generator did not even have a configuration file.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{avg_exec_times_1.png}
-	\caption{Average code generation execution times}
-	\label{fig:avg_exec_times_1}
-\end{figure}
-
-As mentioned previously, Figure~\ref{fig:avg_exec_times_1} confirms that the average execution time seems to have doubled with the introduction of more processing heavy modules (Trace and Report), this is not a big issue as the total execution time is still below 500ms which is still very acceptable for the current conditions and given the huge amount of functionality and dynamicity added to the code generator.
-
-All in all, workflows proved to be an essential part of the code generation pipeline that tie together the functionality of every individual configuration option in a single, harmonized execution. In practice however, the editing of the configuration and the execution of the workflow will not be done in the raw files, but in Osate using buttons and preferences for execution and configuration respectively.
-
-
-
-
-\section{Domain Specific Language}
-\label{sec:dsl}
-
-In order to customize the output of \gls{RAMSES}'s code generation, a \gls{DSL} was created using the Ecore framework. Which enabled a clean and straightforward way of defining configuration options based on code generation needs.
-
-The configuration language as a base can be used in two formats:
+All the unit tests previously described in this section (Section~\ref{sec:test_unit}) were initially done as plug-in tests, however, due to a multitude of reasons, they were later changed to standalone tests.
 
 \begin{itemize}  
-	\item \textbf{Single configuration: } Configuration that allows the selection of language, naming convention, report options, architecture choice, file management, code comment management, traceability options and generation hooks.
-	\item \textbf{List of configurations: } Dynamic list of configurations that allow for quick change and assignment of configurations when used.
+	\item \textbf{Plug-in unit tests} are tests done by launching a new Eclipse instance that loads all the resources necessary and executes the unit tests. This approach is simpler to setup but takes significantly more time to run than the standalone option due to the creation of the additional Eclipse instance.
+	\item \textbf{Standalone unit tests} do not launch a new Eclipse instance, instead they run detached from eclipse, which makes them faster with the only downside being they require more initial setup to initialize the resources and dependencies that Eclipse would normally provide.
 \end{itemize}
 
+The change from plug-in tests to standalone revealed a clear advantage when it came to test execution time, out of 20 executions there was an average of 20\% of time saved, which can be attributed to the standalone runs not having to initialize a new instance of Eclipse. This time reduction is inversely proportional to the amount of tests, as in, less tests will translate to an even faster average of time saved by the standalone execution, which is especially useful when running single or low amounts of tests, having an average of 60\% of time saved. Even when running large amounts of tests (>100) there is still a reduced execution time on the standalone run, albeit not as noticeable as before with around 10\% reduction. The test run times can be seem in the Appendix~\ref{app:unit_test_times}.
 
-As specified in Section~\ref{sec:impl_multi_config}, this choice is highly beneficial since it provides more flexibility to the usage of the configuration language itself with no notable drawbacks.
 
-Going more in depth, the \gls{DSL} offers specific options given each topic, notably:
 
-\begin{itemize}  
-	\item \textbf{Language\footnote{Currently only 2 options, will be expanded in the future.}: } C++ or C.
-	\item \textbf{Naming Convention\footnote{Derived directly from Section~\ref{sec:example}}: } Style (UPPER\_CASE, lower\_case, etc), affix and affix position.
-	\item \textbf{Report: } Generate (whether the report gets generated or not), include traceability, include summary tables, include logic summaries (in the case of \gls{RAMSES}, \gls{ROS} summaries), show detected errors and open automatically.
-	\item \textbf{Business Logic: } Decouple (separate from the code) and executor choice (Single executor, multiple or single static executor).
-	\item \textbf{Files: } Overwrite existing, output directory and header prefix.
-	\item \textbf{Code comments: } Enable, copyright notice and author.
-	\item \textbf{Traceability: } Enable and produce diagram.
-	\item \textbf{Extension: } Pre and post generation scripts.
-	\item \textbf{Build Integration: } Control over generated files.
+\section{Usability Validation}
+\label{sec:test_val}
+
+With the \gls{DSL} finalized and its features implemented it is then possible to asses how an end user will interact with the newly developed features.
+
+For this test, 5 users with a moderate/high familiarization to \gls{AADL} were picked to perform a sequence of tasks that mimicked the usage of the \gls{DSL} to its near fullest extent.
+
+The goal was not only to acquire real data in a real environment but also to highlight any flaws or issues that might have been overlooked in the development phase and to verify whether the configuration language meets the usability requirements defined earlier in Chapter~\ref{chap:challenges_and_requirements}, particularly its accessibility to users with different levels of technical expertise.
+
+\subsection{Participants}
+\label{sec:test_usabl_participants}
+TODO: nr participants participants were selected for this study. All were familiar with \gls{AADL} and had experience with model-driven workflows, even though their backgrounds and technical depth varied. This group reflects the typical user base within the RAMSES ecosystem: developers, testers, and stakeholders who understand AADL semantics but may not necessarily be expert programmers. Participants remained anonymous.
+
+\subsection{Tasks}
+\label{sec:test_usabl_tasks}
+Each participant was asked to perform a sequence of tasks designed to cover every major feature of the configuration language. These tasks simulate realistic use of the \gls{DSL} and its integration with \gls{RAMSES}. The task set was organized into five groups:
+
+\begin{itemize}
+	\item \textbf{Basic Configuration:} selecting the target language, target operating system, and output folder.
+	\item \textbf{Identifier and Naming Options:} changing identifier style, applying prefixes or suffixes, and switching to the \textit{STANDARD} naming convention.
+	\item \textbf{Feature Toggles:} enabling or disabling comments, report generation, traceability, and file management options.
+	\item \textbf{Advanced Capabilities:} configuring executor type, managing business logic decoupling, referencing legacy libraries, and defining pre and post generation hooks.
+	\item \textbf{Full Workflow Validation:} triggering code generation and verifying that the outputs (generated code, reports, trace files, etc) reflect the selected configuration.
 \end{itemize}
 
-These options control each part of the generated project and together they offer a high degree of customization to the generated code. The effective way of using the configuration is via the preferences window on Eclipse, where every option of every category is present in a different page.
+The task sequence was intentionally designed to exercise the \gls{DSL} to near full extent without requiring prior explanation of its internal implementation.
 
+\subsection{Evaluation Criteria}
+\label{sec:test_usabl_eval_crit}
+The usability evaluation followed the methodology defined in the requirements phase of the project. Both quantitative and qualitative measures were collected to assess the usability of the configuration interface and the effort required to use it.
 
-\begin{tcolorbox}[colback=green!5, colframe=green!40!black] DSL = "the configuration schema and semantics".  
-It's independent from but used by \gls{RAMSES}. \end{tcolorbox}
+\paragraph{Quantitative data}
+\label{sec:test_usabl_quant}
+For every task and participant, the following metrics were recorded:
 
-
-\subsection{Custom Preference Store Component}
-\label{sec:dsl_custom}
-
-Saving user preferences in the Eclipse workspace is a simple but effective task that allows for a direct way for the user to configure specific options.
-
-In the case of the code configuration \gls{DSL}, this preference window fits perfectly with the language. It provides a way for users to modify the options freely while also restricting and minimizing possible errors since the \gls{UI} presented has guardrails that prevent the user from introducing errors into the \gls{DSL}.
-
-This approach for the \gls{UI} however came at a cost: the storage of values was already implemented by eclipse, meaning that, by default, it was not possible to save the \gls{DSL} metamodel whole, just a key:value map.
-
-To counteract this problem, a new way of storing configuration values was developed. By implementing the Preference Store interface we were able to develop a new way of preference storage that had at its core the configuration metamodel.
-
-This essentially means that the manipulation of the very base of the \gls{DSL} itself can now be saved in Eclipse's preferences, allowing it to be used instantly.
-
-In short, instead of having to apply preference values to the metamodel, we save the preferences directly to a central metamodel, cutting the unnecessary middleman (default preferences).
-
-This model then can be used as the input for Workflows (Section~\ref{sec:workflows}) to generate code based on its configuration. Effectively giving the user control over the base metamodel while also restricting his possibilities to commit errors.
-
-This storage approach does not affect the \gls{UI} but it does simplify and improve the overall process of managing the \gls{DSL} metamodel.
-
-
-\subsection{Main Options}
-\label{sec:dsl_main}
-
-At the core of the options for code generation, the basics are:
-
-\begin{itemize}  
-	\item \textbf{Output folder}
-	\item \textbf{Target Language}
-	\item \textbf{Target Operating System}
+\begin{itemize}
+	\item Task completion time.
+	\item Number and type of errors committed.
+	\item Number of help requests or clarifications needed.
 \end{itemize}
 
-These options are strictly necessary for code generation to take place, hence being the main options. All options presented in this Section~\ref{sec:dsl} are available to be configured under \textit{Osate > Window > Preferences > CodeGen Config} in the Osate platform.
+\paragraph{Qualitative data}
+\label{sec:test_usabl_qual}
+During the session, the following observations were captured:
 
- \begin{figure}[htbp]
+\begin{itemize}
+	\item Visible misunderstandings and their severity.
+	\item User comments and verbalized expectations.
+	\item Indicators of the learning curve across tasks (increased speed or confidence).
+\end{itemize}
+
+\paragraph{Subjective evaluation}
+\label{sec:test_usabl_subj}
+After completing all tasks, each participant completed two standardized questionnaires:
+
+\begin{itemize}
+	\item \textbf{\gls{SUS}} for perceived usability.
+	\item \textbf{NASA \gls{TLX}} to assess perceived workload and cognitive demands.
+\end{itemize}
+
+These instruments provide widely accepted measures for usability and mental effort. They also enable a structured and comparable assessment.
+
+\subsection{Execution}
+\label{sec:test_usabl_proc}
+Each session followed the same procedure:
+
+\begin{enumerate}
+	\item \textbf{Introduction:} participants were informed that they would configure a code generator using the provided interface, without receiving task-specific guidance.
+	\item \textbf{Task execution:} participants completed the predefined task sequence while the evaluator recorded times, errors, and observations. No assistance was offered unless explicitly requested.
+	\item \textbf{Post-study questionnaires:} participants completed the \gls{SUS} and NASA-\gls{TLX} questionnaires.
+	\item \textbf{Final debriefing:} participants were invited to provide additional comments and suggestions.
+\end{enumerate}
+
+All sessions were conducted individually and under identical software environments to ensure comparability.
+
+\subsection{Analysis}
+\label{sec:test_usabl_analysis}
+With all data collected, we can proceed with the analysis.
+
+\begin{table}[htbp]
 	\centering
-	\includegraphics[width=\textwidth]{eclipse_config_main.png}
-	\caption{Main page of the code generation configuration}
-	\label{fig:eclipse_config_main}
-\end{figure}
+	\caption{Usability Task Performance Summary}
+	\label{tab:usability_tasks}
+	\begin{tabular}{lccc}
+		\toprule
+		\textbf{Task} & \textbf{Completion Time (s)} & \textbf{Errors} & \textbf{Help Requests} \\
+		\midrule
+		Select target language &  &  &  \\
+		Configure naming style &  &  &  \\
+		Apply identifier prefix/suffix &  &  &  \\
+		Enable/disable comments &  &  &  \\
+		Enable/disable report generation &  &  &  \\
+		Enable/disable traceability &  &  &  \\
+		Change executor type &  &  &  \\
+		Toggle business logic decoupling &  &  &  \\
+		Configure legacy libraries &  &  &  \\
+		Add pre/post scripts &  &  &  \\
+		Trigger code generation &  &  &  \\
+		Verify outputs &  &  &  \\
+		\midrule
+		\textbf{Totals} &  &  &  \\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
-Figure~\ref{fig:eclipse_config_main} highlights how the main configurations appear in the preferences window. From here it is possible to select the output folder and the target language that will be fed to the generator for code generation.
+Table~\ref{tab:usability_tasks} illustrates the aggregated performance summary of the participants. The completion time is very much acceptable for most tasks given the lack of familiarity with the software that every participant had. We can see a spike when it comes to \gls{ROS} specific things that the casual \gls{AADL} user might not be familiar with, for instance, changing the thread executor, managing the business logic, etc.
 
-The remaining sub-sections of this chapter describe configuration options that refine or extend the behavior defined by these core parameters.
+The amount of error performed was below expectations, most likely due to the simplicity and structure of the configuration language.
 
-\subsection{Language}
-\label{sec:dsl_lang}
+Nevertheless, this errors where quantified in the following Table~\ref{tab:usability_errors}
 
-The language option defines the targeted language for the current customization. The language option also serves as a distinction between different configurations in the configuration list, allowing for the quicker identification of the selected language in the generation.
-
-This option also serves to map the code \glspl{identifier} to their language specific casing\footnote{This only applies when the naming convention is set to STANDARD.} as explained in Section~\ref{sec:dsl_lang}.
-
-This option is highly extensible and, as \gls{RAMSES} grows, can be extended with many other languages such as Java, Assembly, Kotlin, etc.
-
-This option appears in the main page of the configurations as seen in Section~\ref{sec:dsl_main}
-
-\subsection{Naming Convention}
-\label{sec:dsl_name}
-
-The essence of the naming convention option is simple: to automatically change the casing on \glspl{identifier} to ensure consistency across all generated artifacts. It allows the user to enforce casing rules on classes, methods, variables, and constants throughout source files.
-
-\subsubsection{Identifier Style}
-\label{sec:dsl_name_style}
-
-The format on the style is done by analyzing the selected option in the configuration and then applying the style that corresponds to that option before code generation takes place. On top of the code, this also applies to every other instance of that identifier (CMake files for example), ensuring that every reference to that \gls{identifier} still preserves the style.
-
-Most styles simply change every \gls{identifier} to the same style, examples of this are \textit{snake\_case}, \textit{PascalCase}, \textit{camelCase} and many others. The \textit{DEFAULT} option leaves identifiers exactly as they have been written in the model, allowing for an effective nullification of the formatting process.
-
-The \textit{STANDARD} naming convention differs from the others as it allows for a dynamic \gls{identifier} naming, for instance: it allows \textit{Classes} to be \textit{Pascal\_Case} while simultaneously having \textit{Variables} in \textit{snake\_case}. This is very useful for specific restrictions where languages need different casing based on \gls{identifier} (Classes, methods, variables, constants, etc). This specific casing is very configurable and can be adapted to different programming languages, further improving the adaptability of the \gls{DSL}.
-
-
-\subsubsection{Identifier Affix}
-\label{sec:dsl_name_affix}
-
-Users may additionally define a prefix or suffix to be applied to all \glspl{identifier}
-
-Moreover, the affix is not affected by the styling format, this is done to give more choice to the end user, if we wish to have the affix not follow the selected casing that is the default behavior. On the other hand, if we do wish the affix to follow certain casing the solution is to simply write it according to that casing.
-
-All the options in the naming convention section are available to be modified in the preferences window as shown in Figure~\ref{fig:eclipse_config_naming}.
-
-\begin{figure}[htbp]
+\begin{table}[htbp]
 	\centering
-	\includegraphics[width=\textwidth]{eclipse_config_naming.png}
-	\caption{Main page of the code generation configuration}
-	\label{fig:eclipse_config_naming}
-\end{figure}
+	\caption{Categorization of User Errors}
+	\label{tab:usability_errors}
+	\begin{tabular}{lcl}
+		\toprule
+		\textbf{Error Category} & \textbf{Count} & \textbf{Description} \\
+		\midrule
+		Navigation error &  & Incorrectly locating the configuration page or submenu. \\
+		Misinterpretation &  & Misunderstanding the meaning of an option. \\
+		Configuration misuse &  & Selecting an option that conflicts with the intended task. \\
+		UI confusion &  & Confusion caused by labels, layouts, or grouping. \\
+		Missing confirmation &  & Forgetting to apply/save configuration changes. \\
+		Other &  &  \\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
-Enforcing identifier casing is especially important in parts of the toolchain where naming conventions may be interpreted semantically, such as ROS message fields and class names. Having the style configuration in the DSL ensures that all generated artifacts are syntactically consistent with the selected target environment.
 
-%TODO: review the phrase above
+\subsection{Discussion}
+\label{sec:test_usabl_obs}
 
-\subsection{Report}
-\label{sec:dsl_report}
 
-The report generation option offers various ways to customize the generated report that complements the code. This report is optional and, since it does take a good bit of time to be generated, can be turned off when not needed.
-
-Other customization options include the logic summaries and summary tables, which add condensed info to the end of certain parts of the report. Traceability, when enabled, will include direct links to components, threads and models in the report.
-
-Along with these options there's also the option to detect errors. If this option is toggled off the analysis will not be performed.
-
-Similar to the other options, this option can be modified in the preferences as shown in Figure~\ref{fig:eclipse_config_report}.
-
-\begin{figure}[htbp]
+\begin{table}[htbp]
 	\centering
-	\includegraphics[width=\textwidth]{eclipse_config_report.png}
-	\caption{Main page of the report generation configuration}
-	\label{fig:eclipse_config_report}
-\end{figure}
-
-One key detail of the report configuration is that if the report generation itself is disabled (first option in Figure~\ref{fig:eclipse_config_report}), the remaining options don't alter anything, meaning that it would not matter if, for instance, \textit{"Include logic summaries"} was enabled or not since the outcome would be the same. For this reason, if the \textit{"Generate report"} option is disabled, the other options will be unmodifiable to convey to the user that those options only take effect if the first option is enabled. This behaviour can be seen in Figure~\ref{fig:eclipse_config_report_disabled}.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{eclipse_config_report_disabled.png}
-	\caption{Report generation disabled}
-	\label{fig:eclipse_config_report_disabled}
-\end{figure}
-
-The report serves as a form of documentation of the generated system, allowing developers to verify many properties such as scheduling, port bindings and thread structure without inspecting the generated code manually.
-
-\subsection{Business Logic}
-\label{sec:dsl_business_logic}
-
-The business logic options handle the technology specific part of the generation, in this case, its \gls{ROS}. 
-
-The decoupling option splits the C++ code from the \gls{ROS} specific code with a simple toggle, while the executor option offers a predefined choice between the thread executors used in runtime.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{eclipse_config_business.png}
-	\caption{Page of the business logic configuration}
-	\label{fig:eclipse_config_business}
-\end{figure}
-
-Figure~\ref{fig:eclipse_config_business} highlights the business logic menu options.
-
-These options isolate the platform-dependent runtime semantics (in this case the ROS node execution) from the platform-independent logic (C++ code). This separation enables the same architectural model to be plugged into different execution frameworks with small changes.
-
-
-\subsection{Files}
-\label{sec:dsl_files}
-
-The file configuration controls file naming and output directory structure. Users can specify a shared filename prefix and enable or disable overwriting of existing files. This is important when regenerating code in incremental development workflows.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{eclipse_config_files.png}
-	\caption{Page of the file management configuration}
-	\label{fig:eclipse_config_files}
-\end{figure}
-
-Figure~\ref{fig:eclipse_config_files} shows the options that control the file management.
-
-
-\subsection{Comments}
-\label{sec:dsl_comments}
-
-In the comment options we can input both the author and a copyright notice for all code files. Documentation comments can also be enabled/disabled entirely. 
-
-By default, no comments are emitted.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{eclipse_config_comments.png}
-	\caption{Page of the code comments configuration}
-	\label{fig:eclipse_config_comments}
-\end{figure}
-
-Figure~\ref{fig:eclipse_config_comments} illustrates the different code comment generation options.
-
-
-\subsection{Traceability}
-\label{sec:dsl_trace}
-
-Traceability options enable or disable the generation of structured trace metadata linking model elements to corresponding code fragments. The JSON trace file may be generated independently, while diagram export is reserved for future work. 
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{eclipse_config_trace.png}
-	\caption{Page of the traceability configuration}
-	\label{fig:eclipse_config_trace}
-\end{figure}
-
-Figure~\ref{fig:eclipse_config_trace} shows the different options for traceability, as we saw previously with the case of the report generation (Section~\ref{sec:dsl_report}), if traceability generation is disabled, dependent settings become inactive. This behavior can be seen in Figure~\ref{fig:eclipse_config_trace_disabled}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{eclipse_config_trace_disabled.png}
-	\caption{Page of the traceability configuration with traceability disabled}
-	\label{fig:eclipse_config_trace_disabled}
-\end{figure}
+	\caption{Qualitative Observations During Testing}
+	\label{tab:usability_observations}
+	\begin{tabular}{p{3cm} p{10cm}}
+		\toprule
+		\textbf{Participant} & \textbf{Observations} \\
+		\midrule
+		P1 &  \\
+		P2 &  \\
+		P3 &  \\
+		P4 &  \\
+		P5 &  \\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
 
 
-\subsection{Extension}
-\label{sec:dsl_ext}
+\subsection{Threats to Validity}
+\label{sec:test_usabl_validity}
 
-The extension option represents the generation hooks (see Section~\ref{sec:impl_gen_hooks}) which were implemented with an already existing workflow component. This settings configure pre and post generation hooks that allow execution of external scripts. 
+Although the tests conducted were very promising and revealed a strong structural integrity of the software built, a core weakness of the validation tests was the lack of many participants capable of using \gls{ROS} in a high degree of proficiency. This was mainly due to the difficulty of having contact and time with a \gls{ROS} industry individual (our specific target demografic). Nevertheless, our individual testing proved that at least one \gls{ROS} industry professional approves of the developed configuration language. TODO: verify
 
-These hooks enable automation without modifying the code generator. 
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{eclipse_config_extension.png}
-	\caption{Page of generation hooks for code generation}
-	\label{fig:eclipse_config_extension}
-\end{figure}
-
-\subsection{Build Integration}
-\label{sec:dsl_build}
-
-Build integration controls whether main project artifacts such as \textit{source}, \textit{make}, \textit{package} and \textit{launch} files are generated. 
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{eclipse_config_build.png}
-	\caption{Page of the build configuration}
-	\label{fig:eclipse_config_build}
-\end{figure}
-
-Figure~\ref{fig:eclipse_config_build} illustrates how the options can be selected. Each one of the options is independent from each other, meaning that they can be ticked on/off in any combination.
-
-
-\subsection{Legacy Libraries}
-\label{sec:dsl_legacy}
-
-Legacy library handling determines whether external libraries are either included or not and when included can be referenced or copied.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{eclipse_config_legacy.png}
-	\caption{Page of the legacy configuration}
-	\label{fig:eclipse_config_legacy}
-\end{figure}
-
-Like other previous pages, the legacy page requires the inclusion of legacy libraries for the copy option to be enabled. Figure~\ref{fig:eclipse_config_legacy} illustrates how the page looks with all the options enabled and Figure~\ref{fig:eclipse_config_legacy2} shows how the the copy option depends on enabling library inclusion, ensuring configuration consistency.
-
-The ability to either reference or copy legacy libraries supports two distinct workflows: systems where libraries are centrally maintained, and isolated embedded deployments where all dependencies must be imported directly to the projects.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{eclipse_config_legacy2.png}
-	\caption{Page of the legacy configuration with library inclusion disabled}
-	\label{fig:eclipse_config_legacy2}
-\end{figure}
-
-
-
-\subsection{Target Operating System}
-\label{sec:dsl_os}
-
-This dropdown selects platform-specific adaptations to the generated code (for instance, file paths). Supported systems are Linux, Windows, and macOS.
-
-This option is one of the core options and can be found in Figure~\ref{fig:eclipse_config_main}.
-
-
+Some of the test participants had brief interactions with the \gls{DSL} throughout the development process which might have slightly influenced their performance even though the numbers do not seem to favor any individual in particular. TODO: verify
 
 
 

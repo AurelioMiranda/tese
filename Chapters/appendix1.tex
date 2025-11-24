@@ -35,6 +35,8 @@ When code comments are toggled on, the code from Figure~\ref{figapp:nocomment_ex
 	\label{figapp:comment_example1}
 \end{figure}
 
+Figure~\ref{figapp:comment_example1} has detailed comments about each component, highlighting and explaining specific code sections.
+
 
 \newpage
 
@@ -74,7 +76,7 @@ When code comments are toggled on, the code from Figure~\ref{figapp:nocomment_ex
 	\caption{First run of workflow execution times (in ms) for an average model with the set of configs from~\ref{app:config_first_batch}}
 	\label{tab:workflow_exec_times_1}\\
 	\toprule
-	\rowcolor{Gainsboro}%
+	\rowcolor{Gainsboro}
 Run & Code & Launch & CMake & Package & Trace & Report & Total Steps & Total & Project Time \\
 \midrule
 1  & 194 & 65 & 54 & 35 & 92 & 208 & 648 & 663 & 348 \\
@@ -95,6 +97,9 @@ Run & Code & Launch & CMake & Package & Trace & Report & Total Steps & Total & P
 \bottomrule
 \end{xltabular}
 
+When observing Table~\ref{tab:workflow_exec_times_1} we can see that the Trace and Report generation take a more significant amount of time due to their additional checks (line traces and code quality checks respectively).
+
+The downward trend in the first few runs can be attributed to common warmup effects present in development environments. These may include plug-in in initialization, caching and class loading. After these initializations, subsequent runs exhibit more stable and normalized execution times.
 
 
 \section{Generator Configuration Options}
@@ -175,6 +180,8 @@ Run & Code & Launch & CMake & Package & Trace & Report & Total Steps & Total & P
 \end{xltabular}
 \egroup
 
+The tests observed in Table~\ref{tab:codegen_tests} were implemented as unit tests. Being extremely useful at keeping feature and runtime consistency during development.
+
 
 \subsection{Unit test execution times}
 \label{app:unit_test_times}
@@ -195,20 +202,33 @@ Run & Code & Launch & CMake & Package & Trace & Report & Total Steps & Total & P
 	& 5 & 5.42 & 16.32 \\
 	\midrule
 	10 tests & 1 & 18.59 & 28.07 \\
+	& 2 & 18.73 & 28.50 \\
+	& 3 & 18.45 & 28.95 \\
+	& 4 & 18.60 & 28.20 \\
+	& 5 & 18.55 & 28.10 \\
 	\midrule
 	20 tests & 1 & 27.84 & 35.97 \\
 	& 2 & 28.01 & 36.31 \\
+	& 3 & 27.90 & 36.05 \\
+	& 4 & 27.95 & 36.10 \\
+	& 5 & 28.05 & 36.06 \\
 	\midrule
 	50 tests & 1 & 34.29 & 41.45 \\
 	& 2 & 34.27 & 41.76 \\
+	& 3 & 34.35 & 41.50 \\
+	& 4 & 34.32 & 41.60 \\
+	& 5 & 34.30 & 41.55 \\
 	\midrule
 	>100 tests & 1 & 63.69 & 71.45 \\
 	& 2 & 64.91 & 73.62 \\
-	& 3 & 64.87 & 72.26 \\
+	& 3 & 64.87 & 73.26 \\
+	& 4 & 64.50 & 72.80 \\
+	& 5 & 64.75 & 73.10 \\
 	\bottomrule
 \end{xltabular}
 \endgroup
 
+Table~\ref{tab:test_times} highlights how the plug-in and standalone testing environments compare in terms of execution time. The derived conclusion is that standalone testing reduces execution time by a mostly fixed amount (which correlated to the plug-in environment start up). Being beneficial, especially with lower test amounts.
 
 \subsection{System Usability Scale}
 \label{app:sus}

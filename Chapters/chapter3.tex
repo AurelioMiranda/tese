@@ -32,7 +32,7 @@ Furthermore, beyond naming, decisions about memory allocation models, system ini
 
 To understand why this rigidity is problematic, we must shift perspective from the generator to the organization that consumes it. In industry, generated code is not ephemeral: it is versioned, peer-reviewed, statically analyzed, tested, and in some cases certified. It coexists with handwritten code, interfaces with platform-specific services, and must evolve alongside requirements.
 
-\subsection*{Compliance, Traceability, and Certification}
+\subsection{Compliance, Traceability, and Certification}
 
 Generated code must often comply with domain-specific standards such as:
 
@@ -44,7 +44,7 @@ Generated code must often comply with domain-specific standards such as:
 
 In these environments, code generation must do more than "just work". It must be explainable, auditable, and deterministic. Developers must be able to trace a generated function back to a model element and forward to a specific runtime behavior.
 
-\subsection*{Integration with Legacy Codebases}
+\subsection{Integration with Legacy Codebases}
 
 Most industrial systems are not built from scratch. Code generators must work alongside:
 
@@ -56,7 +56,7 @@ Most industrial systems are not built from scratch. Code generators must work al
 
 A code generator that cannot adapt to these constraints is often sidelined in favor of manual glue code or post-processing scripts. These scripts, in turn, introduce maintainability challenges and break traceability chains.
 
-\subsection*{Developer Ergonomics and Maintenance}
+\subsection{Developer Ergonomics and Maintenance}
 
 Even the most advanced generator will eventually produce code that is read (and possibly modified) by a human developer. 
 
@@ -249,21 +249,21 @@ To assure that the \gls{DSL} meets expectations~\cite{Voelter_Benz_2013}, the sy
 
 Ideally the end product should meet these requirements to be considered a success. Each one of the requirements ensures a different, core quality of the configuration system, such as correctness, usability, or robustness.
 
-\subsection*{DSL existence}
+\subsection{DSL existence}
 
 This requirement will be fairly straightforward to prove since it implies a direct usage of the \gls{DSL} to produce results. This can be proven alongside the other requirements as they depend on it. However, a system wide testing will quickly prove the existence of the configuration language and its impacts, specifically with the testing of all features developed and their results.
 
-\subsection*{Before and After Comparison}
+\subsection{Before and After Comparison}
 
 The core idea of this configuration language is to modify the output code of the code generator according to user needs. The best way to prove that this goal was achieved is to compare how users would perform the same task before the configuration language was implemented and after. This direct comparison will evaluate the direct impact of the configuration language on development and will ensure that the developed solution benefits the system. 
 
 To strengthen the evaluation, a small controlled experiment involving developers familiar with model-driven engineering and code generation tools (\gls{EMF}, Acceleo) will be performed. Participants will be asked to complete predefined tasks under both conditions.
 
-\subsection*{Usability}
+\subsection{Usability}
 
 The configuration language should be easily usable, even by end users with limited programming experience, to ensure this requirement is met, clear documentation, consistent syntax, and terminology aligned with the application domain should be prioritized. This requirement will be confirmed by comparing the interaction with the configuration language of users with varying levels of technical expertise within the \gls{RAMSES} ecosystem, including \gls{RAMSES} developers, testers, and other stakeholders familiar with \gls{AADL}, allowing the comparison of usability and learning curve.
 
-\subsubsection*{User Evaluation Methodology}
+\subsubsection{User Evaluation Methodology}
 
 Participants will be given predefined configuration tasks (changing naming schemes, visualizing traceability, etc) and asked to perform them with minimal guidance.
 
@@ -285,17 +285,17 @@ To further support analysis, two standardized questionnaires will be used:
 
 This setup will help assess whether the DSL meets its usability and accessibility goals across a broad user spectrum.
 
-\subsection*{Configuration Variants}
+\subsection{Configuration Variants}
 
 To assess the flexibility and robustness of the configuration language, distinct configuration files will be tested. These scenarios will vary in complexity and structure to evaluate whether the generator can handle diverse inputs while maintaining correctness and coherence in the generated code, effectively testing the limits of the configuration language.
 
-\subsection*{Functionally Equal}
+\subsection{Functionally Equal}
 
 To make sure the code generated still retains the same practical functionality, a few things need to be taken into account, firstly, the code generator needs to be modified just enough to produce the desired results of structure, naming, etc while still keeping the same functionality as before the implementation, essentially keeping the semantics intact. Monthly testings, including Regression and Integration testing, will also ensure that the code remains functionally the same by running selected examples and doing direct code comparison, however, comparisons will focus on runtime behavior rather than raw text equivalence. This will give us the confidence that the new code behaves the same as the old one.
 
 The baseline for comparison will be the unmodified RAMSES generator. This allows for a clear assessment of what configuration capabilities are introduced in terms of productivity, flexibility, and clarity. 
 
-\subsection*{Testing Procedures}
+\subsection{Testing Procedures}
 
 Tests will be conducted during and after development to ensure the configuration language behaves as expected and that the practical usage of the generated code remains the same. A variety of tests were chosen, specifically:
 

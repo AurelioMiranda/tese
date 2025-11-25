@@ -25,10 +25,10 @@ Beyond that, the meeting also served as a sneak peak to what the final \gls{RAMS
 \begin{tcolorbox}[colback=green!5, colframe=green!40!black] This meeting provided extremely valuable insight as the industry partner has been using \gls{ROS} for over seven years, effectively distilling their experience into actionable knowledge. \end{tcolorbox}
 
 
-\section{Implementation Plan} 
+\section{Implementation Flow} 
 \label{sec:impl_plan}
 
-In order to better understand what features are implemented, when and why, the implementation was done by layers: each layers depends on things done previously on other layers, hence some features are developed before others.
+In order to better understand what features were implemented, when and why, the implementation was planned and executed by layers: each layer depends on things done on previous layers, hence some features were developed before others.
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}
@@ -56,13 +56,13 @@ In order to better understand what features are implemented, when and why, the i
 \end{xltabular}
 
 
-Table~\ref{tab:impl_plan} presents the planned order of feature implementation based on their dependencies. Each feature may require elements developed in previous steps, ensuring a coherent and manageable progression. This dependency structure prevents rework by implementing features that provide necessary infrastructure before higher-level functionalities.
+Table~\ref{tab:impl_plan} presents the planned order of feature implementation based on their dependencies. Some features required elements developed in previous steps for instance the Report which uses Traceability features. This dependency structure prevented rework by implementing features that provide necessary infrastructure before higher-level functionalities.
 
 
 \subsection{Core and Metadata Layer}
 \label{sec:code_and_meta}
 
-The Core and Metadata Layer (Table~\ref{tab:core_and_meta}) includes foundational features that establish the basic code structure and metadata necessary for subsequent processing. Features such as \glspl{identifier} and comments form the backbone of the generator, while traceability and reporting provide essential tools for debugging and verification. Their relatively low to medium complexity allows them to be developed early, enabling smooth integration of more advanced features later.
+The Core and Metadata Layer (Table~\ref{tab:core_and_meta}) includes foundational features that establish the basic code structure and metadata necessary for subsequent processing. Features such as \glspl{identifier} and comments form the backbone of the generator, while traceability and reporting provide essential tools for debugging and verification. Their relatively low to medium complexity allowed them to be developed early, enabling smooth integration of more advanced features later.
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}
@@ -81,7 +81,7 @@ The Core and Metadata Layer (Table~\ref{tab:core_and_meta}) includes foundationa
 \end{xltabular}
 
 
-This first layer serves as a base for other features since it has fairly straightforward but very useful features.
+This first layer served as a base for other features since it has fairly straightforward but very useful features.
 
 
 \subsection{Structural Optimization Layer}
@@ -247,7 +247,7 @@ The way the line number is detected is quite complex in practice but more straig
 
 Using \gls{JSON} simplified a lot the process of assigning the correct line to the correct trace since \gls{JSON} can be manipulated with Java code in a simple and effective way.
 
-In addition to this, traceability links were created using Capra to ensure that the \gls{JSON} file can be directly related to the C++ files using the \textit{@trace} indicative.
+In addition to this, traceability links were created using in the report (see Section~\ref{sec:impl_report}) to ensure that the \gls{JSON} file can be directly related to the C++ files using the \textit{@trace} indicative.
 
 Traceability ensures to the end user that the generated code came directly from the model that he chose, moreover it simplifies the search for a specific representation of a model component inside the code or vice versa.
 
@@ -257,14 +257,14 @@ Traceability ensures to the end user that the generated code came directly from 
 The report was implemented with the goal of providing a clear, concise and structured way of visualizing exactly how the model translates to code. To do this, the report is generated in \gls{HTML} using Acceleo. This is important since it overcomes a few constraints, mainly:
 
 \begin{itemize} 
-	\item \textbf{PDF with Java:} The major issue that producing \gls{HTML} code with Acceleo instead of a direct PDF with Java fixes is that producing PDFs with Java code, although more practical on the surface, has many limitations when it comes to designing and structuring PDFs. In addition, the verbose is very unintuitive and can quickly grow in complexity.
+	\item \textbf{PDF with Java:} The major advantage that producing \gls{HTML} reports with Acceleo fixes is that producing PDFs with Java code, although more practical\footnote{Less technologies involved. Just Java as opposed to Java, Acceleo and \gls{HTML}} on the surface, it has many limitations when it comes to designing and structuring PDFs. In addition, the verbose is very unintuitive and can quickly grow in complexity.
 	\item \textbf{Extensibility:} Since \gls{HTML} is a simple and well known language, adding details and making changes is straightforward when comparing it to other tools like LaTeX. In this case, the usage of LaTeX isn't really justified since it is more directed to academic circumstances and not fast paced development. 
 	\item \textbf{Styling Issues:} Using raw \gls{CSS} in combination with \gls{HTML} is no doubt the best choice when it comes to styling the report. Java has many limitations when it comes to styling and LaTeX is very strict and error prone. For a basic report such as the one generated, \gls{CSS} styling is more than enough.
 \end{itemize}
 
 Once these constraints were no longer an issue, the development of the report was much more intuitive. The base was made with \gls{HTML} and \gls{CSS}, which enabled a high degree of custom styles while also simplifying the integration of useful information. 
 
-Since the first iteration of the report was done in \gls{HTML}, the transition to PDF was mostly seamless, however, its implementation was done by Java code along with a Workflow. This was at a later stage, a more detailed explanation can be found in Section~\ref{sec:workflows}.
+Since the first iteration of the report was done in \gls{HTML}, the transition to PDF was not needed since Eclipse naturally opens and displays \gls{HTML} files in a selected browser. If there was, however, a need for an \gls{HTML} to PDF transformation it could easily be done via workflow\footnote{More on workflows in Section~\ref{sec:workflows}.} after the PDF is generated.
 
 The report has many features, its high customization enables the creation of different parts when needed, hence omitting redundant or unwanted sections according to user needs. One of the core elements is the \gls{ROS} specific option, which highlights \gls{ROS} specific components that were generated or ported from the model. This allows \gls{ROS} developers to have a much clearer idea of how parts of the input model were represented in the \gls{ROS} part of the code, for instance, what thread corresponds to a Publisher\footnote{Publishers generate and publish data (sensor readings, etc).} or Subscriber\footnote{Subscribers listen for and process data sent by Publishers.}.
 

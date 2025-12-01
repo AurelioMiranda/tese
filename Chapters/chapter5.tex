@@ -232,18 +232,70 @@ The change from plug-in tests to standalone revealed a clear advantage when it c
 \section{Usability Validation}
 \label{sec:test_val}
 
-With the \gls{DSL} finalized and its features implemented it is then possible to asses how an end user will interact with the newly developed features.
+% TODO: Add explicit Research Questions (RQ1, RQ2, ...).
+% TODO: Add operational definition of usability criteria (ISO 9241-11 or equivalent).
+
+With the \gls{DSL} finalized and its features implemented it is then possible to assess how an end user will interact with the newly developed features. The object of study is the developed \gls{DSL} and configuration workflow it uses. The main purpose of this usability validation test is to evaluate, understand, and improve the code configuration \gls{DSL} and workflow.
+
+This testing will focus particularly on user efficiency (time to complete tasks) and effectiveness (task completion rate) of accomplish tasks, as well as how fast they learn the configuration itself, how often mistakes are made and how comfortable they feel using it. This information will not only be valuable to the current thesis but also to take into account when developing the complete \gls{RAMSES} tool with an integrated place for the configuration language. % TODO: confirm this
+
+For these tests the participants will be mostly end users with moderate \gls{AADL} knowledge and a highly experienced \gls{ROS} developer\footnote{7+ years of commercial \gls{ROS} usage.} that directly represents the target demographic.
+
+The tests were conducted using the \gls{DSL} within the \gls{RAMSES} code generation workflow, operating in a Windows laptop with Osate with the latest versions available at the moment of testing (see more on Section~\ref{sec:test_usabl_eval_crit}), using it with functional \gls{AADL} models.
+
+In \gls{GQM} terms, this can be translated to:
+
+\begin{itemize}  
+	\item \textbf{Object}: The developed DSL and its configuration workflow.
+	\item \textbf{Purpose}: Evaluate, understand, and improve the workflow.
+	\item \textbf{Quality focus}: Assess usability attributes including efficiency, effectiveness, learnability, error rate, and user satisfaction.
+	\item \textbf{Perspective}: From the viewpoint of end users with moderate \gls{AADL} knowledge and a highly experienced \gls{ROS} developer. %TODO: confirm
+	\item \textbf{Context}: Within the RAMSES code generation workflow, using functional AADL models.
+\end{itemize}
+
 
 For this test, 5 users with a moderate/high familiarization to \gls{AADL} were picked to perform a sequence of tasks that mimicked the usage of the \gls{DSL} to its near fullest extent.
 
+% TODO: Add sampling justification and population definition.
+% TODO: State clearly that the participants are a convenience sample (Falessi ST7/ST8).
+% TODO: Describe expected user population in RAMSES/ROS context and how this sample represents it.
+
 The goal was not only to acquire real data in a real environment but also to highlight any flaws or issues that might have been overlooked in the development phase and to verify whether the configuration language meets the usability requirements defined earlier in Chapter~\ref{chap:challenges_and_requirements}, particularly its accessibility to users with different levels of technical expertise.
+
+% TODO: Explicitly connect usability requirements to measurable dependent variables.
+
 
 \subsection{Participants}
 \label{sec:test_usabl_participants}
+
 TODO: nr participants participants were selected for this study. All were familiar with \gls{AADL} and had experience with model-driven workflows, even though their backgrounds and technical depth varied. This group reflects the typical user base within the RAMSES ecosystem: developers, testers, and stakeholders who understand AADL semantics but may not necessarily be expert programmers. Participants remained anonymous.
+
+% TODO: Replace TODO above with the precise number of participants.
+% TODO: Add participant characterization (experience levels, years working with AADL, exposure to DSLs, exposure to ROS).
+% TODO: Identify which participants interacted with the DSL during development.
+% TODO: Add inclusion/exclusion criteria.
+% TODO: Add recruitment method.
+% TODO: Add whether participants were blinded to study goals.
+
+
+\subsection{Experimental Materials}
+\label{sec:test_usabl_materials}
+
+% New section required by Jedlitschka
+
+% TODO: Specify RAMSES version, DSL editor version, OS, hardware environment.
+% TODO: Describe all test artefacts: example AADL model, configuration project, ROS-related libraries, etc.
+% TODO: Provide screenshots or references to appendices where appropriate.
+
 
 \subsection{Tasks}
 \label{sec:test_usabl_tasks}
+
+% TODO: Add rationale for task selection and coverage.
+% TODO: State whether task order was fixed or counterbalanced.
+% TODO: Note risk of learning effects if fixed order used.
+% TODO: Indicate difficulty levels of tasks (simple/advanced).
+
 Each participant was asked to perform a sequence of tasks designed to cover every major feature of the configuration language. These tasks simulate realistic use of the \gls{DSL} and its integration with \gls{RAMSES}. The task set was organized into five groups:
 
 \begin{itemize}
@@ -256,12 +308,23 @@ Each participant was asked to perform a sequence of tasks designed to cover ever
 
 The task sequence was intentionally designed to exercise the \gls{DSL} to near full extent without requiring prior explanation of its internal implementation.
 
+
 \subsection{Evaluation Criteria}
 \label{sec:test_usabl_eval_crit}
+
+% TODO: Connect criteria to previously defined usability goals.
+% TODO: Clearly define all dependent variables and operationalization.
+
 The usability evaluation followed the methodology defined in the requirements phase of the project. Both quantitative and qualitative measures were collected to assess the usability of the configuration interface and the effort required to use it.
+
 
 \paragraph{Quantitative data}
 \label{sec:test_usabl_quant}
+
+% TODO: Describe how data were cleaned (outliers, invalid runs, discarding rules).
+% TODO: Describe aggregation method (mean/median + rationale).
+% TODO: Specify device used to measure time (script? stopwatch? logs?).
+
 For every task and participant, the following metrics were recorded:
 
 \begin{itemize}
@@ -270,8 +333,13 @@ For every task and participant, the following metrics were recorded:
 	\item Number of help requests or clarifications needed.
 \end{itemize}
 
+
 \paragraph{Qualitative data}
 \label{sec:test_usabl_qual}
+
+% TODO: Describe coding methodology for qualitative observations.
+% TODO: Describe categories used for thematic analysis (if any predefined).
+
 During the session, the following observations were captured:
 
 \begin{itemize}
@@ -280,8 +348,13 @@ During the session, the following observations were captured:
 	\item Indicators of the learning curve across tasks (increased speed or confidence).
 \end{itemize}
 
+
 \paragraph{Subjective evaluation}
 \label{sec:test_usabl_subj}
+
+% TODO: Define scoring method for SUS (conversion, threshold interpretation).
+% TODO: Define scoring method for NASA-TLX (weighted or unweighted?).
+
 After completing all tasks, each participant completed two standardized questionnaires:
 
 \begin{itemize}
@@ -291,8 +364,15 @@ After completing all tasks, each participant completed two standardized question
 
 These instruments provide widely accepted measures for usability and mental effort. They also enable a structured and comparable assessment.
 
+
 \subsection{Execution}
 \label{sec:test_usabl_proc}
+
+% TODO: Add pilot test description, if any.
+% TODO: Add moderator script summary or link to appendix.
+% TODO: Describe measures taken to ensure consistent handling between sessions.
+% TODO: Note any deviations from the predefined procedure.
+
 Each session followed the same procedure:
 
 \begin{enumerate}
@@ -304,8 +384,15 @@ Each session followed the same procedure:
 
 All sessions were conducted individually and under identical software environments to ensure comparability.
 
+
 \subsection{Analysis}
 \label{sec:test_usabl_analysis}
+
+% TODO: Describe analysis procedure (statistical tests, or explain why none used).
+% TODO: Add descriptive statistics: means, medians, SDs, CIs.
+% TODO: Add interpretation rules (thresholds for acceptable performance).
+% TODO: Clarify whether unit of analysis is per-task or per-user.
+
 With all data collected, we can proceed with the analysis.
 
 \begin{table}[htbp]
@@ -334,11 +421,18 @@ With all data collected, we can proceed with the analysis.
 	\end{tabular}
 \end{table}
 
+% TODO: Fill all missing data in table.
+% TODO: Add measures of variance (SD/CI).
+% TODO: Explain any spikes or anomalies with data-backed reasoning.
+
 Table~\ref{tab:usability_tasks} illustrates the aggregated performance summary of the participants. The completion time is very much acceptable for most tasks given the lack of familiarity with the software that every participant had. We can see a spike when it comes to \gls{ROS} specific things that the casual \gls{AADL} user might not be familiar with, for instance, changing the thread executor, managing the business logic, etc.
+
+% TODO: Support claims with quantitative evidence from table.
+% TODO: Clarify what "acceptable" means (benchmark or requirement reference).
 
 The amount of error performed was below expectations, most likely due to the simplicity and structure of the configuration language.
 
-Nevertheless, this errors where quantified in the following Table~\ref{tab:usability_errors}
+Nevertheless, these errors were quantified in the following Table~\ref{tab:usability_errors}.
 
 \begin{table}[htbp]
 	\centering
@@ -358,8 +452,15 @@ Nevertheless, this errors where quantified in the following Table~\ref{tab:usabi
 	\end{tabular}
 \end{table}
 
+% TODO: Fill missing data.
+% TODO: Add explanation of how errors were categorized (predetermined taxonomy or post-hoc?).
 
-\section{NASA \gls{TLX}}
+
+\subsection{NASA \gls{TLX}}
+\label{sec:test_usabl_nasa}
+
+% TODO: Document whether TLX scoring was weighted.
+% TODO: Add interpretation of scores (low/medium/high workload thresholds).
 
 \textbf{Dimensions:}
 \begin{itemize}
@@ -372,7 +473,6 @@ Nevertheless, this errors where quantified in the following Table~\ref{tab:usabi
 \end{itemize}
 
 Each item is scored from 0 to 100.
-
 
 \begin{table}[htbp]
 	\centering
@@ -391,11 +491,18 @@ Each item is scored from 0 to 100.
 	\end{tabular}
 \end{table}
 
+% TODO: Fill missing scores.
+% TODO: Add discussion of patterns by participant subgroup.
+% TODO: Relate scores to system usability and cognitive effort.
 
 
 \subsection{Discussion}
 \label{sec:test_usabl_obs}
 
+% TODO: Summarize findings and relate them explicitly to usability requirements.
+% TODO: Link observations to efficiency, learnability, discoverability, error recovery, etc.
+% TODO: Compare results to expectations or prior studies.
+% TODO: Identify design issues revealed by qualitative data.
 
 \begin{table}[htbp]
 	\centering
@@ -414,14 +521,31 @@ Each item is scored from 0 to 100.
 	\end{tabular}
 \end{table}
 
+% TODO: Fill this table.
+% TODO: Extract themes from qualitative notes.
 
 
 \subsection{Threats to Validity}
 \label{sec:test_usabl_validity}
 
-Although the tests conducted were very promising and revealed a strong structural integrity of the software built, a core weakness of the validation tests was the lack of many participants capable of using \gls{ROS} in a high degree of proficiency. This was mainly due to the difficulty of having contact and time with a \gls{ROS} industry individual (our specific target demografic). Nevertheless, our individual testing proved that at least one \gls{ROS} industry professional approves of the developed configuration language. TODO: verify
+Although the tests conducted were very promising and revealed a strong structural integrity of the software built, a core weakness of the validation tests was the lack of many participants capable of using \gls{ROS} in a high degree of proficiency. This was mainly due to the difficulty of having contact and time with a \gls{ROS} industry individual (our specific target demographic). Nevertheless, our individual testing proved that at least one \gls{ROS} industry professional approves of the developed configuration language. TODO: verify
 
 Some of the test participants had brief interactions with the \gls{DSL} throughout the development process which might have slightly influenced their performance even though the numbers do not seem to favor any individual in particular. TODO: verify
+
+% TODO: Add internal validity threats: learning effects, evaluator bias, Hawthorne effect, prior exposure.
+% TODO: Add external validity threats: small sample size, convenience sampling, non-representative ROS expertise distribution.
+% TODO: Add construct validity threats: metrics measure efficiency but not all facets of usability.
+% TODO: Add conclusion validity threats: statistical power insufficient for subgroup comparisons.
+
+
+\subsection{Conclusion}
+\label{sec:test_usabl_conclusion}
+
+% TODO: Add a concise summary of whether usability goals were met.
+% TODO: List concrete improvements identified.
+% TODO: Add future work: larger sample, ROS-expert recruitment, longitudinal testing, benchmarking against alternative tools.
+
+
 
 
 

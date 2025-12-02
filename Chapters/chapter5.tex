@@ -232,14 +232,11 @@ The change from plug-in tests to standalone revealed a clear advantage when it c
 \section{Usability Validation}
 \label{sec:test_val}
 
-% TODO: Add explicit Research Questions (RQ1, RQ2, ...).
-% TODO: Add operational definition of usability criteria (ISO 9241-11 or equivalent).
-
 With the \gls{DSL} finalized and its features implemented it is then possible to assess how an end user will interact with the newly developed features. The object of study is the developed \gls{DSL} and configuration workflow it uses. The main purpose of this usability validation test is to evaluate, understand, and improve the code configuration \gls{DSL} and workflow.
 
 This testing will focus particularly on user efficiency (time to complete tasks) and effectiveness (task completion rate) of accomplish tasks, as well as how fast they learn the configuration itself, how often mistakes are made and how comfortable they feel using it. This information will not only be valuable to the current thesis but also to take into account when developing the complete \gls{RAMSES} tool with an integrated place for the configuration language. % TODO: confirm this
 
-For these tests the participants will be mostly end users with moderate \gls{AADL} knowledge and a highly experienced \gls{ROS} developer\footnote{7+ years of commercial \gls{ROS} usage.} that directly represents the target demographic.
+For these tests the participants will consist of end users with moderate \gls{AADL} knowledge and a highly experienced \gls{ROS} developer\footnote{7+ years of commercial \gls{ROS} usage.} that directly represents the target demographic.
 
 The tests were conducted using the \gls{DSL} within the \gls{RAMSES} code generation workflow, operating in a Windows laptop with Osate with the latest versions available at the moment of testing (see more on Section~\ref{sec:test_usabl_eval_crit}), using it with functional \gls{AADL} models.
 
@@ -255,6 +252,45 @@ In \gls{GQM} terms, this can be translated to:
 
 
 For this test, 5 users with a moderate/high familiarization to \gls{AADL} were picked to perform a sequence of tasks that mimicked the usage of the \gls{DSL} to its near fullest extent.
+
+With the goals now in mind, we can also associate research questions to better understand if the goals were actually met in the end, those questions are the following:
+
+\begin{itemize}
+	\item \textbf{RQ1 (Effectiveness):} Can users successfully complete the tasks using the \gls{DSL} without errors?
+	\item \textbf{RQ2 (Efficiency):} How quickly can users complete the tasks using the \gls{DSL}?
+	\item \textbf{RQ3 (Learnability):} How quickly do users become proficient with the \gls{DSL} when performing the sequence of tasks?
+	\item \textbf{RQ4 (Error rate):} What types and frequency of errors do users make while using the \gls{DSL}?
+	\item \textbf{RQ5 (Satisfaction):} How do users perceive the usability of the \gls{DSL} in terms of comfort, confidence, and overall satisfaction?
+\end{itemize}
+
+Each of the research questions serves to directly evaluate a defined usability attribute (effectiveness, efficiency, learnability, error rate, and satisfaction).
+
+\subsection{Operational Definition of Usability}
+\label{sec:test_op_def_usability}
+
+According to \gls{ISO} 9241-11, usability is defined in terms of effectiveness, 
+efficiency, and satisfaction within a specified context of use. 
+Table~\ref{tab:usability_operationalization} summarizes how each attribute is 
+operationalized and measured in this study.
+
+\bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{xltabular}{\textwidth}{X X X X X}
+\caption{Operational definition of usability attributes used in the study}
+\label{tab:usability_operationalization}\\
+\toprule
+\rowcolor{Gainsboro}%
+	Usability Attribute & ISO 9241-11 Concept & Measurement \\
+	\midrule
+	Effectiveness & Accuracy and completeness & Percentage of tasks successfully completed without external assistance. \\
+	Efficiency & Resources used to achieve goals & 		Time to complete each task (in seconds). Measured per participant and aggregated across tasks. \\
+	Learnability & Time and effort to reach proficiency & Improvement in task completion time and reduction in errors across the ordered sequence of tasks. \\
+	Error rate & Frequency and type of user errors & 	Number and classification of errors observed during each task (syntax misuse, misunderstanding of concepts, navigation errors, etc). \\ 
+	Satisfaction & User comfort and acceptance & 	Post-task questionnaires including \gls{SUS} and NASA-\gls{TLX} ratings (mental demand, effort, frustration, perceived performance). \\ 
+\end{xltabular}
+
+
+
 
 % TODO: Add sampling justification and population definition.
 % TODO: State clearly that the participants are a convenience sample (Falessi ST7/ST8).

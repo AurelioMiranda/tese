@@ -232,11 +232,11 @@ The change from plug-in tests to standalone revealed a clear advantage when it c
 \section{Usability Validation}
 \label{sec:test_val}
 
-With the \gls{DSL} finalized and its features implemented it is then possible to assess how an end user will interact with the newly developed features. The object of study is the developed \gls{DSL} and configuration workflow it uses. The main purpose of this usability validation test is to evaluate, understand, and improve the code configuration \gls{DSL} and workflow.
+With the \gls{DSL} finalized and its features implemented it was then possible to assess how an end user will interact with the newly developed features. The object of study is the developed \gls{DSL} and configuration workflow it uses. The main purpose of this usability validation test is to evaluate, understand, and improve the code configuration \gls{DSL} and workflow.
 
 This testing will focus particularly on user efficiency (time to complete tasks) and effectiveness (task completion rate) of accomplish tasks, as well as how fast they learn the configuration itself, how often mistakes are made and how comfortable they feel using it. This information will not only be valuable to the current thesis but also to take into account when developing the complete \gls{RAMSES} tool with an integrated place for the configuration language. % TODO: confirm this
 
-For these tests the participants will consist of end users with moderate \gls{AADL} knowledge and a highly experienced \gls{ROS} developer\footnote{7+ years of commercial \gls{ROS} usage.} that directly represents the target demographic.
+For these tests the participants consisted of end users with moderate \gls{AADL} knowledge and a highly experienced \gls{ROS} developer\footnote{7+ years of commercial \gls{ROS} usage.} that directly represents the target demographic.
 
 The tests were conducted using the \gls{DSL} within the \gls{RAMSES} code generation workflow, operating in a Windows laptop with Osate with the latest versions available at the moment of testing (see more on Section~\ref{sec:test_usabl_eval_crit}), using it with functional \gls{AADL} models.
 
@@ -290,23 +290,26 @@ operationalized and measured in this study.
 \end{xltabular}
 
 
+To ensure the validity of the usability evaluation, it is important to clarify the target population and the sampling strategy used. In the context of the \gls{RAMSES} tool and its integration with \gls{ROS} systems, the expected user population consists primarily of:
 
+\begin{itemize}
+	\item Engineers and researchers familiar with \gls{AADL} with moderate experience in architecture modeling but not necessarily experts in code-generation frameworks or \gls{ROS}.
+	\item A robotics developer with practical experience in \gls{ROS} that represented a major demographic expected to interact with the generated code and configuration artifacts.
+\end{itemize}
 
-% TODO: Add sampling justification and population definition.
-% TODO: State clearly that the participants are a convenience sample (Falessi ST7/ST8).
-% TODO: Describe expected user population in RAMSES/ROS context and how this sample represents it.
+Given the availability constraints inherent in specialized domains such as \gls{AADL} and safety-critical modeling, the participant group for this study constitutes a convenience sample. According to Falessi et al. (ST7/ST8)~\cite{Falessi_Juristo_Wohlin_Turhan_Münch_Jedlitschka_Oivo_2017}, convenience sampling is acceptable in empirical software engineering studies when the objective is exploratory evaluation, early-stage usability validation, and identification of practical issues affecting real users. While this sampling method limits statistical generalizability, it provides valuable insight into typical user behaviour within the actual intended user demographic.
 
-The goal was not only to acquire real data in a real environment but also to highlight any flaws or issues that might have been overlooked in the development phase and to verify whether the configuration language meets the usability requirements defined earlier in Chapter~\ref{chap:challenges_and_requirements}, particularly its accessibility to users with different levels of technical expertise.
-
-% TODO: Explicitly connect usability requirements to measurable dependent variables.
+To make this verification operational, each usability requirement introduced in Chapter~\ref{chap:challenges_and_requirements} is mapped to a specific dependent variable in the evaluation design. The requirement that the \gls{DSL} be human-readable and accessible to users with different technical backgrounds is assessed through learnability and effectiveness metrics, namely the time needed to complete configuration tasks and the rate of successfully completed steps. The requirement for low cognitive overhead and clarity of configuration rules is evaluated using the NASA-\gls{TLX} workload scale, which measures perceived mental demand, effort and frustration. The requirement that the \gls{DSL} support correct and error tolerant configuration is linked to the error rate and the qualitative analysis of error types. Similarly, the requirement for a declarative and predictable configuration is associated with efficiency metrics (task duration, need for backtracking) and with participant reports captured through the \gls{SUS} questionnaire. By associating each requirement with at least one measurable variable, the evaluation ensures that high level design goals such as readability, configurability, robustness, and accessibility are reflected in user experience and performance.
 
 
 \subsection{Participants}
 \label{sec:test_usabl_participants}
 
-TODO: nr participants participants were selected for this study. All were familiar with \gls{AADL} and had experience with model-driven workflows, even though their backgrounds and technical depth varied. This group reflects the typical user base within the RAMSES ecosystem: developers, testers, and stakeholders who understand AADL semantics but may not necessarily be expert programmers. Participants remained anonymous.
+A total of 5 participants were selected for this study. All were familiar with \gls{AADL} and had experience with model-driven workflows, even though their backgrounds and technical depth varied. This group reflects the typical user base within the RAMSES ecosystem: developers, testers, and stakeholders who understand AADL semantics but may not necessarily be expert programmers. Participants remained anonymous.
 
-% TODO: Replace TODO above with the precise number of participants.
+
+Out of all participants, only one of them interacted with a very early and incomplete version of the \gls{DSL} and, during the test, this participant did not entice any familiarization with the current \gls{DSL}, hence its safe to say that no participant understood what the \gls{DSL} was, what purpose it served and how to operate it before the execution of the test.
+
 % TODO: Add participant characterization (experience levels, years working with AADL, exposure to DSLs, exposure to ROS).
 % TODO: Identify which participants interacted with the DSL during development.
 % TODO: Add inclusion/exclusion criteria.
@@ -348,7 +351,7 @@ The task sequence was intentionally designed to exercise the \gls{DSL} to near f
 \subsection{Evaluation Criteria}
 \label{sec:test_usabl_eval_crit}
 
-% TODO: Connect criteria to previously defined usability goals.
+To assess the usability attributes defined in Section~\ref{sec:test_op_def_usability}, three types of data were collected during the experimental sessions: quantitative metrics, qualitative observations, and subjective scoring.
 % TODO: Clearly define all dependent variables and operationalization.
 
 The usability evaluation followed the methodology defined in the requirements phase of the project. Both quantitative and qualitative measures were collected to assess the usability of the configuration interface and the effort required to use it.

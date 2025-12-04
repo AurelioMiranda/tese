@@ -310,17 +310,70 @@ A total of 5 participants were selected for this study. All were familiar with \
 
 Out of all participants, only one of them interacted with a very early and incomplete version of the \gls{DSL} and, during the test, this participant did not entice any familiarization with the current \gls{DSL}, hence its safe to say that no participant understood what the \gls{DSL} was, what purpose it served and how to operate it before the execution of the test.
 
-% TODO: Add participant characterization (experience levels, years working with AADL, exposure to DSLs, exposure to ROS).
-% TODO: Identify which participants interacted with the DSL during development.
-% TODO: Add inclusion/exclusion criteria.
-% TODO: Add recruitment method.
-% TODO: Add whether participants were blinded to study goals.
+\subsubsection{Participant Characterization}
+\label{sec:test_usabl_participant_character}
+
+Table~\ref{tab:participant_character} summarizes the technical background of each participant.
+
+\bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{xltabular}{\textwidth}{X X X X X}
+	\caption{Operational definition of usability attributes used in the study}
+	\label{tab:participant_character}\\
+	\toprule
+	\rowcolor{Gainsboro}%
+	Participant & \gls{AADL} Experience & \gls{ROS} Experience & \gls{DSL} Exposure & Notes \\
+	\midrule
+	P1 & 1 year & None & None & Primary background in model-driven engineering. \\
+	P2 & 1 year & Light (Academic) & Brief (Early version) & Accompanied the concept of the \gls{DSL} during development. \\
+	P3 & 6 months & Light (Work Research) & None & \gls{RAMSES} developer with no connection to the code generation module. \\
+	P4 & 2 years & None & None & TODO. \\
+	P5 & none & None & None & TODO. \\
+	P5 & none & High (7+ Years Commercial) & None & Represents the highly experienced \gls{ROS} developer demographic. \\
+\end{xltabular}
+
+\textbf{Average \gls{AADL} Experience (P1-P5)}: $\approx 3.5$ years.
+
+
+\textbf{Target Demographic Representation}: The sample includes five participants with moderate \gls{AADL} experience and one highly experienced \gls{ROS} professional (the expert user and generated code consumer).
+
+
+\subsubsection{Inclusion and Exclusion Criteria}
+\label{sec:test_usabl_participant_incl_excl}
+
+\textbf{Inclusion Criteria}: Participants must have at least moderate undestanding of the \gls{AADL} language and model-driven engineering concepts.
+
+\textbf{Exclusion Criteria}: Participants were excluded if they were directly involved in the design or implementation of the current \gls{DSL} version, with the exception of the one participant who had brief, early exposure, which was judged to not provide a significant advantage in the final version of the test.
+
+\subsubsection{Recruitment and Blinding}
+\label{sec:test_usabl_participant_rec_blind}
+
+The participants were recruited via direct contact from professional networks associated with \gls{RAMSES} and safety-critical systems research, using the convenience sampling strategy.
+
+Out of all participants, only P2 had brief interactions with a very early and incomplete version of the \gls{DSL} that excluded the \gls{UI} itself. During the test, this participant did not demonstrate any prior knowledge of the current \gls{DSL} features, supporting the assumption that all participants approached the tasks essentially as beginners of the final system.
+
+The participants were not blinded to the end goal, which was presented as a "usability validation of a new code configuration workflow for \gls{RAMSES}." However, they were provided no task-specific guidance and were told the purpose of the test was to evaluate the tool, not the user. This minimized anxiety and the potential for a strong Hawthorne effect\footnote{When people behave differently because they know they are being watched}.
 
 
 \subsection{Experimental Materials}
 \label{sec:test_usabl_materials}
 
-% New section required by Jedlitschka
+To ensure the test is valid and able to be reproduced, the technical environment and all its artifacts were the same across all testing sessions. The objective was to create a representative and consistent workflow environment for \gls{RAMSES} users.
+
+\subsection{Hardware and Software Environment}
+\label{sec:test_usabl_materials_env}
+
+The tests were conducted under the following configuration:
+
+\textbf{Operating System}: Microsoft Windows 10 (64-bit).
+
+\textbf{Hardware}: A standardized Windows laptop running an Intel Core i5 processor with 8 GB of RAM was used for all sessions.
+
+\textbf{\gls{AADL} Editor}: Osate (Open-Source Architecture Tool Environment) version 2.16.0.vfinal, based on Eclipse 2024-03 (4.31). This serves as the primary development environment for \gls{AADL} model authoring and \gls{RAMSES} plugin execution.
+
+\textbf{Code Generation Tool}: The \gls{RAMSES} Code Generator, specifically the commit version 4de627aafdc2ea7c4940848b0dea7e293e382222, was utilized as an Osate plug-in. This component is responsible for processing the \gls{AADL} model alongside the \gls{DSL} configuration file to produce the target code.
+
+
 
 % TODO: Specify RAMSES version, DSL editor version, OS, hardware environment.
 % TODO: Describe all test artefacts: example AADL model, configuration project, ROS-related libraries, etc.

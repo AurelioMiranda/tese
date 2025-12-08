@@ -374,19 +374,11 @@ The tests were conducted under the following configuration:
 \textbf{Code Generation Tool}: The \gls{RAMSES} Code Generator, specifically the commit version 4de627aafdc2ea7c4940848b0dea7e293e382222, was utilized as an Osate plug-in. This component is responsible for processing the \gls{AADL} model alongside the \gls{DSL} configuration file to produce the target code.
 
 
-
-% TODO: Specify RAMSES version, DSL editor version, OS, hardware environment.
-% TODO: Describe all test artefacts: example AADL model, configuration project, ROS-related libraries, etc.
-% TODO: Provide screenshots or references to appendices where appropriate.
+In order to conduct the tests, the \gls{AAXL2} model \textit{Sys\_Rvision\_Sys\_Rvision\_Pi4\_Instance.aaxl2} was provided as input along with pre and post generated dummy scripts, with the main output being the generated \gls{RAMSES} project, ready to compile and execute.
 
 
 \subsection{Tasks}
 \label{sec:test_usabl_tasks}
-
-% TODO: Add rationale for task selection and coverage.
-% TODO: State whether task order was fixed or counterbalanced.
-% TODO: Note risk of learning effects if fixed order used.
-% TODO: Indicate difficulty levels of tasks (simple/advanced).
 
 Each participant was asked to perform a sequence of tasks designed to cover every major feature of the configuration language. These tasks simulate realistic use of the \gls{DSL} and its integration with \gls{RAMSES}. The task set was organized into five groups:
 
@@ -398,7 +390,9 @@ Each participant was asked to perform a sequence of tasks designed to cover ever
 	\item \textbf{Full Workflow Validation:} triggering code generation and verifying that the outputs (generated code, reports, trace files, etc) reflect the selected configuration.
 \end{itemize}
 
-The task sequence was intentionally designed to exercise the \gls{DSL} to near full extent without requiring prior explanation of its internal implementation.
+Although it was not possible to test the entirety of the \gls{DSL} due to time, fatigue and stress constraints, the few options from every category means that it was possible to simulate a scenario close to real/industrial. Options such as selected the target language were prioritized over other options such as the copyright notice in the code comments section in order to maximize efficiency over time. The detailed task booklet can be found in the Appendix~\ref{app:task_book}.
+
+The task sequence was intentionally designed to exercise the \gls{DSL} to near full extent without requiring prior explanation of its internal implementation with a low to medium difficulty level with each task. Moreover, the middle sections of the task booklet (sections B, C, D and E) were shuffled between candidates in order to mitigate the learning effects of a fixed order.
 
 
 \subsection{Evaluation Criteria}
@@ -424,6 +418,7 @@ For every task and participant, the following metrics were recorded:
 	\item Number and type of errors committed.
 	\item Number of help requests or clarifications needed.
 \end{itemize}
+
 
 
 \paragraph{Qualitative data}

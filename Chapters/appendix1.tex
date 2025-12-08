@@ -251,6 +251,117 @@ The following questions were used in the \gls{SUS} questionnaire.
 Responses are recorded on a 5-point Likert scale:
 1 = Strongly Disagree, 5 = Strongly Agree.
 
+\subsection{Task Booklet}
+\label{app:task_book}
+
+The following task booklet was handed (on paper) to the participants in order to test the developed \gls{DSL}:
+
+
+\begin{verbatim}
+Usability Study Task Booklet
+RAMSES Configuration Language
+Follow the tasks in order. Don’t forget to Apply the settings.
+If you believe a task is complete, tell the evaluator before moving on.
+
+Section A – Basic Configuration
+	1.	Select C++ as the target language.
+	2.	Select Linux as the target operating system.
+	3.	Set the output directory for generated code.
+	4.	Generate the code.
+	
+Section B – Naming and Identifier Settings
+	1.	Change the identifier naming style to snake\_case.
+	2.	Apply a prefix of your choice to all identifiers.
+	
+Section C – Traceability and Report
+	1.	Enable documentation comments and set yourself as the author.
+	2.	Enable report generation.
+	3.	Enable logic summaries in the report.
+	4.	Enable traceability.
+	5.	Enable the generation of a traceability JSON.
+	
+Section D – Advanced Configuration
+	1.	Enable business logic decoupling.
+	2.	Change executor type to multi-thread).
+	3.	Configure legacy libraries with copy to project.
+	4.	Add a pre and post generation script.
+
+Section E – Build and Output
+	1.	Set the file prefix option as your name.
+	2.	Enable file overwriting.
+	3.	Disable launch file generation.
+
+Section F – Full Workflow Validation
+	1.	Trigger code generation with the current settings.
+	2.	Verify that the generated files match the chosen configuration:
+		o	identifier casing
+		o	comments
+		o	report presence
+		o	traceability JSON
+		o	build artifacts
+	
+End of Task Booklet
+Please notify the evaluator that you have finished.
+Then proceed to the SUS and NASA-TLX questionnaires.
+\end{verbatim}
+
+\subsection{Moderator Script}
+\label{app:mod_script}
+
+The following script was read to participants before the start of each usability test:
+
+\begin{verbatim}
+Participant Instruction Sheet
+
+Usability Study – RAMSES Configuration Language
+
+Purpose of the Study
+You will be evaluating a configuration interface used to customize code 
+generation in the RAMSES toolchain. The goal is to understand how intuitive 
+and understandable the configuration language and user interface are for AADL users.
+
+This is not a test of your skills.
+We are evaluating the tool, not the participant.
+
+Your Task
+
+You will complete a series of configuration tasks inside an Eclipse-based 
+environment. These tasks involve adjusting settings such as identifier naming, 
+comments, report generation, traceability, and other code-generation options.
+
+You will receive:
+A short task booklet
+Access to the configuration interface
+No guidance unless explicitly requested
+What Will Be Recorded
+
+During the session, the evaluator will record:
+How long each task takes
+Errors or missteps
+Help requests
+Any visible signs of confusion or hesitation
+Optional verbal feedback
+
+After completing the tasks, you will fill out:
+The System Usability Scale (SUS)
+The NASA Task Load Index (NASA-TLX)
+
+These questionnaires measure perceived usability and mental workload.
+
+Ground Rules
+You may ask questions only if something is unclear.
+You may stop at any time.
+There are no right or wrong answers.
+Work at your natural pace.
+We value your honest feedback.
+
+Confidentiality
+
+Your identity will not be recorded in the study.
+You will be referenced only as Participant P1–P5.
+No personal information will appear in the thesis.
+\end{verbatim}
+
 
 
 

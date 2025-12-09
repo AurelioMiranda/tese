@@ -490,16 +490,19 @@ With all data collected, we can proceed with the analysis.
 		\toprule
 		\textbf{Task} & \textbf{Completion Time (s)} & \textbf{Errors} & \textbf{Help Requests} \\
 		\midrule
-		Select target language &  &  &  \\
+		Select target language &  &  & i \\
 		Configure naming style &  &  &  \\
-		Apply identifier prefix/suffix &  &  &  \\
+		Apply identifier prefix/suffix &  & i &  \\
 		Enable/disable comments &  &  &  \\
 		Enable/disable report generation &  &  &  \\
 		Enable/disable traceability &  &  &  \\
-		Change executor type &  &  &  \\
 		Toggle business logic decoupling &  &  &  \\
+		Change executor type &  &  &  \\
 		Configure legacy libraries &  &  &  \\
-		Add pre/post scripts &  &  &  \\
+		Enable file overwriting &  &  &  \\
+		Set file prefix &  &  &  \\
+		Manage build file generation &  &  & i \\
+		Add pre/post scripts &  &  & i \\
 		Trigger code generation &  &  &  \\
 		Verify outputs &  &  &  \\
 		\midrule
@@ -529,11 +532,11 @@ Nevertheless, these errors were quantified in the following Table~\ref{tab:usabi
 		\toprule
 		\textbf{Error Category} & \textbf{Count} & \textbf{Description} \\
 		\midrule
-		Navigation error &  & Incorrectly locating the configuration page or submenu. \\
-		Misinterpretation &  & Misunderstanding the meaning of an option. \\
+		Navigation error & 6 & Incorrectly locating the configuration page or submenu. \\
+		Misinterpretation & 1 & Misunderstanding the meaning of an option. \\
 		Configuration misuse &  & Selecting an option that conflicts with the intended task. \\
-		UI confusion &  & Confusion caused by labels, layouts, or grouping. \\
-		Missing confirmation &  & Forgetting to apply/save configuration changes. \\
+		UI confusion & 2 & Confusion caused by labels, layouts, or grouping. \\
+		Missing confirmation & 2 & Forgetting to apply/save configuration changes. \\
 		Other &  &  \\
 		\bottomrule
 	\end{tabular}
@@ -569,7 +572,7 @@ Each item is scored from 0 to 100.
 		\toprule
 		Participant & Mental & Physical & Temporal & Performance & Effort & Frustration \\
 		\midrule
-		P1 &  &  &  &  &  &  \\
+		P1 & 11 & 1 & 1 & 93 & 7 & 1 \\
 		P2 &  &  &  &  &  &  \\
 		P3 &  &  &  &  &  &  \\
 		P4 &  &  &  &  &  &  \\
@@ -581,6 +584,83 @@ Each item is scored from 0 to 100.
 % TODO: Fill missing scores.
 % TODO: Add discussion of patterns by participant subgroup.
 % TODO: Relate scores to system usability and cognitive effort.
+
+\subsection{\gls{SUS}}
+\label{sec:test_usabl_sus}
+
+The \gls{SUS} was completed alongside the NASA \gls{TLX} at the end of the test to capture the usability of the \gls{DSL}. The SUS consists of 10 items scored on a 5-point Likert scale that can be found in the Appendix~\ref{app:sus}. The scores were converted following the standard scoring procedure: odd numbered items contribute \textit{(response $-1$)}, and even numbered items \textit{(5 $-$ response)}. The final \gls{SUS} score is obtained by multiplying the summed adjusted scores by 2.5, yielding a value in the range 0--100 this equation can be presented as:
+
+\begin{equation}
+	\text{SUS} = 2.5 \times 
+	\left(
+	\sum_{i \in \text{odd}} (R_i - 1)
+	\;+\;
+	\sum_{j \in \text{even}} (5 - R_j)
+	\right)
+\end{equation}
+
+\begin{itemize}
+	\item $R_i$ = response to item $i$.
+	\item Odd items: contribution $(R_i - 1)$.
+	\item Even items: contribution $(5 - R_j)$.
+	\item Final score $\in [0, 100]$.
+\end{itemize}  
+
+
+Table~\ref{tab:sus_scores} reports the \gls{SUS} scores obtained for each participant.
+
+\bgroup
+\rowcolors{1}{}{GhostWhite}
+\begin{table}[htbp]
+	\centering
+	\caption{\gls{SUS} scores obtained per participant}
+	\label{tab:sus_scores}
+	\begin{tabular}{lcc}
+		\toprule
+		\rowcolor{Gainsboro}
+		Participant & Adjusted Score (0--40) & SUS Score (0--100) \\
+		\midrule
+		P1 & XX & XX \\
+		P2 & XX & XX \\
+		P3 & XX & XX \\
+		P4 & XX & XX \\
+		P5 & XX & XX \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+\egroup
+
+The aggregated \gls{SUS} scores yielded the following descriptive statistics:
+
+\begin{itemize}
+	\item \textbf{Mean \gls{SUS} score:} XX
+	\item \textbf{Median \gls{SUS} score:} XX
+	\item \textbf{Standard deviation:} XX
+\end{itemize}
+
+According to industry benchmarks~\cite{Bangor2009,SauroLewis2016}:
+
+\begin{itemize}
+	\item Scores above \textbf{80.3} indicate \emph{excellent} usability (Grade A).
+	\item Scores between \textbf{68 and 80.3} indicate \emph{good/acceptable} usability (Grade B).
+	\item A score of \textbf{68} represents the conventional acceptability threshold.
+	\item Scores below \textbf{50} reflect \emph{poor} usability.
+\end{itemize}
+
+Based on these thresholds, the configuration language demonstrated a usability level of \textbf{TODO: in the end ofc}, indicating that participants perceived the workflow as [TODO: here too].
+
+\subsubsection{Observed Patterns}
+\label{sec:test_usabl_obs_patterns}
+
+Qualitative comments collected during the SUS administration suggested that:
+TODO: delete these if none new
+\begin{itemize}
+	\item Users with prior \gls{AADL} experience tended to rate the system slightly higher.
+	\item The ROS expert (P5) provided a score aligned with the group’s mean, indicating that the \gls{DSL} is understandable even to users arriving from the code-consumer side rather than the modeling side.
+	\item Scores correlated positively with low perceived workload in the
+	NASA-\gls{TLX} results, reinforcing the observed low cognitive effort.
+\end{itemize}
+
 
 
 \subsection{Discussion}
@@ -599,7 +679,7 @@ Each item is scored from 0 to 100.
 		\toprule
 		\textbf{Participant} & \textbf{Observations} \\
 		\midrule
-		P1 &  \\
+		P1 & Participant 1 described that, although the current UI will not translate to the final tool, the fact that other Eclipse configurations are present on top on the current configuration generates confusion. To minimize this problem, subsequent participants were explicitly told that the only configuration they should change was \textit{CodeGen Config}. \\
 		P2 &  \\
 		P3 &  \\
 		P4 &  \\

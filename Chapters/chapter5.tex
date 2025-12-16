@@ -577,7 +577,7 @@ Each item is scored from 0 to 100.
 		\midrule
 		P1 & 11 & 1 & 1 & 93 & 7 & 1 \\
 		P2 & 27 & 4 & 4 & 87 & 22 & 5 \\
-		P3 &  &  &  &  &  &  \\
+		P3 & 28 & 5 & 17 & 90 & 54 & 1 \\
 		P4 &  &  &  &  &  &  \\
 		P5 &  &  &  &  &  &  \\
 		\bottomrule
@@ -621,13 +621,13 @@ Table~\ref{tab:sus_scores} reports the \gls{SUS} scores obtained for each partic
 	\begin{tabular}{lcc}
 		\toprule
 		\rowcolor{Gainsboro}
-		Participant & Adjusted Score (0 - 40) & SUS Score (0 - 100) \\
+		Participant & SUS Score (0 - 100) \\
 		\midrule
-		P1 & 30 & 75 \\
-		P2 & 27 & 67.5 \\
-		P3 & 32 & 80 \\
-		P4 & XX & XX \\
-		P5 & XX & XX \\
+		P1 & 75 \\
+		P2 & 67.5 \\
+		P3 & 80 \\
+		P4 & XX \\
+		P5 & XX \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -682,14 +682,16 @@ TODO: delete these if none new
 		\toprule
 		\textbf{Participant} & \textbf{Observations} \\
 		\midrule
-		P1 & Participant 1 described that, although the current UI will not translate to the final tool, the fact that other Eclipse configurations are present on top on the current configuration generates confusion. To minimize this problem, subsequent participants were explicitly told that the only configuration they should change was \textit{CodeGen Config}. \\
-		P2 &  \\
-		P3 &  \\
+		P1 & Participant 1 described that the fact that other Eclipse configurations are present on top on the current configuration generates confusion. To minimize this problem, subsequent participants were explicitly told that the only configuration they should change was \textit{CodeGen Config}. \\
+		P2 & Participant 2 had a more fluid experience when it came to understanding the code generation sequence given the previous knowledge in \gls{AADL} development. \\
+		P3 & Although participant 3 was not familiarized with the Eclipse environment he adapted very quickly and understood the task perfectly, proving that the system is intuitive even to newcomers. \\
 		P4 &  \\
 		P5 &  \\
 		\bottomrule
 	\end{tabular}
 \end{table}
+
+Some participants, particularly 1 and 3, also stated that some task names do not directly map to \gls{UI} options, this was done purposefully in order to test participant adaptability although it revealed that participants expected that the task instruction always mapped to an option, which was not always the case, leading to a few tasks in general taking more than others, for instance \textit{Disable launch file generation} consistently took more time than other tasks given that the launch file is part of the Build Integration (Section~\ref{sec:impl_build_options}) options, however, this name accurately represents the group of options so changing it would undermine the remaining options.
 
 % TODO: Fill this table.
 % TODO: Extract themes from qualitative notes.

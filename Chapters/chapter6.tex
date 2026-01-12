@@ -1,0 +1,66 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% chapter6.tex
+%% NOVA thesis document file
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{NT FILE chapter6.tex}%
+
+\chapter{Discussion}
+\label{cha:discussion}
+
+
+\epigraph{ \textit{This chapter interprets the results presented in the previous sections in light of the research objectives outlined in Chapter~\ref{cha:introduction}.}}
+
+The objective of this dissertation was to bridge the gap between academic model-driven engineering tools and industrial requirements by introducing a configuration layer to \gls{RAMSES}. The results obtained from the implementation and subsequent testing phases provide significant insights into the validity of the proposed \gls{DSL}.
+
+
+\section{Interpretation of Technical Results}
+\label{sec:technical_results}
+
+The implementation successfully transitioned \gls{RAMSES} from a rigid, hardcoded generator to a configurable platform. The integration tests (Section~\ref{sec:test_feature}) confirmed that the introduction of the configuration layer does not compromise the functional correctness of the generated code.
+
+A critical technical achievement was the decoupling of Business Logic from the \gls{ROS} framework. As observed in the test results, this separation allows developers to reuse C++ logic independently of the middleware, addressing a major request from the industrial partner. Furthermore, the inclusion of Legacy Library Integration solves the "island of automation" problem, where generated code previously failed to interface with existing company ecosystems.
+
+Regarding performance, the analysis of execution times (Section~\ref{sec:exec_times}) indicates that while the configurable workflow introduces a processing overhead, raising the average generation time to approximately 479.9ms compared to the estimated 231.6ms of the legacy generator, this increase is negligible in a human centric workflow. The overhead is primarily driven by the Report and Traceability modules, which provide high-value artifacts that were previously absent. The trade off between a brief delay and the automated production of traceability artifacts and quality reports is highly favorable for safety-critical development contexts.
+
+
+
+\section{Usability and Developer Experience}
+\label{sec:usability_and_dev_experience}
+
+The usability validation (Section~\ref{sec:test_val}) addressed the concern that introducing a \gls{DSL} might add cognitive complexity to the workflow. The \gls{SUS} scores, averaging [TODO: insert score], suggest that the system falls within the [TODO: insert grade, "Good" or "Excellent"] range of usability.
+
+Qualitative feedback highlighted that the naming convention configuration  significantly improves team cohesion by enforcing coding standards automatically. [TODO: verify The participation of a ROS expert (P5) validated that the configuration options, specifically the thread executor selection and node interface generation, align with real-world industrial expectations.]
+
+However, the study also revealed that users without prior Eclipse experience faced initial navigation challenges. This suggests that while the \gls{DSL} itself is intuitive, its integration into the IDE preferences requires clear documentation or onboarding to minimize the initial learning curve.
+
+
+
+\section{Addressing Industrial Constraints}
+\label{sec:industrial_constraints}
+
+The solution directly addresses the "Inflexibility of \gls{RAMSES}" identified in the Problem Statement. By externalizing generation policies, the tool now supports:
+
+\begin{itemize} 
+	\item \textbf{Compliance: } Through automated naming conventions, file headers and an automatic code reviewer.
+	\item \textbf{Traceability: } By mapping \gls{AADL} components to specific lines of code via \gls{JSON} and \gls{HTML} reports.
+	\item \textbf{Adaptability: } Through the "overwrite" and "build integration" features, allowing \gls{RAMSES} to fit into incremental build pipelines rather than forcing a clean-build approach.
+\end{itemize}
+
+These industry favored features along with the many others implemented bring the current version of \gls{RAMSES} a step closer to industry level tools.
+
+
+
+\section{Limitations}
+\label{sec:limitations}
+
+As noted in Section~\ref{sec:research_limitations}, the study was limited by the sample size of the usability test and the scope of the supported features. While the \gls{DSL} supports C++, full support for other standards mentioned in the state of the art, such as \gls{AUTOSAR}, remains a future goal. Additionally, the dependency on third-party libraries for compliance (CppCheck) means the tool's effectiveness is partially bound by external tool capabilities in the realm of code compliance.
+
+
+
+
+
+
+

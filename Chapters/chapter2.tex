@@ -81,16 +81,6 @@ Configuration options are available through Modelica annotations and compiler fl
 Code generation in OpenModelica prioritizes the correctness and performance of the resulting simulation code and provides little support for adherence to a given coding standard or legacy code base~\cite{openmodelica-performance}. The major facility of the tool is to create efficient executable simulation models rather than to be highly configurable with respect to code generation output.
 
 
-\subsection{OpenAPI Generator: Configurable Code Generation Beyond Embedded Systems}
-\label{sec:openApi}
-
-OpenAPI Generator is an open-source tool that generates client SDKs, server stubs, and documentation from OpenAPI specifications~\cite{OpenAPITools}. Supporting over 40 languages and frameworks~\cite{openapi-generators}, it is widely used across software projects.
-
-Generation is controlled via configuration files (JSON or \gls{YAML}) that specify package naming, class prefixes, data type mappings, and code style, enabling consistent architectural and coding standards~\cite{openapi-config}. The tool’s template-based system uses customizable Mustache templates to define code output, allowing adaptation to legacy code, custom logging, or specific frameworks. Plugin mechanisms and hooks enable further customization during generation~\cite{openapi-customization,openapi-plugins}.
-
-This flexible, configurable approach contrasts with \gls{RAMSES}’s more rigid, hardcoded transformations.
-
-
 \subsection{RAMSES vs. Other Code Generators}
 \label{sec:ramses_vs_others}
 
@@ -103,37 +93,40 @@ To better understand how \gls{RAMSES} holds up against the competition in terms 
 	\label{tab:code_gen_config_comparison}\\
 	\toprule
 	\rowcolor{Gainsboro}%
-	Feature   & Simulink  & OpenModelica  & OpenAPI   & \gls{RAMSES} \\
+	Feature   & Simulink  & OpenModelica  & Previous \gls{RAMSES}\footnotemark[1]{}   &  New \gls{RAMSES}\footnotemark[2]{} \\
 	\midrule
-	\Glspl{identifier}\footnotemark[1] & Yes& No & Yes   & No \\
-	Legacy Code Integration & Yes & No & Yes\footnotemark[2]{} & No \\
-	Generational Hooks & Yes & Yes\footnotemark[2]{} & Yes & No \\
-	Traceability & Yes & No & Yes & Yes\footnotemark[2]{} \\
-	Reporting & Yes & No & Yes & Yes\footnotemark[2]{} \\
-	Protected Areas & Yes & No & Yes\footnotemark[3]{} & No \\
-	Inline Functions & Yes & Yes & Yes\footnotemark[4]{} & No \\
-	Dead Code Elimination & Yes & Yes & Yes\footnotemark[4]{} & No \\
-	Comments & Yes & No & Yes\footnotemark[2]{}\footnotemark[4]{} & No \\
-	Compliance Support & Yes\footnotemark[2]{}\footnotemark[3]{} & No\footnotemark[3]{} & No\footnotemark[3]{} & No\footnotemark[3]{} \\ 
+	\Glspl{identifier}\footnotemark[3] & Yes& No & No   & No \\
+	Legacy Code Integration & Yes & No & No & No \\
+	Generational Hooks & Yes & Yes\footnotemark[4]{} & No & No \\
+	Traceability & Yes & No & Yes\footnotemark[4]{} & Yes\footnotemark[24]{} \\
+	Reporting & Yes & No & Yes\footnotemark[4]{} & Yes\footnotemark[4]{} \\
+	Protected Areas & Yes & No & No & No \\
+	Inline Functions & Yes & Yes & No & No \\
+	Dead Code Detection & Yes & Yes & No & No \\
+	Comments & Yes & No & No & No \\
+	Compliance Support & Yes\footnotemark[4]{}\footnotemark[5]{} & No\footnotemark[5]{} & No\footnotemark[5]{} & No\footnotemark[5]{} \\ 
 	\bottomrule
 \end{xltabular}
 \egroup
-	\footnotetext[1]{Names of Functions, Classes, Variables, etc}
-	\footnotetext[2]{User-driven process (not entirely automatic)}
-	\footnotetext[3]{Normal code generation \textit{might} generate compliant code, but its not very certain.}
-	\footnotetext[4]{Limited functionality or abstraction.}
+	\footnotetext[1]{Version of \gls{RAMSES} with the original, static code generator.}
+	\footnotetext[2]{Version of \gls{RAMSES} with the developed, configurable, code generator.}
+	\footnotetext[3]{Names of Functions, Classes, Variables, etc}
+	\footnotetext[4]{User-driven process (not entirely automatic)}
+	\footnotetext[5]{Normal code generation \textit{might} generate compliant code, but its not very certain.}
+	\footnotetext[6]{Predefined extension points that allow developers to insert custom code or override generated behavior without modifying the generator itself.}
+	\footnotetext[7]{The coherent, central line of reasoning, logic, or narrative that connects all parts of a project or document.}
 
 As can be observed in Table~\ref{tab:code_gen_config_comparison}, features like dynamic \gls{identifier} naming and legacy code integration are crucial, yet only present in some of the analyzed solutions, these features work well to achieve compliance standards imposed in the industry~\cite{Misra_C_2025, Misra_Cpp_2023}, which is not natively supported by most apps like OpenModelica or \gls{RAMSES}. 
 
-Generational hooks\footnote{Predefined extension points that allow developers to insert custom code or override generated behavior without modifying the generator itself.} are extremely useful since they allow for automated code customization before or after code generation, this explains why they are common in most code generators evaluated, though absent in \gls{RAMSES}. Protected areas serve a similar function in the sense that they allow the user to customize a certain section of code only, not a complete script. Simply put, generational hooks modify artifacts before/after code is written and protected areas deny code modification in a specific area.
+Generational hooks\footnotemark[6]{} are extremely useful since they allow for automated code customization before or after code generation, this explains why they are common in most code generators evaluated, though absent in \gls{RAMSES}. Protected areas serve a similar function in the sense that they allow the user to customize a certain section of code only, not a complete script. Simply put, generational hooks modify artifacts before/after code is written and protected areas deny code modification in a specific area.
 
-Traceability is a crucial feature that enforces coherence between model and code, essentially defining the guiding thread\footnote{The coherent, central line of reasoning, logic, or narrative that connects all parts of a project or document.} of the project. This is very sought after in a modeling context and ties well with report generation and code comment management, unfortunately, these three features are implemented only at a basic level in the analyzed tools.
+Traceability is a crucial feature that enforces coherence between model and code, essentially defining the guiding thread\footnotemark[7]{} of the project. This is very sought after in a modeling context and ties well with report generation and code comment management, unfortunately, these three features are implemented only at a basic level in the analyzed tools.
 
 Code optimization is also an important area, the ability to remove unnecessary code or shorten it proves to be useful in varied contexts, most tools provide a way to automatically optimize the generated code. \gls{RAMSES} lacks such capabilities.
 
 Overall, Simulink, a commercial high-end software, surpasses its rivals in all key aspects of code generation configurability. Its support the most sought after configurations give it is an end-to-end solution widely used in applications needing both flexibility and performance, but not on \gls{AADL}.
 
-Conversely, OpenModelica is missing a number of key points of configurability, reflecting both its complementary focus and level of maturity for code generation functionality. OpenAPI Generator, although even providing a more user-driven process in some cases, it still misses on some key features. \gls{RAMSES}, in turn, presently falls short on all features, with inflexible, hardcoded transformations that curtail its usability and controllability by users.
+Conversely, OpenModelica is missing a number of key points of configurability, reflecting both its complementary focus and level of maturity for code generation functionality. \gls{RAMSES}, in turn, falls short on all features, with inflexible, hardcoded transformations that curtail its usability and controllability by users.
 
 This comparison reveals, yet again, the motivation for this thesis: researching means by which \gls{RAMSES} can be enhanced through the introduction of greater configurability and extensibility, and thereby narrowing the gap with more mature tools in the domain.
 
@@ -146,7 +139,7 @@ The features found in table~\ref{tab:code_gen_config_comparison} are taken, not 
 	\label{fig:feature_model}
 \end{figure}
 
-With this, we can have a clearer look at the broader picture. The features suggested are not just the result of analyzing existing code generators like Simulink, OpenModelica, and OpenAPI Generator, they are also derived from a synthesis of industry demands and recurring pain points observed in real-world development environments.
+With this, we can have a clearer look at the broader picture. The features suggested are not just the result of analyzing existing code generators like Simulink and OpenModelica, they are also derived from a synthesis of industry demands and recurring pain points observed in real-world development environments.
 
 Figure~\ref{fig:feature_model} organizes these configurability aspects into a feature model, grouping them into categories such as Optimization, Traceability, Compliance Standards, Memory Configuration, and Custom Code Integration. The model also highlights optional, alternative, and concrete features that modern code generation tools must support to be competitive and practical across diverse application domains, from automotive (e.g., \gls{AUTOSAR}, \gls{MISRA}) to safety-critical systems (e.g., DO-178C, \gls{IEC} 61508).
 

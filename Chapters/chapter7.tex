@@ -1,0 +1,82 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% chapter7.tex
+%% NOVA thesis document file
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{NT FILE chapter7.tex}%
+
+\chapter{Conclusion}
+\label{cha:conclusion}
+
+
+\epigraph{ \textit{What did we ultimately learned, and what comes next.}}
+
+The automatic generation of code for safety-critical embedded systems offers immense potential for reducing costs and errors. However, tools like \gls{RAMSES} have historically suffered from rigidity, limiting their adoption in industrial environments where coding standards, legacy integration, and specific middleware configurations are not negotiable.
+
+This thesis presented the design, implementation, and validation of a Configuration \gls{DSL} for \gls{RAMSES}. By externalizing the transformation rules, we have empowered developers to customize the code generation process without modifying the generator's internal logic.
+
+Key contributions of this work include:
+
+\begin{itemize} 
+	\item \textbf{A Robust Configuration Language: } A \gls{DSL} capable of defining naming conventions, file management strategies, and documentation standards.
+	\item \textbf{Architectural Flexibility: } The ability to decouple business logic from the \gls{ROS} and select specific threading models (Executors).
+	\item \textbf{Enhanced Traceability: } The automated generation of \gls{JSON} trace files and \gls{HTML} reports that link high-level \gls{AADL} models to low-level C++ artifacts, facilitating auditability.
+	\item \textbf{Seamless Integration: } A user-friendly preference store implementation within the Eclipse environment that abstracts the complexity of the underlying metamodels.
+\end{itemize}
+
+The experimental results demonstrate that this approach yields functionally equivalent code while providing the necessary flexibility for industrial integration. TODO: check this The system received positive validation from domain experts, proving that it is possible to combine the rigor of formal modeling with the practical flexibility required by modern software engineering. This work effectively removes a major barrier to the industrial adoption of \gls{RAMSES}, paving the way for its use in complex, heterogeneous cyber-physical systems.
+
+
+
+\section{Future Work}
+\label{sec:concl_future_work}
+
+While this dissertation establishes a solid foundation for configurable code generation in \gls{RAMSES}, several options for future research and development remain:
+
+\subsection{Expansion of Supported Standards and Languages}
+\label{sec:concl_language_and_standard_expansion}
+
+Currently, the configuration language focuses on C++ with a strong emphasis on \gls{ROS}. Future iterations should expand this to support:
+
+\begin{itemize} 
+	\item \textbf{Additional Languages: } Support for C, Ada or Rust, which are increasingly relevant in safety-critical domains.
+	\item \textbf{\gls{AUTOSAR} Integration: } Implementing specific configurations to support the \gls{AUTOSAR} standard, making \gls{RAMSES} a viable alternative in the automotive industry.
+	\item \textbf{Deep \gls{MISRA} Enforcement: } Integrating stricter, configurable \gls{MISRA} rule sets directly into the generation logic rather than relying solely on post-generation static analysis.
+\end{itemize}
+
+
+
+\subsection{Graphical Configuration Interface}
+\label{sec:concl_g_c_interface}
+
+Currently, the configuration is handled via a tree-based preference menu. Developing a graphical, diagrammatic representation of the configuration (using Sirius) could make the relationships between configurations (such as inheritance or component-specific overrides) more intuitive for non-technical users.
+
+
+
+\subsection{Enhanced Traceability and Round-Trip Engineering}
+\label{sec:concl_trace}
+
+The current traceability is unidirectional (Model to Code). Future work could explore:
+
+\begin{itemize} 
+	\item \textbf{Bidirectional Traceability: } Allowing changes in the configuration or code annotations to reflect back onto the model.
+	\item \textbf{Visual Trace Diagrams: } Implementing the "Produce Traceability Diagram" feature (currently a placeholder) to generate visual graphs linking model requirements to code artifacts.
+\end{itemize}
+
+
+
+\subsection{Large-Scale Industrial Piloting}
+\label{sec:concl_industrial_piloting}
+
+To further validate the scalability of the solution, a long-term pilot study with an industrial partner should be conducted. This would involve using the configuration language in a live production environment to assess its impact on maintenance cycles and developer productivity over an extended period.
+
+
+
+
+
+
+
+
+

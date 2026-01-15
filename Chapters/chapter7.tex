@@ -12,32 +12,36 @@
 
 \epigraph{ \textit{What did we ultimately learned, and what comes next.}}
 
-This chapter concludes the dissertation by summarizing the research efforts and the results obtained throughout the project. It revisits the primary challenges identified regarding the rigidity of \gls{RAMSES} in industrial contexts and evaluates how the design and implementation of the Configuration \gls{DSL} successfully address these limitations. The following section presents the work meant to further enhance and expand upon the software built. 
+This chapter concludes the dissertation by summarizing the research efforts and the results obtained throughout the project. It revisits the primary challenges identified regarding the rigidity of \gls{RAMSES} in industrial contexts, such as industrial naming conventions and legacy integration requirements, and evaluates how the design and implementation of the Configuration \gls{DSL} successfully address these limitations. The following section presents the work meant to further enhance and expand upon the software built. 
 
 \section{Conclusion}
 \label{sec:concl}
 
-The automatic generation of code for safety-critical embedded systems offers immense potential for reducing costs and errors. However, tools like \gls{RAMSES} have historically suffered from rigidity, limiting their adoption in industrial environments where coding standards, legacy integration, and specific middleware configurations are not negotiable.
+The automatic generation of code for safety-critical embedded systems offers immense potential for reducing costs and errors. However, tools like \gls{RAMSES} have historically suffered from rigidity. Prior to this work, integrating \gls{RAMSES} into a \gls{ROS} workflow required post generation scripts or manual coding, breaking the traceability chain. This can limit \gls{RAMSES} the adoption in industrial environments where coding standards, legacy integration, and specific middleware configurations are not negotiable.
 
 This thesis presented the design, implementation, and validation of a Configuration \gls{DSL} for \gls{RAMSES}. By externalizing the transformation rules, we have empowered developers to customize the code generation process without modifying the generator's internal logic.
 
 Key contributions of this work include:
 
 \begin{itemize} 
-	\item \textbf{A Robust Configuration Language: } A \gls{DSL} capable of defining naming conventions, file management strategies, and documentation standards.
-	\item \textbf{Architectural Flexibility: } The ability to decouple business logic from the \gls{ROS} and select specific threading models (Executors).
-	\item \textbf{Enhanced Traceability: } The automated generation of \gls{JSON} trace files and \gls{HTML} reports that link high-level \gls{AADL} models to low-level C++ artifacts, facilitating auditability.
-	\item \textbf{Seamless Integration: } A user-friendly preference store implementation within the Eclipse environment that abstracts the complexity of the underlying metamodels.
+	\item \textbf{A Robust Configuration Language: } A \gls{DSL} capable of defining naming conventions, file management strategies, and documentation standards. Which eliminates the need for manual renaming of identifiers to match C++ snake\_case vs PascalCase requirements, for example.
+	\item \textbf{Architectural Flexibility: } The ability to decouple business logic from the \gls{ROS} and select specific threading models (Executors). That allows the core business logic to be reused in non-\gls{ROS} contexts or ported to different middleware with minimal effort.
+	\item \textbf{Enhanced Traceability: } The automated generation of \gls{JSON} trace files and \gls{HTML} reports that link high-level \gls{AADL} models to low-level C++ artifacts, facilitating auditability. While this added ~250ms of generation time (Section~\ref{sec:exec_times}), it provides critical audit trails for safety certification (DO-178C/\gls{ISO} 26262)."
+	\item \textbf{Seamless Integration: } A user-friendly preference store implementation within the Eclipse environment that abstracts the complexity of the underlying metamodels. Which allowed even non-expert users (P2, P3) to configure the generator with a low error rate during validation (Section~\ref{sec:test_usabl_participant_character})."
 \end{itemize}
 
-The experimental results demonstrate that this approach yields functionally equivalent code while providing the necessary flexibility for industrial integration. TODO: check this The system received positive validation from domain experts, proving that it is possible to combine the rigor of formal modeling with the practical flexibility required by modern software engineering. This work effectively removes a major barrier to the industrial adoption of \gls{RAMSES}, paving the way for its use in complex, heterogeneous cyber-physical systems.
+The experimental results demonstrate that this approach yields functionally equivalent code while providing the necessary flexibility for industrial integration. The system received positive validation from domain users, proving that it is possible to combine the rigor of formal modeling with the practical flexibility required by modern software engineering. Integration testing (Sectio~\ref{sec:test_feature}) confirmed that even advanced features like 'Business Logic Decoupling' and 'Legacy Library Integration' function correctly without breaking the baseline code behavior. Usability validation with domain users yielded an average \gls{SUS} score of [TODO: INSERT SCORE from Chapter 5], placing the tool in the 'Good' to 'Excellent' usability tier. 
+
+TODO: check this Qualitative feedback from a senior ROS developer (P5) highlighted that the 'Executor Selection' feature directly addresses real-world performance tuning needs in robotics."
+
+This work effectively removes a major barrier to the industrial adoption of \gls{RAMSES}, paving the way for its use in complex, heterogeneous cyber-physical systems.
 
 
 
 \section{Future Work}
 \label{sec:concl_future_work}
 
-While this dissertation establishes a solid foundation for configurable code generation in \gls{RAMSES}, several options for future research and development remain:
+While this dissertation establishes a solid foundation for configurable code generation in \gls{RAMSES}, several options for future research and development remain. The focus of the \gls{DSL} usage being C++ and \gls{ROS} prioritized certain features over others and the limited sample size, although enough to prove that the software works as intended and is very much usable, should be a point to tackle when the final version of \gls{RAMSES} is available.
 
 \subsection{Expansion of Supported Standards and Languages}
 \label{sec:concl_language_and_standard_expansion}
@@ -45,9 +49,9 @@ While this dissertation establishes a solid foundation for configurable code gen
 Currently, the configuration language focuses on C++ with a strong emphasis on \gls{ROS}. Future iterations should expand this to support:
 
 \begin{itemize} 
-	\item \textbf{Additional Languages: } Support for C, Ada or Rust, which are increasingly relevant in safety-critical domains.
-	\item \textbf{\gls{AUTOSAR} Integration: } Implementing specific configurations to support the \gls{AUTOSAR} standard, making \gls{RAMSES} a viable alternative in the automotive industry.
-	\item \textbf{Deep \gls{MISRA} Enforcement: } Integrating stricter, configurable \gls{MISRA} rule sets directly into the generation logic rather than relying solely on post-generation static analysis.
+	\item \textbf{Additional Languages: } Support for C, Ada or Rust, which are increasingly relevant in safety-critical domains. This would require extending the 'Language' Ecore class and implementing new Acceleo templates that respect the specific memory safety models of Rust or the strict typing of Ada.
+	\item \textbf{\gls{AUTOSAR} Integration: } Implementing specific configurations to support the \gls{AUTOSAR} standard, making \gls{RAMSES} a viable alternative in the automotive industry. This involves mapping \gls{AADL} ports to \gls{AUTOSAR} RTE interfaces, a complex transformation currently only partially supported by commercial tools. TODO: back this up
+	\item \textbf{Deep \gls{MISRA} Enforcement: } Integrating stricter, configurable \gls{MISRA} rule sets directly into the generation logic rather than relying solely on post-generation static analysis. Generative compliance is superior to post analysis as it guarantees correct code from the get go, reducing the validation loop.
 \end{itemize}
 
 
@@ -55,9 +59,7 @@ Currently, the configuration language focuses on C++ with a strong emphasis on \
 \subsection{Graphical Configuration Interface}
 \label{sec:concl_g_c_interface}
 
-Currently, the configuration is handled via a tree-based preference menu. Developing a graphical, diagrammatic representation of the configuration (using Sirius) could make the relationships between configurations (such as inheritance or component-specific overrides) more intuitive for non-technical users.
-
-
+Currently, the configuration is handled via a dropdown-based preference menu. Developing a graphical, diagrammatic representation of the configuration (using Sirius) could make the relationships between configurations (such as inheritance or component-specific overrides) more intuitive for non-technical users. The usability study (Section~\ref{sec:test_val}) noted that navigation errors were the most common issue for novice users. A graphical view could mitigate this by visualizing the configuration hierarchy.
 
 \subsection{Enhanced Traceability and Round-Trip Engineering}
 \label{sec:concl_trace}
@@ -65,7 +67,7 @@ Currently, the configuration is handled via a tree-based preference menu. Develo
 The current traceability is unidirectional (Model to Code). Future work could explore:
 
 \begin{itemize} 
-	\item \textbf{Bidirectional Traceability: } Allowing changes in the configuration or code annotations to reflect back onto the model.
+	\item \textbf{Bidirectional Traceability: } Allowing changes in the configuration or code annotations to reflect back onto the model. This is critical for 'DevOps' workflows where developers might tweak parameters in the code. Ensuring that the model remains the single source of truth requires automated back propagation.
 	\item \textbf{Visual Trace Diagrams: } Implementing the "Produce Traceability Diagram" feature (currently a placeholder) to generate visual graphs linking model requirements to code artifacts.
 \end{itemize}
 
@@ -75,6 +77,8 @@ The current traceability is unidirectional (Model to Code). Future work could ex
 \label{sec:concl_industrial_piloting}
 
 To further validate the scalability of the solution, a long-term pilot study with an industrial partner should be conducted. This would involve using the configuration language in a live production environment to assess its impact on maintenance cycles and developer productivity over an extended period.
+
+Future studies should measure the reduction in 'glue code' lines written manually and the time saved during version upgrades of the target middleware (for instance, upgrading \gls{ROS} versions).
 
 
 

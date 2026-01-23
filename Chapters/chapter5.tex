@@ -307,6 +307,8 @@ To make this verification operational, each usability requirement introduced in 
 
 A total of 5 participants were selected for this study. All were familiar with \gls{AADL} and had experience with model-driven workflows, even though their backgrounds and technical depth varied. This group reflects the typical user base within the RAMSES ecosystem: developers, testers, and stakeholders who understand AADL semantics but may not necessarily be expert programmers. Participants remained anonymous.
 
+The number of participants was not random, many studies have shown that there are conflicting opinions regarding the perfect amount of users needed to verify the usability of an application. Carol Barnum~\cite{Barnum_2003} strongly concludes that Nielsen's~\cite{Nielsen_2024} 5 user minimum is not adequate for many full fledged applications and system diversity, user diversity, test goals and risk tolerance can help decide a more appropriate amount. That same principal applies here but in a different manner because we are not simply testing a complete application but only a specific integrated tool that is part of the broader system. It is correct to say that more users will yield better overall results, however, since this tool is aimed at a very specific user base, each test must be conducted without failure. 
+% TODO: im out of inspiration and this paragraph needs to be very concise, resume later
 
 Out of all participants, only one of them interacted with a very early and incomplete version of the \gls{DSL} and, during the test, this participant did not entice any familiarization with the current \gls{DSL}, hence its safe to say that no participant understood what the \gls{DSL} was, what purpose it served and how to operate it before the execution of the test.
 
@@ -588,7 +590,7 @@ Each item is scored from 0 to 100.
 \subsection{\gls{SUS}}
 \label{sec:test_usabl_sus}
 
-The \gls{SUS} was completed alongside the NASA \gls{TLX} at the end of the test to capture the usability of the \gls{DSL}. The SUS consists of 10 items scored on a 5-point Likert scale that can be found in the Appendix~\ref{app:sus}. The scores were converted following the standard scoring procedure: odd numbered items contribute \textit{(response $-1$)}, and even numbered items \textit{(5 $-$ response)}. The final \gls{SUS} score is obtained by multiplying the summed adjusted scores by 2.5, yielding a value in the range 0--100 this equation can be presented as:
+The \gls{SUS} was completed alongside the NASA \gls{TLX} at the end of the test to capture the usability of the \gls{DSL}. The SUS consists of 10 items scored on a 5-point Likert scale that can be found in the Appendix~\ref{app:sus} and the complete scores on Appendix~\ref{app:sus_scores}. The scores were converted following the standard scoring procedure: odd numbered items contribute \textit{(response $-1$)}, and even numbered items \textit{(5 $-$ response)}. The final \gls{SUS} score is obtained by multiplying the summed adjusted scores by 2.5, yielding a value in the range 0--100 this equation can be presented as:
 
 \begin{equation}
 	\text{SUS} = 2.5 \times 
@@ -699,7 +701,17 @@ Some participants, particularly 1 and 3, also stated that some task names do not
 
 Although the tests conducted were very promising and revealed a strong structural integrity of the software built, a core weakness of the validation tests was the lack of many participants capable of using \gls{ROS} in a high degree of proficiency. This was mainly due to the difficulty of having contact and time with a \gls{ROS} industry individual (our specific target demographic). Nevertheless, our individual testing proved that at least one \gls{ROS} industry professional approves of the developed configuration language. TODO: verify
 
-Some of the test participants had brief interactions with the \gls{DSL} throughout the development process which might have slightly influenced their performance even though the numbers do not seem to favor any individual in particular. TODO: verify
+Some of the test participants had brief interactions with a very primitive iteration of \gls{DSL} throughout the development process which might have slightly influenced their performance even though the numbers do not seem to favor any individual in particular. The \gls{DSL} UI was never shown in full, only part of the \gls{metamodel} that represents it, hence the diminished threat of this specific case.
+
+It is natural that users learned over the completion of the tasks, which in turn led to finishing tasks being completed faster. To combat this, the middle section of the tasks (Section B to section E, see Appendix~\ref{app:task_book}) were shuffled in different ways for each participant, which lead to more normalized results. Still, Section F was always evaluated with the experience of all prior tasks, which was mandatory since it was the final code generation step.
+
+Another aspect to consider is the Hawthorne effect~\cite{Hawthorne_effect}, in which participants of a test change their behavior when being observed, which was essentially the exact scenario. Still, it was stated verbally multiple times that the evaluation was not on the user itself but on the tool, which might have dimished that effect minimally.
+
+Sampling was a major issue for the tests, mainly since the tool is targeting a specific industry user, which reduces the participant pool significantly, due to that factor, the sample size ended up being smaller than what many experts consider optimal, however the participants represented the closest to a \gls{ROS} expert user. Still, that representation is not 100\% accurate since none of the users was an actual, multi-year working industry \gls{ROS} expert.
+
+The usability tests measure many types of data, however, these tests should not be taken as a complete analysis of usability of the code generation customization in \gls{RAMSES}, many more tests should be taken into account, especially tests using the complete \gls{RAMSES} pipeline and not just the code generator, in order to measure all facets of usability.
+
+
 
 % TODO: Add internal validity threats: learning effects, evaluator bias, Hawthorne effect, prior exposure.
 % TODO: Add external validity threats: small sample size, convenience sampling, non-representative ROS expertise distribution.
@@ -709,6 +721,11 @@ Some of the test participants had brief interactions with the \gls{DSL} througho
 
 \subsection{Conclusion}
 \label{sec:test_usabl_conclusion}
+
+
+Many users noted that the \textit{Generation Hooks} were a part of file management, hence should be included in the \textit{Files} submenu. This change was not only logical but also simple and practical since it reduced menu clutter and made the overall \gls{DSL} more organize. The change was implemented immediately after testing was finished.
+
+
 
 % TODO: Add a concise summary of whether usability goals were met.
 % TODO: List concrete improvements identified.

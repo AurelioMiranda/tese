@@ -327,10 +327,10 @@ Table~\ref{tab:participant_character} summarizes the technical background of eac
 	Participant & \gls{AADL} Experience & \gls{ROS} Experience & \gls{DSL} Exposure & Notes \\
 	\midrule
 	P1 & 2 year & Light (Work Research) & None & Primary background in model-driven engineering. \\
-	P2 & 6 months & Light (Academic) & Brief (Early version) & Accompanied the concept of the \gls{DSL} during development. \\
-	P3 & 6 months & Light (Work Research) & None & \gls{RAMSES} developer with no connection to the code generation module. \\
-	P4 & 3 months & Medium (Academic) & None & Java developer with previous experience in \gls{AADL} and \gls{ROS} \\
-	P5 & 3 months & Light (Academic) & None & TODO. \\
+	P2 & 6 months & Light (Work Research) & Brief (Early version) & Accompanied the concept of the \gls{DSL} during development. \\
+	P3 & 6 months & Light (Academic) & None & \gls{RAMSES} developer with no connection to the code generation module. \\
+	P4 & 3 months & Medium (Academic) & None & Java developer with previous experience in \gls{AADL} and \gls{ROS}. \\
+	P5 & 4 months & Light (Academic) & None & Frontend industry developer with academic experience in \gls{ROS} and C++. \\
 	P5 & none & High (7+ Years Commercial) & None & Represents the highly experienced \gls{ROS} developer demographic. \\
 \end{xltabular}
 
@@ -522,9 +522,9 @@ Table~\ref{tab:usability_tasks} illustrates the aggregated performance summary o
 % TODO: Support claims with quantitative evidence from table.
 % TODO: Clarify what "acceptable" means (benchmark or requirement reference).
 
-The amount of error performed was below expectations, most likely due to the simplicity and structure of the configuration language.
+The amount of errors performed was below expectations, most likely due to the simplicity and structure of the configuration language as well as the straightforward task booklet.
 
-Nevertheless, these errors were quantified in the following Table~\ref{tab:usability_errors}.
+These errors were quantified in the following Table~\ref{tab:usability_errors}.
 
 \begin{table}[htbp]
 	\centering
@@ -534,25 +534,23 @@ Nevertheless, these errors were quantified in the following Table~\ref{tab:usabi
 		\toprule
 		\textbf{Error Category} & \textbf{Count} & \textbf{Description} \\
 		\midrule
-		Navigation error & 6 & Incorrectly locating the configuration page or submenu. \\
-		Misinterpretation & 1 & Misunderstanding the meaning of an option. \\
-		Configuration misuse &  & Selecting an option that conflicts with the intended task. \\
-		UI confusion & 2 & Confusion caused by labels, layouts, or grouping. \\
-		Missing confirmation & 2 & Forgetting to apply/save configuration changes. \\
-		Other &  &  \\
+		Navigation error & 8 & Incorrectly locating the configuration page or submenu. \\
+		Misinterpretation & 5 & Misunderstanding the meaning of an option. \\
+		UI confusion & 11 & Confusion caused by labels, layouts, or grouping. \\
+		Missing confirmation & 4 & Forgetting to apply/save configuration changes. \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-% TODO: Fill missing data.
+
+
 % TODO: Add explanation of how errors were categorized (predetermined taxonomy or post-hoc?).
 
 
 \subsection{NASA \gls{TLX}}
 \label{sec:test_usabl_nasa}
 
-% TODO: Document whether TLX scoring was weighted.
-% TODO: Add interpretation of scores (low/medium/high workload thresholds).
+The NASA Task Load Index (NASA-\gls{TLX}) was used to assess perceived workload across six dimensions: mental demand, physical demand, temporal demand, perceived performance, effort, and frustration. Each dimension is scored on a scale from 0 (very low) to 100 (very high).
 
 \textbf{Dimensions:}
 \begin{itemize}
@@ -563,8 +561,6 @@ Nevertheless, these errors were quantified in the following Table~\ref{tab:usabi
 	\item Effort
 	\item Frustration
 \end{itemize}
-
-Each item is scored from 0 to 100.
 
 \begin{table}[htbp]
 	\centering
@@ -578,13 +574,15 @@ Each item is scored from 0 to 100.
 		P2 & 27 & 4 & 4 & 87 & 22 & 5 \\
 		P3 & 28 & 5 & 17 & 90 & 54 & 1 \\
 		P4 & 9 & 17 & 3 & 100 & 18 & 1 \\
-		P5 &  &  &  &  &  &  \\
+		P5 & 62 & 1 & 1 & 100 & 59 & 28 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-% TODO: Fill missing scores.
-% TODO: Add discussion of patterns by participant subgroup.
+As can be observed in Table~\ref{tab:nasatlx}, most users have the same patterns, with only a few outliers. P5 experienced a higher mental demand than average, this can be due to the association of mental demand and focus, nevertheless, this ends up tying with the high performance score, in short, this user was focused on delivering the best. The temporal column reflects what was observed relatively well since nearly all users took less than 10 minutes to finish all tasks in a previously unknown software piece. Effort loosely correlated with mental demands, furthermore, the scores reflect well the actual tests, for instance, P1 was very relaxed and familiar with \gls{AADL} and \gls{ROS} so he understood and executed the tasks effortlessly as opposed to P3 and P5, which both had the lowest times working with \gls{ROS}. Lastly, frustration was unanimously low, which cemented the good, failure ready architecture that not only prevents the user from making mistakes but also pushes him in the right direction from the start.
+
+Overall, the NASA-\gls{TLX} results indicate low to moderate cognitive workload, high perceived performance, and negligible frustration, which collectively point to good system usability and efficient cognitive support.
+
 % TODO: Relate scores to system usability and cognitive effort.
 
 \subsection{\gls{SUS}}
@@ -626,7 +624,7 @@ Table~\ref{tab:sus_scores} reports the \gls{SUS} scores obtained for each partic
 		P2 & 67.5 \\
 		P3 & 80 \\
 		P4 & 85 \\
-		P5 & XX \\
+		P5 & 75 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -635,9 +633,9 @@ Table~\ref{tab:sus_scores} reports the \gls{SUS} scores obtained for each partic
 The aggregated \gls{SUS} scores yielded the following descriptive statistics:
 
 \begin{itemize}
-	\item \textbf{Mean \gls{SUS} score:} XX
-	\item \textbf{Median \gls{SUS} score:} XX
-	\item \textbf{Standard deviation:} XX
+	\item \textbf{Mean \gls{SUS} score:} 76.5
+	\item \textbf{Median \gls{SUS} score:} 75.0
+	\item \textbf{Standard deviation:} 6.52
 \end{itemize}
 
 According to industry benchmarks~\cite{Bangor2009,SauroLewis2016}:
@@ -649,7 +647,7 @@ According to industry benchmarks~\cite{Bangor2009,SauroLewis2016}:
 	\item Scores below \textbf{50} reflect \emph{poor} usability.
 \end{itemize}
 
-Based on these thresholds, the configuration language demonstrated a usability level of \textbf{TODO: in the end ofc}, indicating that participants perceived the workflow as [TODO: here too].
+Based on these thresholds, the configuration language demonstrated an average usability level of \emph{good/acceptable} ($\bar{x} = 76.5$), indicating that participants perceived the workflow as having a positive usability experience. Having a standard deviation of $\sigma = 6.52$ also puts the average usability on the verge of the acceptability threshold ($\bar{x} - \sigma \approx 69.98$) while the upper level reaches the excellence of usability ($\bar{x} + \sigma \approx 83.02$), indicating that the system is likely to be well received by the majority of the population.
 
 \subsubsection{Observed Patterns}
 \label{sec:test_usabl_obs_patterns}

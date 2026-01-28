@@ -492,30 +492,31 @@ With all data collected, we can proceed with the analysis.
 		\toprule
 		\textbf{Task} & \textbf{Average Completion Time (s)} & \textbf{Help Requests} \\
 		\midrule
-		Select target language &  & i \\
-		Configure naming style &  &  \\
-		Apply identifier prefix/suffix & &  \\
-		Enable/disable comments &  & \\
-		Enable/disable report generation &  &  \\
-		Enable/disable traceability &  &  \\
-		Toggle business logic decoupling &  &  \\
-		Change executor type &  &  \\
-		Configure legacy libraries &  &  \\
-		Enable file overwriting &  &  \\
-		Set file prefix &  &  \\
-		Manage build file generation &  & i \\
-		Add pre/post scripts &  & i \\
-		Trigger code generation &  & \\
-		Verify outputs &  &  \\
+		Select target language &  & 2 \\
+		Configure naming style &  & - \\
+		Apply identifier prefix/suffix & & 2 \\
+		Enable/disable comments &  & 1 \\
+		Enable/disable report generation &  & 1 \\
+		Enable/disable traceability &  & - \\
+		Toggle business logic decoupling &  & - \\
+		Change executor type &  & 2 \\
+		Configure legacy libraries &  & 1 \\
+		Enable file overwriting &  & - \\
+		Set file prefix &  & - \\
+		Manage build file generation &  & 3 \\
+		Add pre/post scripts &  & 4 \\
+		Trigger code generation &  & - \\
+		Verify outputs &  & - \\
 		\midrule
-		\textbf{Totals} &  &  \\
+		\textbf{Totals} &  & 16 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 % TODO: Fill all missing data in table.
-% TODO: Add measures of variance (SD/CI).
 % TODO: Explain any spikes or anomalies with data-backed reasoning.
+
+A clear spike on the help requests is the generation hooks/scripts and the managing of build file generation. These are mostly navigational help requests, were some users did not understand what the task was referring to given the specific name of the Build Integration\footnote{Which is the general way of mentioning the Make, Package, Source and Launch files.} and the \textit{Extension} hooks. As a consequence, the \textit{Build Integration} was simplified to \textit{Build} and the \textit{Extension} options were merged into the \textit{Files} options.
 
 Table~\ref{tab:usability_tasks} illustrates the aggregated performance summary of the participants. The completion time is very much acceptable for most tasks given the lack of familiarity with the software that every participant had. We can see a spike when it comes to \gls{ROS} specific things that the casual \gls{AADL} user might not be familiar with, for instance, changing the thread executor, managing the business logic, etc.
 

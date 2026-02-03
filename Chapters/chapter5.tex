@@ -234,7 +234,7 @@ The change from plug-in tests to standalone revealed a clear advantage when it c
 
 With the \gls{DSL} finalized and its features implemented it was then possible to assess how an end user will interact with the newly developed features. The object of study is the developed \gls{DSL} and configuration workflow it uses. The main purpose of this usability validation test is to evaluate, understand, and improve the code configuration \gls{DSL} and workflow.
 
-This testing will focus particularly on user efficiency (time to complete tasks) and effectiveness (task completion rate) of accomplish tasks, as well as how fast they learn the configuration itself, how often mistakes are made and how comfortable they feel using it. This information will not only be valuable to the current thesis but also to take into account when developing the complete \gls{RAMSES} tool with an integrated place for the configuration language. % TODO: confirm this
+This testing will focus particularly on user efficiency (time to complete tasks) and effectiveness (task completion rate) of accomplish tasks, as well as how fast they learn the configuration itself, how often mistakes are made and how comfortable they feel using it. This information will not only be valuable to the current thesis but will also be taken into account when developing the rest of the \gls{RAMSES} tool with an integrated place for the configuration language.
 
 For these tests the participants consisted of end users with moderate \gls{AADL} knowledge and a highly experienced \gls{ROS} developer\footnote{7+ years of commercial \gls{ROS} usage.} that directly represents the target demographic.
 
@@ -331,7 +331,6 @@ Table~\ref{tab:participant_character} summarizes the technical background of eac
 	P3 & 6 months & Light (Academic) & None & \gls{RAMSES} developer with no connection to the code generation module. \\
 	P4 & 3 months & Medium (Academic) & None & Java developer with previous experience in \gls{AADL} and \gls{ROS}. \\
 	P5 & 4 months & Light (Academic) & None & Frontend industry developer with academic experience in \gls{ROS} and C++. \\
-	P5 & none & High (7+ Years Commercial) & None & Represents the highly experienced \gls{ROS} developer demographic. \\
 \end{xltabular}
 
 \textbf{Average \gls{AADL} Experience (P1-P5)}: $\approx 3.5$ years.
@@ -401,10 +400,10 @@ The task sequence was intentionally designed to exercise the \gls{DSL} to near f
 \label{sec:test_usabl_eval_crit}
 
 To assess the usability attributes defined in Section~\ref{sec:test_op_def_usability}, three types of data were collected during the experimental sessions: quantitative metrics, qualitative observations, and subjective scoring.
-% TODO: Clearly define all dependent variables and operationalization.
 
 The usability evaluation followed the methodology defined in the requirements phase of the project. Both quantitative and qualitative measures were collected to assess the usability of the configuration interface and the effort required to use it.
 
+The interaction with the \gls{DSL} is being treated as the independent variable. To operationalize the usability attributes, the task completion time, number of errors and help requests were monitored.
 
 \paragraph{Quantitative data}
 \label{sec:test_usabl_quant}
@@ -416,18 +415,16 @@ With the data now gathered, the processing consisted of averaging the time taken
 For every task and participant, the following metrics were recorded:
 
 \begin{itemize}
-	\item Task completion time.
-	\item Number and type of errors committed.
-	\item Number of help requests or clarifications needed.
+	\item \textbf{Task completion time (Efficiency):} Operationalized as the duration in seconds from the moment the participant started reading the task prompt to the moment the configuration was successfully applied.
+	\item \textbf{Number and type of errors committed (Reliability):} Operationalized by counting the number of validation errors, syntax mistakes, or logical misconfigurations triggered during the execution of a task.
+	\item \textbf{Number of help requests or clarifications needed (Learnability/Support):} A count of explicit requests for clarification or guidance, used to identify areas where the \gls{DSL} or its documentation lacked clarity.
 \end{itemize}
-
 
 
 \paragraph{Qualitative data}
 \label{sec:test_usabl_qual}
 
-% TODO: Describe coding methodology for qualitative observations.
-% TODO: Describe categories used for thematic analysis (if any predefined).
+Qualitative observations were recorded through direct note-taking and screen recording during each session. Notes and recordings were reviewed post-session and annotated per task, allowing observations to be directly linked to specific configuration steps and usability events.
 
 During the session, the following observations were captured:
 
@@ -441,9 +438,6 @@ During the session, the following observations were captured:
 \paragraph{Subjective evaluation}
 \label{sec:test_usabl_subj}
 
-% TODO: Define scoring method for SUS (conversion, threshold interpretation).
-% TODO: Define scoring method for NASA-TLX (weighted or unweighted?).
-
 After completing all tasks, each participant completed two standardized questionnaires:
 
 \begin{itemize}
@@ -451,16 +445,17 @@ After completing all tasks, each participant completed two standardized question
 	\item \textbf{NASA \gls{TLX}} to assess perceived workload and cognitive demands.
 \end{itemize}
 
+The \gls{SUS} questionnaire was scored following the standard procedure defined by Brooke and the NASA-\gls{TLX} questionnaire was administered using the unweighted scoring method. Participants rated each of the six workload dimensions (mental demand, physical demand, temporal demand, effort, performance, and frustration) on a 0–100 scale. The overall workload score was computed as the arithmetic mean of the six dimension scores. The unweighted approach was selected to reduce participant burden and improve consistency across sessions, which is appropriate for exploratory usability evaluations with a limited sample size.
+
 These instruments provide widely accepted measures for usability and mental effort. They also enable a structured and comparable assessment.
 
 
 \subsection{Execution}
 \label{sec:test_usabl_proc}
 
-% TODO: Add pilot test description, if any.
-% TODO: Add moderator script summary or link to appendix.
-% TODO: Describe measures taken to ensure consistent handling between sessions.
-% TODO: Note any deviations from the predefined procedure.
+Before the actual usability tests were conducted, a pilot test with a software developer was conducted as a means to identify possible errors in the workflow and to test the overall procedure. From the pilot test a clear point came across: monitoring task completion time, errors performed and help requests simultaneously was very highly complex. As such, all of the actual usability tests were also screen recorded in order to keep a clear and indisputable log of the test.
+
+To ensure consistent handling between sessions the participants were tested individually in an isolated ambient with the software ready for use with the default settings. The procedure description and an example video was shown to every participant before the start of the test and the task booklet had the exact same tasks for each participant, albeit with randomized task orders. The mediator acted the same way for every single participant. No notable deviations were taken from the predefined procedure for any participant.
 
 Each session followed the same procedure:
 

@@ -472,10 +472,14 @@ All sessions were conducted individually and under identical software environmen
 \subsection{Analysis}
 \label{sec:test_usabl_analysis}
 
-% TODO: Describe analysis procedure (statistical tests, or explain why none used).
-% TODO: Add descriptive statistics: means, medians, SDs, CIs.
-% TODO: Add interpretation rules (thresholds for acceptable performance).
-% TODO: Clarify whether unit of analysis is per-task or per-user.
+
+The information on Table~\ref{tab:usability_tasks} is averaged between all test users on completion time and summed on help requests. The task completion times per individual user can be found on Table~\ref{tab:ttpt}.
+
+With all data collected, we can proceed with the analysis.
+
+The analysis followed a descriptive and exploratory approach. Given the small sample size ($n=5$) and the primary goal of usability validation rather than hypothesis testing, no statistical tests were applied. Instead, quantitative metrics were analyzed using the aggregated descriptive statistics of average task completion times and total counts of help requests.
+
+A task was considered to have acceptable efficiency if it could be completed by most participants within a reasonable time frame without repeated assistance, taking into account that all users were first time users of the configuration workflow. Tasks requiring textual input or multiple configuration steps were expected to take longer than simple selection or toggling actions and were therefore interpreted relative to task complexity rather than using a fixed time threshold.
 
 With all data collected, we can proceed with the analysis.
 
@@ -487,33 +491,39 @@ With all data collected, we can proceed with the analysis.
 		\toprule
 		\textbf{Task} & \textbf{Average Completion Time (s)} & \textbf{Help Requests} \\
 		\midrule
-		Select target language &  & 2 \\
-		Configure naming style &  & - \\
-		Apply identifier prefix/suffix & & 2 \\
-		Enable/disable comments &  & 1 \\
-		Enable/disable report generation &  & 1 \\
-		Enable/disable traceability &  & - \\
-		Toggle business logic decoupling &  & - \\
-		Change executor type &  & 2 \\
-		Configure legacy libraries &  & 1 \\
-		Enable file overwriting &  & - \\
-		Set file prefix &  & - \\
-		Manage build file generation &  & 3 \\
-		Add pre/post scripts &  & 4 \\
-		Trigger code generation &  & - \\
-		Verify outputs &  & - \\
+		Select target language 				& 35.73 & 2 \\
+		Select Linux as OS	 				& 6.54 & 2 \\
+		Set output directory 				& 21.02 & 1 \\
+		Trigger code generation (1)			& 47.78 & - \\
+		Configure naming style 				& 29.45 & - \\
+		Apply identifier prefix/suffix 		& 32.96 & 2 \\
+		Enable comments 					& 70.53 & 2 \\
+		Enable report generation			& 20.14 & 1 \\
+		Enable logic summaries in report	& 6.68 & - \\
+		Enable traceability					& 21.38 & - \\
+		Enable traceability JSON			& 14.05 & - \\
+		Toggle business logic decoupling 	& 14.70 & - \\
+		Change executor type 				& 7.94 & 2 \\
+		Configure legacy libraries 			& 21.46 & 1 \\
+		Add pre/post scripts 				& 34.23 & 4 \\
+		Set file prefix 					& 27.87 & - \\
+		Enable file overwriting 			& 6.71 & - \\
+		Manage build file generation 		& 43.64 & 3 \\
+		Trigger code generation (2)			& 25.11 & - \\
+		Verify outputs 						& 42.95 & - \\
 		\midrule
-		\textbf{Totals} &  & 16 \\
+		\textbf{Totals} 					&  & 17 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-% TODO: Fill all missing data in table.
-% TODO: Explain any spikes or anomalies with data-backed reasoning.
+Table~\ref{tab:usability_tasks} illustrates the aggregated performance summary of the participants.
 
-A clear spike on the help requests is the generation hooks/scripts and the managing of build file generation. These are mostly navigational help requests, were some users did not understand what the task was referring to given the specific name of the Build Integration\footnote{Which is the general way of mentioning the Make, Package, Source and Launch files.} and the \textit{Extension} hooks. As a consequence, the \textit{Build Integration} was simplified to \textit{Build} and the \textit{Extension} options were merged into the \textit{Files} options.
+The completion times recorded are generally acceptable considering that all participants were using the configuration workflow for the first time. As expected, the first tasks tended to take longer as participants became accustomed to the interface, terminology, and behavior. Learnability was measured by observing the decrease in completion time, pauses, and help requests for repeated or similar tasks. Specifically, the repeated \textit{Trigger code generation} task is a good example of a short term learning effect, where nearly all participants completed the second task much faster than the first, indicating a rapid gain in tool proficiency.
 
-Table~\ref{tab:usability_tasks} illustrates the aggregated performance summary of the participants. The completion time is very much acceptable for most tasks given the lack of familiarity with the software that every participant had. We can see a spike when it comes to \gls{ROS} specific things that the casual \gls{AADL} user might not be familiar with, for instance, changing the thread executor, managing the business logic, etc.
+Textual input and multi-step configuration tasks tended to have higher completion times. For example, the \textit{Code comments} task required both finding the corresponding configuration option and completing a writing subtask (\textit{setting the author}), thus increasing the task time. Similar observations were made for tasks such as \textit{Apply identifier prefix/suffix} and \textit{Set file prefix}. As a consequence, these completion times are attributed to task complexity and input effort rather than usability issues.
+
+Help requests were considered as indicators of usability issues rather than user errors. A clear hotspot of help requests was noticed for tasks associated with generation hooks/scripts and build file management. These requests tended to be of a navigational or conceptual nature, due to the fact that many of the participants had difficulty understanding the nomenclature used, particularly the concept of \textit{Build Integration}\footnote{Which encompasses Make, Package, Source, and Launch files.} and the \textit{Extension} hooks. However, due to the fact that the help requests tended to be of a consistent nature across many of the participants, they were taken as an indication of the poor terminology used. As a direct result of the above observations, the option of \textit{Build Integration} was replaced by the option of \textit{Build}, and the \textit{Extension} hooks have been merged into the \textit{Files} configuration section.
 
 % TODO: Support claims with quantitative evidence from table.
 % TODO: Clarify what "acceptable" means (benchmark or requirement reference).

@@ -682,10 +682,7 @@ The usability evaluation results collectively indicate that the configuration la
 
 The \gls{SUS} results reinforced the overall findings, with an average score in the good/acceptable range and low variability across participants. Combined with the low perceived workload measured by NASA-\gls{TLX}, these results indicate that the system achieves a balance between expressive configuration capabilities and manageable cognitive effort. 
 
-% TODO: Summarize findings and relate them explicitly to usability requirements.
-% TODO: Link observations to efficiency, learnability, discoverability, error recovery, etc.
-% TODO: Compare results to expectations or prior studies.
-% TODO: Identify design issues revealed by qualitative data.
+Qualitative observations revealed a small number of concrete design issues, primarily related to naming and option discoverability. Many participants showed uncertainty when locating build related configuration options and generation hooks, often requiring help despite understanding the task goal. This was reflected in both verbal comments and repeated navigational help requests. These issues were not caused by interaction complexity but by ambiguous or overly technical naming, specifically in the use of \textit{Build Integration} and \textit{Extension} hooks. The consistency of these observations across participants indicates a design issue rather than isolated user misunderstanding, which afterwards led to the simplification and regrouping of these options.
 
 \begin{table}[htbp]
 	\centering
@@ -698,16 +695,19 @@ The \gls{SUS} results reinforced the overall findings, with an average score in 
 		P1 & Participant 1 described that the fact that other Eclipse configurations are present on top on the current configuration generates confusion. To minimize this problem, subsequent participants were explicitly told that the only configuration they should change was \textit{CodeGen Config}. \\
 		P2 & Participant 2 had a more fluid experience when it came to understanding the code generation sequence given the previous knowledge in \gls{AADL} development. \\
 		P3 & Although participant 3 was not familiarized with the Eclipse environment he adapted very quickly and understood the task perfectly, suggesting that the system is intuitive even to newcomers. \\
-		P4 &  \\
-		P5 &  \\
+		P4 & This participant was highly familiar with the Eclipse environment. That knowledge pushed the user to learn more about the software itself on top of just performing the tasks. \\
+		P5 & Participant 5 understood the workflow sequence perfectly and praised the intuitiveness of the \gls{DSL} itself. \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 Some participants, particularly 1 and 3, also stated that some task names do not directly map to \gls{UI} options, this was done purposefully in order to test participant adaptability although it revealed that participants expected that the task instruction always mapped to an option, which was not always the case, leading to a few tasks in general taking more than others, for instance \textit{Disable launch file generation} consistently took more time than other tasks given that the launch file is part of the Build Integration (Section~\ref{sec:impl_build_options}) options, however, this name accurately represents the group of options so changing it would undermine the remaining options.
 
-% TODO: Fill this table.
-% TODO: Extract themes from qualitative notes.
+From the qualitative observations, three recurring themes were identified. 
+First, \textbf{environmental interference} was observed, particularly due to the presence of unrelated Eclipse configurations, which caused initial confusion for nearly all participants, although P1 was affected the most. 
+Second, \textbf{prior domain and tool familiarity} influenced task fluency, with participants experienced in \gls{AADL} or Eclipse navigating the workflow more confidently (P2, P4). 
+Third, a \textbf{mismatch between task phrasing and UI terminology} was noted, where participants expected a direct correspondence between task instructions and configuration option names. This expectation led to increased completion times for tasks such as \textit{Disable launch file generation}, even though the underlying option grouping was logically consistent. 
+These themes highlight areas where usability was influenced not by interaction difficulty but by contextual and semantic factors.
 
 
 \subsection{Threats to Validity}

@@ -473,7 +473,7 @@ All sessions were conducted individually and under identical software environmen
 \label{sec:test_usabl_analysis}
 
 
-The information on Table~\ref{tab:usability_tasks} is averaged between all test users on completion time and summed on help requests. The task completion times per individual user can be found on Table~\ref{tab:ttpt}.
+The information on Table~\ref{tab:usability_tasks} is averaged between all test users on completion time and summed on help requests. The task completion times per individual user can be found on Tables~\ref{tab:ttpt-1} and ~\ref{tab:ttpt-2}.
 
 With all data collected, we can proceed with the analysis.
 
@@ -723,14 +723,15 @@ Another aspect to consider is the Hawthorne effect~\cite{Hawthorne_effect}, in w
 
 Sampling was a major issue for the tests, mainly since the tool is targeting a specific industry user, which reduces the participant pool significantly, due to that factor, the sample size ended up being smaller than what many experts consider optimal, however the participants represented the closest to a \gls{ROS} expert user. Still, that representation is not 100\% accurate since none of the users was an actual, multi-year working industry \gls{ROS} expert.
 
+Additionally, participants were recruited through convenience sampling based on availability and proximity to the project, which further limits the generalizability of the results to the broader \gls{ROS} user population.
+
 The usability tests measure many types of data, however, these tests should not be taken as a complete analysis of usability of the code generation customization in \gls{RAMSES}, many more tests should be taken into account, especially tests using the complete \gls{RAMSES} pipeline and not just the code generator, in order to measure all facets of usability.
 
+Evaluator bias is also a potential internal validity threat, as the test sessions were conducted by the system developer. Assistance was provided only when participants explicitly requested help, however, the presence of the developer could have influenced participant behavior. This risk was mitigated by treating help requests and errors as indicators of design issues rather than user performance.
 
+A threat to construct validity can be seen from the fact that usability was operationalized primarily through task performance metrics, self-reported usability (\gls{SUS}), and perceived workload (NASA-\gls{TLX}).These measures capture key aspects such as efficiency, perceived ease of use and cognitive effort but they do not cover all facets of usability, such as long term learnability, memorability, or integration into real extended workflows. As a result, the evaluation reflects short term, task oriented usability rather than long term system use.
 
-% TODO: Add internal validity threats: learning effects, evaluator bias, Hawthorne effect, prior exposure.
-% TODO: Add external validity threats: small sample size, convenience sampling, non-representative ROS expertise distribution.
-% TODO: Add construct validity threats: metrics measure efficiency but not all facets of usability.
-% TODO: Add conclusion validity threats: statistical power insufficient for subgroup comparisons.
+Finally, conclusion validity is limited by the small sample size, which provides insufficient statistical power to support subgroup comparisons or inferential claims. Observations related to prior experience with \gls{ROS}, \gls{AADL}, or Eclipse are therefore descriptive in nature and should be interpreted as indicative trends rather than statistically supported differences. The study intentionally avoids hypothesis testing and relies on exploratory analysis.
 
 
 \subsection{Conclusion}

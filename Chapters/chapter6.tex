@@ -21,21 +21,26 @@ The objective of this dissertation was to bridge the gap between academic model-
 
 The implementation successfully transitioned \gls{RAMSES} from a rigid, hardcoded generator to a configurable platform. The integration tests (Section~\ref{sec:test_feature}) confirmed that the introduction of the configuration layer does not compromise the functional correctness of the generated code.
 
+More importantly, the transition from a hardcoded generator to a configurable architecture represents a structural shift in how \gls{RAMSES} can be evolved and maintained. By externalizing generation policies into a dedicated configuration layer, variability is no longer embedded in transformation logic, reducing maintenance complexity and lowering the barrier for future extensions.
+
 A critical technical achievement was the decoupling of Business Logic from the \gls{ROS} framework. As observed in the test results, this separation allows developers to reuse C++ logic independently of the middleware, addressing a major request from the industrial partner. Furthermore, the inclusion of Legacy Library Integration solves the "island of automation" problem, where generated code previously failed to interface with existing company ecosystems.
 
-Regarding performance, the analysis of execution times (Section~\ref{sec:exec_times}) indicates that while the configurable workflow introduces a processing overhead, raising the average generation time to approximately 479.9ms compared to the estimated 231.6ms of the legacy generator, this increase is negligible in a human centric workflow. The overhead is primarily driven by the Report and Traceability modules, which provide high-value artifacts that were previously absent. The trade off between a brief delay and the automated production of traceability artifacts and quality reports is highly favorable for safety-critical development contexts.
+Regarding performance, the analysis of execution times (Section~\ref{sec:exec_times}) indicates that while the configurable workflow introduces a processing overhead, raising the average generation time to approximately 479.9ms compared to the estimated 231.6ms of the legacy generator, this increase is negligible in a human centric workflow. The overhead is primarily driven by the Report and Traceability modules, which provide high-value artifacts that were previously absent. The trade off between a brief delay and the automated production of traceability artifacts and quality reports is highly favorable for safety-critical development contexts, because, while 250ms is a technical regression, the process improvement is exponential. Manual traceability often take hours to generate and are prone to human error. Therefore, the computational cost is negligible compared to the operational gain in safety certification contexts.
+
+The experimental results demonstrate that the \gls{DSL} approach yields functionally equivalent code while providing the necessary flexibility for industrial integration. The system received positive validation from domain users, suggesting that it is possible to combine the rigor of formal modeling with the practical flexibility required by modern software engineering. Integration testing (Sectio~\ref{sec:test_feature}) confirmed that even advanced features like \textit{Business Logic Decoupling} and \textit{Legacy Library Integration} function correctly without breaking the baseline code behavior. Furthermore, usability validation with domain users yielded an average \gls{SUS} score of 76.5, placing the tool in the \textit{Good} to \textit{Excellent} usability tier. These results collectively show that configurability and usability are not mutually exclusive in model-driven engineering tools.
+
+This overhead must be interpreted in the context of developer driven workflows, where generation time is not a bottleneck. In this context, the additional processing cost is outweighed by the benefits of improved transparency, traceability, and configurability. This confirms that configurability can be introduced into code generation pipelines without compromising practical usability or responsiveness.
 
 
 
 \section{Usability and Developer Experience}
 \label{sec:usability_and_dev_experience}
 
-The usability validation (Section~\ref{sec:test_val}) addressed the concern that introducing a \gls{DSL} might add cognitive complexity to the workflow. The \gls{SUS} scores, averaging 76.5, suggest that the system falls within the "Good" range of usability.
+The usability validation (Section~\ref{sec:test_val}) addressed the concern that introducing a \gls{DSL} might add cognitive complexity to the workflow. The \gls{SUS} scores, averaging 76.5, suggest that the system falls within the "Good" range of usability, while the NASA-\gls{TLX} results indicate low cognitive workload and negligible frustration, even for first-time users. These results demonstrate that this risk was successfully mitigated.
 
-Qualitative feedback highlighted that the naming convention configuration  significantly improves team cohesion by enforcing coding standards automatically. [TODO: verify The participation of a ROS expert (P5) validated that the configuration options, specifically the thread executor selection and node interface generation, align with real-world industrial expectations.]
+Beyond subjective scores, objective measures\footnote{Like time to perform task.} revealed strong learnability characteristics. Participants demonstrated rapid improvement on repeated or conceptually similar tasks, suggesting that users were able to form an accurate mental model of the configuration workflow with minimal exposure. This is a very important result, as it shows that expressive configuration capabilities can be exposed without sacrificing the approach itself.
 
-However, the study also revealed that users without prior Eclipse experience faced initial navigation challenges. This suggests that while the \gls{DSL} itself is intuitive, its integration into the IDE preferences requires clear documentation or onboarding to minimize the initial learning curve.
-
+While some participants initially struggled with navigation in the Eclipse environment, these difficulties were largely due to the platform itself rather than the \gls{DSL}, which suggests that it is intuitive. Qualitative observations confirmed that terminology and option grouping had a bigger impact on usability than interaction complexity. The immediate incorporation of post-test design changes further demonstrates the practical value of usability driven iteration.
 
 
 \section{Addressing Industrial Constraints}
@@ -49,8 +54,9 @@ The solution directly addresses the "Inflexibility of \gls{RAMSES}" identified i
 	\item \textbf{Adaptability: } Through the "overwrite" and "build integration" features, allowing \gls{RAMSES} to fit into incremental build pipelines rather than forcing a clean-build approach.
 \end{itemize}
 
-These industry favored features along with the many others implemented bring the current version of \gls{RAMSES} a step closer to industry level tools.
+Unlike standard \gls{M2T} approaches where the middleware logic is hardcoded, this \gls{DSL} introduces an 'abstraction gap' that allows the business logic to survive middleware obsolescence.
 
+Taken together, these features directly address industrial concerns regarding rigidity, traceability, and integration. Positioning \gls{RAMSES} as a more viable candidate for adoption in safety critical and legacy development environments.
 
 
 \section{Limitations}
@@ -58,12 +64,27 @@ These industry favored features along with the many others implemented bring the
 
 As noted in Section~\ref{sec:research_limitations}, the study was limited by the sample size of the usability test and the scope of the supported features. While the \gls{DSL} supports C++, full support for other standards mentioned in the state of the art, such as \gls{AUTOSAR}, remains a future goal. Additionally, the dependency on third-party libraries for compliance (CppCheck) means the tool's effectiveness is partially bound by external tool capabilities in the realm of code compliance.
 
+While these limitations restrict the generalizability of the findings, they do not undermine the validity of the conclusions within the scope of this work, which focuses on feasibility, usability, and configurability rather than exhaustive industrial deployment.
+
+
+\section{Implications for Model-Driven Engineering Tools}
+\label{sec:implications}
+
+The results of this work have implications that extend to other \gls{MDE} tools: the friction between formal rigor and industrial adaptability. While \gls{MDE} tools excel at providing architectural correctness and consistency, they often fail to accommodate the variability and integration constraints imposed by real-world industrial environments.
+
+A common limitation of many academic code generators is the reliance on hardcoded transformation logic. This design choice simplifies initial development but severely restricts extensibility. It forces industrial users to rely on post-generation scripts or manual modifications. These practices difficult traceability mappings, certification efforts, and weaken the core promise of \gls{MDE}. The configuration-based approach proposed in this dissertation demonstrates that introducing an explicit and well structured configuration layer can mitigate these issues without sacrificing correctness.
+
+By delegating generation policies into a \gls{DSL} rather than modifying transformation code to accommodate each new requirement, variability is expressed declaratively and interpreted at generation time. This separation of concerns aligns with software engineering principles and proposes that configurability should be considered a design concern in future \gls{MDE} tools, particularly those targeting safety-critical systems.
+
+The usability results further indicate that increased configurability does not inherently lead to increased cognitive burden. When configuration concepts are aligned with the users mental model and supported by appropriate tools, even complex generation pipelines can remain accessible to non-expert users. This challenges the common assumption that \gls{MDE} tools must trade usability for expressiveness and instead supports the idea that careful workflow design can merge both.
+
+More generally, the proposed approach contributes to narrowing the gap between academic \gls{MDE} research and industrial usage. By addressing practical concerns such as naming conventions, legacy integration, and incremental build workflows, the work demonstrates how \gls{MDE} tools can be adapted to existing development systems rather than requiring organizations to reshape their processes around the tool. 
 
 
 \section{Lessons Learned}
 \label{sec:lessons}
 
-The conceptualization, implementation and evaluation of this \gls{DSL} provided many opportunities to learn and grow as a software engineer. Many of which derived from necessities inside the \gls{DSL} development itself. 
+The design and implementation of the configuration \gls{DSL} provided several practical lessons regarding extensibility in model driven engineering tools. A key insight was that extending existing infrastructures is often more effective than reimplementing core mechanisms, particularly when dealing with mature platforms such as Eclipse.
 
 The creation of custom components was a core highlight of this implementation. The ability to shape, polish and perfect a already developed solution to a specific problem was a key to success in handling the flow and storage of the \gls{DSL}. Both the custom Acceleo Workflow component and the Custom Preference Store component are incredible examples of situations where its easier to extend an already available feature as opposed to creating one from scratch.
 

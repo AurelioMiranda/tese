@@ -25,15 +25,15 @@
 \section{Context and Motivation}
 
 There is always a need for innovation, and consequently, technological progress is accompanied by an increase in system complexity~\cite{lee2008}, either software or hardware. This complexity is accompanied by enormous challenges in creating the solutions, particularly when software and hardware are adjacent to one another, such as is the situation when working with the robotics programming field. 
-\par
+
 For new users, robot programming can be especially daunting due to its extensive knowledge requirements and intricate integration of \gls{CPS}~\cite{Khatib_Siciliano_2016}. Such systems, comprising computer-based programs, networks, sensors, and actuators, highlight the significant contribution of software development, which is responsible for the majority of the production cost of \gls{CPS}~\cite{Rajkumar_Ragunathan_Lee_2010}. Robotics, as a constituent of \gls{CPS}, entails unique challenges in software and hardware integration, making problem identification late in the process very expensive~\cite{Broy_Kruger_Pretschner_Salzmann_2007}.
-\par
+
 \gls{MD} approaches have proven to be effective solutions in this situation, offering the advantages of generation of high-quality code and results consistently~\cite{Schmidt_DC_2006}. The placement of the model at the center of the production process ensures that the developers are given a higher level of abstraction, while the complexity during the development of new systems is reduced.
 
 \subsection{AADL and RAMSES}
 
 Of all these \gls{MD} techniques, the \gls{AADL} is a strong modeling language well-suited to embedded systems~\cite{Feiler_Lewis_Vestal_2006}. It enables accurate description of hardware and software architecture to support early validation and analysis of non-functional properties.
-\par
+
 As shown by Borde et al.~\cite{Borde_Rahmoun_Cadoret_Pautet_Singhoff_Dissaux_2014}, the \gls{RAMSES} project extends \gls{AADL} to automatically generate source code for embedded systems. \gls{RAMSES}, being a model-to-text transformation tool, enhances \gls{CPS} software development quality and productivity by preventing human coding errors and accelerating the path from design to deployment.
 
 \begin{tcolorbox}[colback=green!8]
@@ -45,26 +45,26 @@ This project is a joint collaboration between \gls{DI} NOVA, NOVALINCS, and Tél
 
 \subsection{Why Configurability is Necessary}
 
-While \gls{RAMSES} utilization presents multiple advantages, there remains an issue concerning code generation: its decisions are hardcoded and rigid. Little is under control of the developer for elements such as code appearance, binding against specific APIs, or maintaining firm standards-based company guidelines. In industrial environments, where the need arises to reuse today's libraries and frameworks to uphold current standards, such a lack of flexibility presents a bottleneck, this inhibits not only initial integration, but also long-term system evolution and co-evolution, which are crucial for sustaining \gls{CPS} over time~\cite{Czarnecki_Helsen_2006}.
-\par
-Flexibility to customize generated code is imperative to encourage increased adoption by industry and to facilitate integration in diverse development environments~\cite{Mikova_2025}. With configurability, \gls{RAMSES} can be set up to generate code that not only meets functional requirements but also conforms to organizational coding conventions and leverages accessible software assets.
+While \gls{RAMSES} utilization presents multiple advantages, there remained an issue concerning code generation: its decisions were hardcoded and rigid. Little was under the control of the developer for elements such as code appearance, binding against specific APIs, or maintaining firm standards-based company guidelines. In industrial environments, where the need arises to reuse today's libraries and frameworks to uphold current standards, such a lack of flexibility presents a bottleneck, this inhibits not only initial integration, but also long-term system evolution and co-evolution, which are crucial for sustaining \gls{CPS} over time~\cite{Czarnecki_Helsen_2006}.
+
+Flexibility to customize generated code is imperative to encourage increased adoption by industry and to facilitate integration in diverse development environments~\cite{Mikova_2025}. With configurability, \gls{RAMSES} is set up to generate code that not only meets functional requirements but also conforms to organizational coding conventions and leverages accessible software assets.
 
 \section{Problem Statement}
 
-\gls{RAMSES} does not have flexibility in its code generation process currently. Its generation strategies such as coding style conventions, library use, and \gls{API} selection are fixedly embedded within its transformation rules. This lack of flexibility limits its application in industrial environments where projects rely on pre-existing company libraries and specific coding standards.
-\par
-Currently, adapting \gls{RAMSES} to different industrial contexts requires modifying its internal model-to-text transformation logic. This approach can increase maintenance effort and complicate integration with existing workflows, potentially limiting the broader adoption of the tool in diverse development environments. 
+\gls{RAMSES} did not have flexibility in its code generation process. Its generation strategies such as coding style conventions, library use, and \gls{API} selection were fixedly embedded within its transformation rules. This lack of flexibility limited its application in industrial environments where projects rely on pre-existing company libraries and specific coding standards.
+
+In the past, adapting \gls{RAMSES} to different industrial contexts required modifying its internal model-to-text transformation logic. This approach can increase maintenance effort and complicate integration with existing workflows, potentially limiting the broader adoption of the tool in diverse development environments. 
 
 
 \section{Objectives and Contributions}
 \label{sec:obj_and_contrib}
 
-The primary objective of this work is to enhance \gls{RAMSES} configurability through the development and implementation of a configuration language. This language would externalize the parameters of code generation so that developers can tailor them to specific needs.
+The primary objective of this work was to enhance \gls{RAMSES} configurability through the development and implementation of a configuration language. This language externalizes the parameters of code generation so that developers can tailor them to specific needs.
 
 The key contributions of this thesis include:
 \begin{itemize}
 	\item The definition of a \gls{DSL} or configuration language for parameterizing the \gls{RAMSES} code generation process.
-	\item The introduction of mechanisms to enable customized C code generation, supporting various coding styles, library integrations, and \gls{API} choices.
+	\item The introduction of mechanisms to enable customized C++ code generation, supporting various coding styles, library integrations, and \gls{API} choices.
 	\item The facilitation of reusing company libraries or \gls{API}s that already exist, enabling smoother integration of \gls{RAMSES} into industrial development processes.
 \end{itemize}
 
@@ -85,7 +85,7 @@ This thesis is structured as follows:
 
 \begin{itemize}
 	\item \textbf{Chapter 1:} Introduces the context, motivation, problem statement, and objectives of this research.
-	\item \textbf{Chapter 2:} Provides a detailed overview of the state of the art, including Model-Driven Engineering (MDE), \gls{AADL}, and existing code generation tools.
+	\item \textbf{Chapter 2:} Provides a detailed overview of the state of the art, including \gls{MDE}, \gls{AADL}, and existing code generation tools.
 	\item \textbf{Chapter 3:} Identifies the challenges and requirements of creating a configurable code generator. Presents a prototype and evaluates feasability, implementation details and user feedback.
 	\item \textbf{Chapter 4:} Presents the integration and application of the configuration mechanism within the \gls{RAMSES} toolchain.
 	\item \textbf{Chapter 5:} Ensures the efficacy of the given approach with experimental case studies and tests.

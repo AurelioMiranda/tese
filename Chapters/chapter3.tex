@@ -19,13 +19,13 @@
 \section{The Inflexibility of RAMSES: A Barrier to Industrial Integration}
 \label{sec:inflexibility_ramses}
 
-RAMSES has served as a robust model-to-code generator for \gls{AADL} based systems, yet it suffers from a fundamental architectural constraint: it assumes a uniform target environment. This assumption does not hold in real-world industrial projects, where system heterogeneity, legacy integration, and domain-specific standards define a constantly shifting context.
+\gls{RAMSES} has served as a robust model-to-code generator for \gls{AADL} based systems, yet it suffered from a fundamental architectural constraint: it assumes a uniform target environment. This assumption does not hold in real-world industrial projects, where system heterogeneity, legacy integration, and domain-specific standards define a constantly shifting context.
 
-The core issue lies in RAMSES' transformation pipeline: it entangles policy decisions (naming, structure, integration style) with generation logic. These decisions, hard coded in ATL transformations, reflect the assumptions of RAMSES' authors more than the needs of end users~\cite{AtlasTransformationLanguage}. Altering them involves modifying the transformation source itself, often a hard and error-prone task~\cite{Mittal_Blouin_Bhobe_Bandyopadhyay_2022}.
+The core issue lied in \gls{RAMSES}' transformation pipeline: it entangled policy decisions (naming, structure, integration style) with generation logic. These decisions, hard coded in ATL transformations, reflect the assumptions of \gls{RAMSES}' authors more than the needs of end users~\cite{AtlasTransformationLanguage}. Altering them involves modifying the transformation source itself, often a hard and error-prone task~\cite{Mittal_Blouin_Bhobe_Bandyopadhyay_2022}.
 
-Consider a simple use case: a company mandates that all task-level functions use `snake\_case` and include a `COMPONENT\_` prefix. RAMSES, which might generate `ComputeTask` by default, offers no way to enforce those rules. A change in naming becomes a traversal through ATL templates and helpers. This is not scalable, and in safety-critical software, it is not acceptable.
+Consider a simple use case: a company mandates that all task-level functions use `snake\_case` and include a `COMPONENT\_` prefix. \gls{RAMSES}, which might have generated `ComputeTask` by default, offered no way to enforce those rules. A change in naming becomes a traversal through ATL templates and helpers. This was not scalable, and in safety-critical software, it is not acceptable.
 
-Furthermore, beyond naming, decisions about memory allocation models, system initialization flows, and error handling behaviors are equally rigid. There is no declarative layer that allows users to steer generation outcomes according to organizational needs or evolving constraints. 
+Furthermore, beyond naming, decisions about traceability, system initialization flows, and error handling behaviors are equally rigid. There was no declarative layer that allows users to steer generation outcomes according to organizational needs or evolving constraints. 
 
 \section{Industrial Realities and Pressures}
 \label{sec:industrial_realities}
@@ -84,18 +84,18 @@ Such language enables a fundamental shift: from a monolithic, one-size-fits-all 
 \section{Characteristics of an Effective Configuration Layer}
 \label{sec:config_language_characteristics}
 
-Designing this kind of language is challenging. It needs to balance expressiveness, ease of use, and seamless integration. Based on industrial feedback and analysis of RAMSES issues, the following characteristics are proposed:
+Designing this kind of language is challenging. It needs to balance expressiveness, ease of use, and seamless integration. Based on industrial feedback and analysis of \gls{RAMSES} issues, the following characteristics are proposed:
 
 \begin{itemize}
 	\item \textbf{Declarative, Not Imperative}: Users should describe \textbf{what} they want ("all functions must use snake\_case") rather than \textbf{how} to achieve it. This aligns with the model-driven philosophy and supports better configuration analysis.
-	\item \textbf{Human-Readable and Tool-Accessible}: The configuration format (proposed \gls{DSL}) should work well with version control, support difference review, and remain readable to engineers. It must also be machine-readable for validation and generation.
+	\item \textbf{Human-Readable and Tool-Accessible}: The configuration format (\gls{DSL}) should work well with version control, support difference review, and remain readable to engineers. It must also be machine-readable for validation and generation.
 	\item \textbf{Functionally Equal to the Default Code}: The newly generated code should remain functionally the same as without the configurator. Meaning that it should produce the same practical result with or without the configuration, excluding performance metrics.
-	\item \textbf{Configures the Generator, Not the Model}: Configuration keys should influence how the code is generated, without requiring changes to the input models. The DSL operates alongside the model, guiding the generators behavior (naming, structure or implementation strategy) based on domain concepts such as \texttt{thread}, \texttt{port}, or \texttt{data component}. Configuration keys should remain semantically aligned with modeling elements but their primary role is to modify generator logic, not to modify or extend the models themselves.
+	\item \textbf{Configures the Generator, Not the Model}: Configuration keys should influence how the code is generated, without requiring changes to the input models. The \gls{DSL} operates alongside the model, guiding the generators behavior (naming, structure or implementation strategy) based on domain concepts such as \texttt{thread}, \texttt{port}, or \texttt{data component}. Configuration keys should remain semantically aligned with modeling elements but their primary role is to modify generator logic, not to modify or extend the models themselves.
 	\item \textbf{Validated and Error-Tolerant}: Invalid configurations should produce clear diagnostics before generation starts. Where possible, defaults and fallbacks should be available to prevent blocking workflows.
 	\item \textbf{Extensible and Portable}: The configuration will be easily extensible thanks to its Ecore background, allowing for easy inclusion of new features. At the same time, since the language model is detached\footnote{The language model (Ecore) itself is not locked exclusively to \gls{RAMSES} and can be used in other projects, however, that implies having to code the logic for each feature according to project specifics.} from \gls{RAMSES}, it can be easily included in other projects, allowing for a quicker development of a configuration language once this one is built.
 \end{itemize}
 
-These characteristics will make the configuration language robust, maintainable, and suitable for industrial use, allowing for flexible customization of code generation without compromising model integrity or introducing unnecessary complexity.
+These characteristics make the configuration language robust, maintainable, and suitable for industrial use, allowing for flexible customization of code generation without compromising model integrity or introducing unnecessary complexity.
 
 \section{Beyond Code Formatting: What Configuration Should Control}
 \label{sec:config_scope}
@@ -236,28 +236,28 @@ Nevertheless, this solution allows not just for the usage of multiple models in 
 \section{System Evaluation}
 \label{sec:sys_eval}
 
-To assure that the \gls{DSL} meets expectations~\cite{Voelter_Benz_2013}, the system will be evaluated in various forms, mainly:
+To assure that the \gls{DSL} meets expectations~\cite{Voelter_Benz_2013}, the system was evaluated in various forms, mainly:
 
 \begin{itemize}
 	\item The \gls{DSL} exists and produces results.
-	\item Before and after comparison (with code configurator vs without).
+	% \item Before and after comparison (with code configurator vs without).
 	\item Usability evaluation.
 	\item Configuration variants evaluation.
 	\item The newly generated code remains functionally the same as before\footnote{Meaning that it performs the same practical task as before the \gls{DSL} implementation.}.
 	\item Various testing procedures during and after development.
 \end{itemize}
 
-Ideally the end product should meet these requirements to be considered a success. Each one of the requirements ensures a different, core quality of the configuration system, such as correctness, usability, or robustness.
+The end product should meet these requirements to be considered a success. Each one of the requirements ensures a different, core quality of the configuration system, such as correctness, usability, or robustness. %TODO: verify phrases like these
 
 \subsection{DSL existence}
 
 This requirement will be fairly straightforward to prove since it implies a direct usage of the \gls{DSL} to produce results. This can be proven alongside the other requirements as they depend on it. However, a system wide testing will quickly prove the existence of the configuration language and its impacts, specifically with the testing of all features developed and their results.
 
-\subsection{Before and After Comparison}
+% \subsection{Before and After Comparison}
 
-The core idea of this configuration language is to modify the output code of the code generator according to user needs. The best way to prove that this goal was achieved is to compare how users would perform the same task before the configuration language was implemented and after. This direct comparison will evaluate the direct impact of the configuration language on development and will ensure that the developed solution benefits the system. 
+% The core idea of this configuration language is to modify the output code of the code generator according to user needs. The best way to prove that this goal was achieved is to compare how users would perform the same task before the configuration language was implemented and after. This direct comparison will evaluate the direct impact of the configuration language on development and will ensure that the developed solution benefits the system. 
 
-To strengthen the evaluation, a small controlled experiment involving developers familiar with model-driven engineering and code generation tools (\gls{EMF}, Acceleo) will be performed. Participants will be asked to complete predefined tasks under both conditions.
+% To strengthen the evaluation, a small controlled experiment involving developers familiar with model-driven engineering and code generation tools (\gls{EMF}, Acceleo) will be performed. Participants will be asked to complete predefined tasks under both conditions.
 
 \subsection{Usability}
 
@@ -314,17 +314,17 @@ Each of these testing strategies plays a specific role in evaluating the system,
 Although the configuration language includes many features and has been designed with flexibility, usability, and maintainability in mind, this work has some limitations.
 
 \begin{itemize}
-	\item \textbf{Limited Scope of Configurable Aspects:} The proposed DSL focuses primarily on naming conventions, traceability, and coding standards. More advanced features such as behavioral configuration, cross-component constraints, or real-time performance tuning fall outside the scope of this work~\cite{software_product_lines_practices_and_patterns_2015}. Similarly, certain features might be prioritized or excluded based on client feedback.
+	\item \textbf{Limited Scope of Configurable Aspects:} The \gls{DSL} focuses primarily on naming conventions, traceability, and legacy library integration. More advanced features such as behavioral configuration, cross-component constraints, or real-time performance tuning fall outside the scope of this work~\cite{software_product_lines_practices_and_patterns_2015}. Similarly, certain features were prioritized or excluded based on client feedback.
 	
-	\item \textbf{Restricted Evaluation Sample:} Usability and functional testing rely on a small set of representative examples and a limited number of user interactions~\cite{Bias_Mayhew_1994}. While including users with varying levels of technical expertise is being kept in mind, the results may not generalize across all industrial contexts or teams.
+	\item \textbf{Restricted Evaluation Sample:} Usability and functional testing rely on a small set of representative examples and a limited number of user interactions~\cite{Bias_Mayhew_1994}. While including users with varying levels of technical expertise was kept in mind, the results may not generalize across all industrial contexts or teams.
 	
-	\item \textbf{No Legacy Tool for Direct Comparison:} Since no previous configuration language exists for \gls{RAMSES}, or \gls{AADL} for that matter, before and after comparisons will rely on manual, potentially subjective assessments of workflow complexity. This limits the ability to measure productivity gains with high precision.
+	\item \textbf{No Legacy Tool for Direct Comparison:} Since no previous configuration language exists for \gls{RAMSES} before and after comparisons relied on manual, potentially subjective assessments of workflow complexity. This limits the ability to measure productivity gains with high precision.
 	
-	\item \textbf{Integration Constraints:} The configuration system is designed to integrate into the existing \gls{RAMSES} toolchain, which constraints how the generator behavior can be modified. Deep generator reworks or architectural transformations are intentionally excluded to maintain compatibility.
+	\item \textbf{Integration Constraints:} The configuration system was designed to integrate into the existing \gls{RAMSES} toolchain, which constraints how the generator behavior can be modified. Deep generator reworks or architectural transformations are intentionally excluded to maintain compatibility.
 	
 	\item \textbf{Third Party Library Issues:} The inclusion of third party code that is not affected by the configuration language might break compliance standards since the transformations only affect \gls{RAMSES}-generated code. This limitation is hard to overcome since it depends solely on those third party libraries introducing standard compliant code.
 	
-	\item \textbf{Scalability Not Fully Tested:} The \gls{DSL} should performs well on example models. Its performance and maintainability might not be validated on extremely large or complex input systems, which are typical in some industrial environments. This might not be a constraint if such models are later used for testing.
+	\item \textbf{Scalability Not Fully Tested:} The \gls{DSL} performs well on example models. Its performance and maintainability might not be validated on extremely large or complex input systems, which are typical in some industrial environments.
 	
 \end{itemize}
 
@@ -334,9 +334,9 @@ These limitations do not compromise the core contributions of this work, but the
 \section{Toward a Generator for System Integrators}
 \label{sec:conclusion_configurable_generation}
 
-RAMSES has proven to be a robust and effective tool for model-to-code generation, particularly within academic contexts and controlled environments. However, as embedded systems development increasingly intersects with regulatory and industrial demands, the expectations placed on code generators have grown. Beyond correctness, they must now offer adaptability, traceability, and long-term maintainability to meet evolving project requirements.
+\gls{RAMSES} has proven to be a robust and effective tool for model-to-code generation, particularly within academic contexts and controlled environments. However, as embedded systems development increasingly intersects with regulatory and industrial demands, the expectations placed on code generators have grown. Beyond correctness, they must now offer adaptability, traceability, and long-term maintainability to meet evolving project requirements.
 
-Introducing a configuration language is not merely a feature, it's an architectural shift. It allows users to define their generation context without touching generator internals, reducing risk, increasing reuse, and enabling automation across product lines.
+Introducing a configuration language was not merely a feature, it was an architectural shift. It allows users to define their generation context without touching generator internals, reducing risk, increasing reuse, and enabling automation across product lines.
 
 
 

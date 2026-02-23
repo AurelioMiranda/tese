@@ -12,23 +12,33 @@
 \label{cha:impl}
 
 
-\epigraph{ \textit{This chapter describes the technical implementation of the proposed configuration language for RAMSES. It details how the insights from industrial collaboration informed the architectural decisions and how each feature was implemented.}}
+\epigraph{ 
+	\textit{This chapter describes the technical implementation of the configuration language for RAMSES. It details how the insights from industrial collaboration informed the architectural decisions and how each feature was implemented.}
+}
 
 
 \section{Industry Partner Meeting}
 \label{sec:industry_meeting}
 
-The first meeting with an industry partner revealed to be very useful with many insights to note, particularly that a few features were highlighted and prioritized in order to maintain a good development speed and an overall better plan. Most of the previously thought of features (\Glspl{identifier}, Traceability, Report, etc) were endorsed, however, a new feature was suggested by an expert \gls{ROS} developer: the separation of \gls{ROS} specific code and C++ specific code, meaning that code that is specific to \gls{ROS} can be isolated as it is very similar along the various generated files. This is essentially done with an interface that implements \gls{ROS} code on C++ only files, which effectively serves as a separation of concerns.
+A structured requirements elicitation session was conducted with an industry partner to validate the proposed feature set and refine the architectural direction of the system. The objectives of the session were:
 
-Beyond that, the meeting also served as a sneak peak to what the final \gls{RAMSES} product would look like, including every gymmic, option, page and also a code generation dedicated section that ties perfectly with the current work.
+\begin{enumerate}
+	\item \textbf{Feature Validation:} Confirm the relevance, priority, and feasibility of previously identified features (Identifiers, Traceability, Report generation).
+	\item \textbf{Architectural Refinement:} Identify architectural improvements to enhance maintainability, scalability, and development efficiency.
+	\item \textbf{Product Alignment:} Ensure consistency between the current development effort and the expected structure and functionality of the final \gls{RAMSES} product, including its user interface and dedicated code generation section.
+\end{enumerate}
 
-\begin{tcolorbox}[colback=green!5, colframe=green!40!black] This meeting provided extremely valuable insight as the industry partner has been using \gls{ROS} for over seven years, effectively distilling their experience into actionable knowledge. \end{tcolorbox}
+The session resulted in the validation of core functional features and the introduction of an architectural requirement regarding the separation of \gls{ROS}-specific and generic \texttt{C++} code, in essence, a few features were highlighted and prioritized in order to maintain a good development speed and an overall better plan. Most of the previously thought of features (\Glspl{identifier}, Traceability, Report, etc) were endorsed, however, a new feature was suggested by an expert \gls{ROS} developer: the separation of \gls{ROS} specific code and C++ specific code, meaning that code that is specific to \gls{ROS} was to be isolated as it is very similar along the various generated files and it provides many benefits such as increased portability and clear separation of concerns. 
+
+\begin{tcolorbox}[colback=green!5, colframe=green!40!black] 
+	This meeting provided extremely valuable insight as the industry partner has been using \gls{ROS} for over seven years, effectively distilling their experience into actionable knowledge. 
+\end{tcolorbox}
 
 
 \section{Implementation Flow} 
 \label{sec:impl_plan}
 
-In order to better understand what features were implemented, when and why, the implementation was planned and executed by layers: each layer depends on things done on previous layers, hence some features were developed before others.
+In order to better understand what features were implemented, when and why, the implementation was planned and executed by layers: each layer depends on things done on previous layers, hence some features were developed before others. 
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}
@@ -56,7 +66,7 @@ In order to better understand what features were implemented, when and why, the 
 \end{xltabular}
 
 
-Table~\ref{tab:impl_plan} presents the planned order of feature implementation based on their dependencies. Some features required elements developed in previous steps for instance the Report which uses Traceability features. This dependency structure prevented rework by implementing features that provide necessary infrastructure before higher-level functionalities.
+Table~\ref{tab:impl_plan} presents the planned order of feature implementation based on their dependencies. Some features required elements developed in previous steps for instance the Report which uses Traceability features. This dependency structure prevented rework by implementing features that provide necessary infrastructure before higher-level functionalities. This effectively mitigates the issues that arise when software features depend on each other, if the order was reversed the focus would need to constantly swift between features, the current ordering allows each feature to be developed with its dependencies already done and tested.
 
 
 \subsection{Core and Metadata Layer}
@@ -168,6 +178,10 @@ To summarize, the whole naming convention implementation consisted in:
 
 This implementation was very important since the remaining features used it to the fullest, hence why it needed to be the first, on top of that, it improves readability and enforces language-specific best practices, which are critical in mixed-language projects (in the case of \gls{RAMSES}: C++ vs ROS).
 
+\begin{tcolorbox}[colback=blue!5, colframe=blue!40!black] 
+	Note: There is a possibility that two names collide if they have the same naming structure (say ImageDisplay and imageDisplay), however, this would stem from a bad system design practice which \gls{AADL} discourages as identifiers are case-insensitive.
+\end{tcolorbox}
+
 
 \subsection{Comments}
 \label{sec:impl_comments}
@@ -245,7 +259,9 @@ The way the line number is detected is quite complex in practice but more straig
 	\item Using the \gls{JSON} and the traces corresponding to sub components in the larger component (which is represented by a C++ file) the C++ files are scavenged for traces, which, when found, get saved directly below the \textit{codeTrace}, as the line correspondent to it.
 \end{itemize}
 
-Using \gls{JSON} simplified a lot the process of assigning the correct line to the correct trace since \gls{JSON} can be manipulated with Java code in a simple and effective way.
+Using \gls{JSON} simplified a lot the process of assigning the correct line to the correct trace since \gls{JSON} can be manipulated with Java code in a simple and effective way. 
+
+Each complete component represented in the \gls{JSON} adds roughly 1Kb of size to the file. When the component simply points to an external library and not to a generated code file, that value reduces drastically, meaning that a complete system with 6 components can be represented by a \gls{JSON} trace file with 5-6Kb when no external libraries are present or 1Kb if every component has its code in an external library. The overall \gls{JSON} file size is very modest and should not cause storage issues.
 
 In addition to this, traceability links were created using in the report (see Section~\ref{sec:impl_report}) to ensure that the \gls{JSON} file can be directly related to the C++ files using the \textit{@trace} indicative.
 
@@ -367,9 +383,18 @@ Note that the apostrophe is transformed into an underline as mentioned previousl
 
 The overriding system is another file management option. Previously, the code generator simply generated the files in any circumstance, effectively replacing every file, every time. In a simple model this is not an issue, however, in a larger model this can quickly become a performance bottleneck since it implies generating everything, every time. 
 
-When overriding is enabled, the generator does not change, it still generates every file every time, when it is disabled however, it only generates files that are not yet present. For instance, if we have a complete project, no new files will be generated or substituted, in contrast, if one file is missing, the generator will generate only the missing file.
+When overriding is enabled, the generator does not change, it still generates every file every time, when it is disabled however, it only generates files that are not yet present. For instance, if we have a complete project, no new files will be generated or substituted, in contrast, if one file is missing, the generator will generate only the missing file. Even preliminary tests produced a significant difference in execution time when overriding is disabled\footnote{Up to 500ms less than the override enabled counterpart.}, proving that it is worth it to give the user the choice between generating the whole project or just specific parts of it.
 
-Even preliminary tests produced a significant difference in execution time when overriding is disabled\footnote{Up to 500ms less than the override enabled counterpart.}, proving that it is worth it to give the user the choice between generating the whole project or just specific parts of it.
+
+\subsubsection{Generation Hooks}
+\label{sec:impl_gen_hooks}
+
+Generation hooks are also present as suboptions of file management, this is due to the need to run certain scripts before or after project execution. Either being quick cleanup scripts to prepare the project folder for a new version or post generation scripts to automatically test the generated project, these scripts can bring value and a higher of automation to any project.
+
+For those reasons, generation hooks where included in the configuration language. The premise is fairly simple: to execute user created code before or after the actual code generation.
+
+This feature was fairly easy to integrate as there are already workflow options that offer similar capabilities. More technical details can be found in Section~\ref{sec:workflows_script_executor}.
+
 
 \subsection{Legacy Code Integration}
 \label{sec:impl_legacy_code}
@@ -397,16 +422,6 @@ The base for choosing the libraries is to analyze the properties of each process
 The reference mechanism is tied to the target operating system (Section~\ref{sec:impl_os}) in the sense that the code referenced depends on the \gls{OS} to establish a path. This fixes the issues with cross-platform development, for instance, it is possible to reference the libraries with a Linux path while using a Windows based machine. 
 
 This inclusion of the legacy code libraries was of extreme importance since it was one of the core goals of the thesis (see Section~\ref{sec:obj_and_contrib}) and it's a crucial step to a complete \gls{ROS} project generation.
-
-\subsection{Generation Hooks}
-\label{sec:impl_gen_hooks}
-
-The need to run certain scripts before or after project execution is very valuable. Either being quick cleanup scripts to prepare the project folder for a new version or post generation scripts to automatically test the generated project, these scripts can bring value and a higher of automation to any project.
-
-For those reasons, generation hooks where included in the configuration language. The premise is fairly simple: to execute user created code before or after the actual code generation.
-
-Even though that option is available in the configuration, in the specific case of \gls{RAMSES}, there is no need to define a component that executes a script, meaning that there is already a way to execute terminal based commands in the project. The definition was still kept in the configuration language although it was not implemented in practice due to a more practical option that is depicted in Section~\ref{sec:workflows_script_executor}.
-
 
 \subsection{Multiple Configurations}
 \label{sec:impl_multi_config}
@@ -482,7 +497,7 @@ At face value the solution to this is simple\footnote{To add to the already exis
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=\textwidth]{beforeLanguageChange.png}
+	\includegraphics[width=0.3\textwidth]{beforeLanguageChange.png}
 	\caption{Class diagram representing the base idea of choosing a coding language}
 	\label{fig:beforeLanguageChange}
 \end{figure}
@@ -491,7 +506,7 @@ Figure~\ref{fig:beforeLanguageChange} represents the list of languages before th
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=\textwidth]{afterLanguageChange.png}
+	\includegraphics[width=0.3\textwidth]{afterLanguageChange.png}
 	\caption{New, improved class diagram representing the selection a coding language}
 	\label{fig:afterLanguageChange}
 \end{figure}

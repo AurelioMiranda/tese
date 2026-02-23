@@ -136,9 +136,9 @@ class MyNode : public rclcpp::Node {
 
 A simple Node class has the class \gls{identifier} \texttt{MyNode}. In the case of \gls{RAMSES}, MyNode would be inherited from the \gls{AADL} model, meaning that, in order to change the code nomenclature of MyNode, we would have to either manually change the generated code or changing the name of the node in it's corresponding \gls{AADL} model file and then regenerate the code.
 
-Both options are feasible in this case, however, with growing system complexity this small change becomes incrementally harder and more prone to errors.
+Both options are feasible in an individual case, however, with growing system complexity this small change becomes incrementally harder and more prone to errors.
 
-The developed prototype focuses directly on that front, providing an adjacent configuration model that works alongside the main one with the goal of delivering that missing configuration option, here's how it works:
+The developed prototype focuses directly on that incremental front, providing an adjacent configuration model that works alongside the main one with the goal of delivering that missing configuration option, here's how it works:
 
 \begin{enumerate}
 	\item The placeholder code is built, in this case it was from a taskset style project\footnote{This project is a \gls{DSML} that communicates task sets and automatically generates C code using Acceleo, targeting the RT-POSIX real-time gls{API}.}
@@ -198,24 +198,24 @@ The idenfitiers (in this case the name of the function\footnote{T1} and the name
 
 \subsubsection{User Feedback}
 
-In order to test the functionality and receive a third party opinion, a simple user testing was done with two users, specifically \gls{RAMSES} developers that work directly with \gls{AADL}. The procedure was simple and direct, users were instructed to the premise of the prototype, then they would perform tasks (in this case just one task: change the \gls{identifier} name to X) and then they would be questioned in the usefulness of the feature, the applications it could have and overall thoughts.
+In order to test the functionality and receive a third party opinion, a simple user testing was done with two users, specifically \gls{RAMSES} developers that work directly with \gls{AADL}. The procedure was simple and direct, users were instructed to the premise of the prototype, then they would perform a task: change the \gls{identifier} name to X) and then they would be questioned in the usefulness of the feature, the applications it could have and overall thoughts.
 
 Upon doing this testing, the users defined the feature as a flexible addition to coding generation with many application to real life and industry scenarios. Users also noted that this functionality improves information treatment between teams as different people have different ways to write models names, the prototype proves that naming normalization can also improve team cohesion.
 
 Users commented that this functionality supports the ability to create multiple versions of functionally equivalent code just with naming differences. This also aligns with the required feature of supporting coding standards for the selected language\footnote{Currently C++, however there are plans to include C.}, given that some languages require \glspl{identifier} to use a certain nomenclature~\cite{Google_cpp_style_guide, Python_coding_style}, which can clash with \gls{AADL} node names.
 
-Overall the prototype, although simple, was well received and proved to give value for the \gls{AADL} to code pipeline.
+Overall this prototype, although simple, was well received and proved to give value for the \gls{AADL} to code pipeline.
 
 \subsection{Technical Details}
 \label{sec:prototype_technical_details}
 
-Even though its application is specific, the code developed for the prototype is fairly generic. This means that most of the logic and code used for this prototype can be ported directly to RAMSES without much issue, effectively implementing the feature, albeit testing will still be performed.
+Even though its application is specific, the code developed for the prototype is fairly generic. This means that most of the logic and code used for this prototype can be ported directly to \gls{RAMSES} without much issue, effectively implementing the feature, albeit \gls{RAMSES} specific testing was still performed.
 
-The naming convention change logic is pretty straight forward considering \glspl{identifier}, and those come from model properties. From there the properties that represent \glspl{identifier} are formatted as they are being added to the code, effectively making sure the main model stays untouched while the properties extracted are modified into the desired outcome. This makes sure only the specific selected properties are modified and the rest of the code generates as normal.
+The naming convention change logic is pretty straight forward considering \glspl{identifier} since those come from model properties. From there the properties that represent \glspl{identifier} are formatted as they are being added to the code, effectively making sure the main model stays untouched while the properties extracted are modified into the desired outcome. This makes sure only the specific selected properties are modified and the rest of the code generates as normal.
 
 The algorithm used for the naming transformation has many fallbacks that make it so even if a property name is especially complex, cases like short names are handled with care and specific styles like snake\_case, while having complex patterns, can be easily defined with Regex. 
 ~\cite{eclipse_emf}
-As the configuration model is built on Ecore, the modification of naming styles is not possible directly by the user. However, if instead we wanted to \textbf{add} a new naming style, that is very much possible, however it required a quick modification of the Configurator's Ecore model and the Acceleo naming format algorithm, as in Figure~\ref{fig:prototype_new_naming}
+As the configuration model is built on Ecore, the modification of naming styles is not possible directly by the end user. Instead, the \textbf{addition} of a new naming style requires a modification of the Configurator's Ecore model and the Acceleo naming format algorithm, as in Figure~\ref{fig:prototype_new_naming}
 
 \begin{figure}[htbp]
 	\centering
@@ -224,7 +224,7 @@ As the configuration model is built on Ecore, the modification of naming styles 
 	\label{fig:prototype_new_naming}
 \end{figure}
 
-Figure~\ref{fig:prototype_new_naming} explains the steps in a clear but still abstract manner, the Ecore model needs to be modified to include the new naming style, which in turn will generate the coding logic that we can use in Acceleo to transform the \glspl{identifier} by improving the current name formatting algorithm to accommodate the new change.
+In direct terms, Figure~\ref{fig:prototype_new_naming} explains that to add a new naming style, the Ecore model needs to be modified to include said style, which in turn will generate the coding logic that we can use in Acceleo to transform the \glspl{identifier} by improving the current name formatting algorithm to accommodate the new change.
 
 \subsubsection{Multiple Models in Acceleo}
 
@@ -251,7 +251,7 @@ The end product should meet these requirements to be considered a success. Each 
 
 \subsection{DSL existence}
 
-This requirement will be fairly straightforward to prove since it implies a direct usage of the \gls{DSL} to produce results. This can be proven alongside the other requirements as they depend on it. However, a system wide testing will quickly prove the existence of the configuration language and its impacts, specifically with the testing of all features developed and their results.
+This requirement is fairly straightforward to prove since it implies a direct usage of the \gls{DSL} to produce results. This can be proven alongside the other requirements as they depend on it. However, a system wide testing quickly proves the existence of the configuration language and its impacts, specifically with the testing of all features developed and their results.
 
 % \subsection{Before and After Comparison}
 
@@ -283,30 +283,30 @@ To further support analysis, two standardized questionnaires will be used:
 	\item The NASA \gls{TLX} to evaluate the perceived workload and cognitive effort involved in using the DSL.
 \end{itemize}
 
-This setup will help assess whether the DSL meets its usability and accessibility goals across a broad user spectrum.
+This setup will help assess whether the \gls{DSL} meets its usability and accessibility goals across a broad user spectrum.
 
 \subsection{Configuration Variants}
 
-To assess the flexibility and robustness of the configuration language, distinct configuration files will be tested. These scenarios will vary in complexity and structure to evaluate whether the generator can handle diverse inputs while maintaining correctness and coherence in the generated code, effectively testing the limits of the configuration language.
+To assess the flexibility and robustness of the configuration language, distinct configuration files will be tested automatically. These scenarios will vary in complexity and structure to evaluate whether the generator can handle diverse inputs while maintaining correctness and coherence in the generated code, effectively testing the limits of the configuration language.
 
 \subsection{Functionally Equal}
 
-To make sure the code generated still retains the same practical functionality, a few things need to be taken into account, firstly, the code generator needs to be modified just enough to produce the desired results of structure, naming, etc while still keeping the same functionality as before the implementation, essentially keeping the semantics intact. Monthly testings, including Regression and Integration testing, will also ensure that the code remains functionally the same by running selected examples and doing direct code comparison, however, comparisons will focus on runtime behavior rather than raw text equivalence. This will give us the confidence that the new code behaves the same as the old one.
+To make sure the code generated still retains the same practical functionality, a few things need to be taken into account, firstly, the code generator needs to be modified just enough to produce the desired results of structure, naming, etc while still keeping the same functionality as before the implementation, essentially keeping the semantics intact. Monthly testings, including Regression and Integration testing, also ensured that the code remained functionally the same by running selected examples and doing direct code comparison, however, comparisons focused on runtime behavior rather than raw text equivalence.
 
-The baseline for comparison will be the unmodified RAMSES generator. This allows for a clear assessment of what configuration capabilities are introduced in terms of productivity, flexibility, and clarity. 
+The baseline for comparison was the unmodified \gls{RAMSES} generator results. This allowed for a clear assessment of what configuration capabilities are introduced in terms of productivity, flexibility, and clarity. 
 
 \subsection{Testing Procedures}
 
-Tests will be conducted during and after development to ensure the configuration language behaves as expected and that the practical usage of the generated code remains the same. A variety of tests were chosen, specifically:
+Tests were conducted during and after development to ensure the configuration language behaved as expected and that the practical usage of the generated code remains the same. A variety of tests were chosen, specifically:
 
 \begin{itemize}
-	\item Unit Testing which will be performed by the developer. These tests focus on individual transformation rules or components of the generator to make sure developed features work as intended.
+	\item Unit Testing which was performed by the developer. These tests focused on individual transformation rules or components of the generator to make sure developed features work as intended.
 	\item Regression Testing are also handled by the developer as they are used to ensure that new changes do not break existing functionality. They target both previously implemented configuration options and code generation rules.
-	\item Integration Testing will also be performed by the developer and checks whether different features of the generator work together correctly. It focuses on feature interactions and overall system behavior, especially when configuration options are combined.
-	\item Validation Testing is conducted involving actual users and project stakeholders. Its purpose is to validate that the features implemented match user expectations and project goals. Participants will evaluate whether the generated code behaves as expected and whether the configuration language is understandable and practical for its intended use.
+	\item Integration Testing was also be performed by the developer and checked whether different features of the generator work together correctly. It focused on feature interactions and overall system behavior, especially when configuration options are combined.
+	\item Validation Testing is conducted involving actual users and project stakeholders. Its purpose is to validate that the features implemented match user expectations and project goals. Participants evaluated whether the generated code behaved as expected and whether the configuration language is understandable and practical for its intended use.
 \end{itemize}
 
-Each of these testing strategies plays a specific role in evaluating the system, they ensure that the features work and users understand them. The outcomes of these tests is extremely important for the final evaluation of the prototype.
+Each of these testing strategies plays a specific role in evaluating the system, they ensure that the features work and users understand them. The outcomes of these tests are extremely important for the final evaluation of the prototype.
 
 \section{Research Limitations}
 \label{sec:research_limitations}

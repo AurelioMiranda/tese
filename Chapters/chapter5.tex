@@ -238,7 +238,7 @@ This testing will focus particularly on user efficiency (time to complete tasks)
 
 For these tests the participants consisted of end users with moderate \gls{AADL} knowledge and a highly experienced \gls{ROS} developer\footnote{7+ years of commercial \gls{ROS} usage.} that directly represents the target demographic.
 
-The tests were conducted using the \gls{DSL} within the \gls{RAMSES} code generation workflow, operating in a Windows laptop with Osate with the latest versions available at the moment of testing (see more on Section~\ref{sec:test_usabl_eval_crit}), using it with functional \gls{AADL} models.
+The tests were conducted using the \gls{DSL} within the \gls{RAMSES} code generation workflow, operating in a Windows laptop with \gls{Osate} with the latest versions available at the moment of testing (see more on Section~\ref{sec:test_usabl_eval_crit}), using it with functional \gls{AADL} models.
 
 In \gls{GQM} terms, this can be translated to:
 
@@ -370,9 +370,9 @@ The tests were conducted under the following configuration:
 
 \textbf{Hardware}: A standardized Windows laptop running an Intel Core i5 processor with 8 GB of RAM was used for all sessions.
 
-\textbf{\gls{AADL} Editor}: Osate (Open-Source Architecture Tool Environment) version 2.16.0.vfinal, based on Eclipse 2024-03 (4.31). This serves as the primary development environment for \gls{AADL} model authoring and \gls{RAMSES} plugin execution.
+\textbf{\gls{AADL} Editor}: \gls{Osate} version 2.16.0.vfinal, based on Eclipse 2024-03 (4.31). This serves as the primary development environment for \gls{AADL} model authoring and \gls{RAMSES} plugin execution.
 
-\textbf{Code Generation Tool}: The \gls{RAMSES} Code Generator, specifically the commit version 4de627aafdc2ea7c4940848b0dea7e293e382222, was utilized as an Osate plug-in. This component is responsible for processing the \gls{AADL} model alongside the \gls{DSL} configuration file to produce the target code.
+\textbf{Code Generation Tool}: The \gls{RAMSES} Code Generator, specifically the commit version 4de627aafdc2ea7c4940848b0dea7e293e382222, was utilized as an \gls{Osate} plug-in. This component is responsible for processing the \gls{AADL} model alongside the \gls{DSL} configuration file to produce the target code.
 
 
 In order to conduct the tests, the \gls{AAXL2} model \textit{Sys\_Rvision\_Sys\_Rvision\_Pi4\_Instance.aaxl2} was provided as input along with pre and post generated dummy scripts, with the main output being the generated \gls{RAMSES} project, ready to compile and execute.
@@ -713,7 +713,7 @@ These themes highlight areas where usability was influenced not by interaction d
 \subsection{Threats to Validity}
 \label{sec:test_usabl_validity}
 
-Although the tests conducted were very promising and revealed a strong structural integrity of the software built, a core weakness of the validation tests was the lack of many participants capable of using \gls{ROS} in a high degree of proficiency. This was mainly due to the difficulty of having contact and time with a \gls{ROS} industry individual (our specific target demographic). Nevertheless, our individual testing proved that at least one \gls{ROS} industry professional approves of the developed configuration language. TODO: verify
+Although the tests conducted were very promising and revealed a strong structural integrity of the software built, a core weakness of the validation tests was the lack of many participants capable of using \gls{ROS} in a high degree of proficiency. This was mainly due to the difficulty of having contact and time with a \gls{ROS} industry individual (our specific target demographic). Nevertheless, our individual testing proved that at least one \gls{ROS} industry professional approves of the developed configuration language. TODO: verify 
 
 Some of the test participants had brief interactions with a very primitive iteration of \gls{DSL} throughout the development process which might have slightly influenced their performance even though the numbers do not seem to favor any individual in particular. The \gls{DSL} UI was never shown in full, only part of the \gls{metamodel} that represents it, hence the diminished threat of this specific case.
 

@@ -842,6 +842,8 @@ The file configuration controls file naming and output directory structure. User
 
 Figure~\ref{fig:eclipse_config_files} shows the options that control the file management.
 
+The extension option represents the generation hooks (see Section~\ref{sec:impl_gen_hooks}) which were implemented with an already existing workflow component. This settings configure pre and post generation hooks that allow execution of external scripts, effectively enabling automation without modifying the code generator. 
+
 
 \subsection{Comments}
 \label{sec:dsl_comments}
@@ -878,22 +880,6 @@ Figure~\ref{fig:eclipse_config_trace} shows the different options for traceabili
 	\includegraphics[width=\textwidth]{eclipse_config_trace_disabled.png}
 	\caption{Page of the traceability configuration with traceability disabled}
 	\label{fig:eclipse_config_trace_disabled}
-\end{figure}
-
-
-
-\subsection{Extension}
-\label{sec:dsl_ext}
-
-The extension option represents the generation hooks (see Section~\ref{sec:impl_gen_hooks}) which were implemented with an already existing workflow component. This settings configure pre and post generation hooks that allow execution of external scripts. 
-
-These hooks enable automation without modifying the code generator. 
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\textwidth]{eclipse_config_extension.png}
-	\caption{Page of generation hooks for code generation}
-	\label{fig:eclipse_config_extension}
 \end{figure}
 
 \subsection{Build Integration}

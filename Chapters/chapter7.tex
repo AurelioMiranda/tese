@@ -10,7 +10,7 @@
 \chapter{Conclusion and Future Work}
 \label{cha:conclusion}
 
-\epigraph{ \textit{What did we ultimately learned, and what comes next.}}
+\epigraph{ \textit{This chapter summarizes the final outcomes of the research and outlines potential avenues for future development.}}
 
 This chapter concludes the dissertation by summarizing the research efforts and the results obtained throughout the project. It revisits the primary challenges identified regarding the rigidity of \gls{RAMSES} in industrial contexts, such as industrial naming conventions and legacy integration requirements, and evaluates how the design and implementation of the Configuration \gls{DSL} successfully address these limitations. The chapter concludes by outlining directions for future work aimed at extending the scope, scalability, and industrial applications of the developed solution.
 
@@ -28,9 +28,9 @@ Key contributions of this work include:
 	
 	\item \textbf{Architectural Flexibility: } The ability to decouple business logic from the \gls{ROS} and select specific threading models (Executors). That allows the core business logic to be reused in non-\gls{ROS} contexts or ported to different middleware with minimal effort.
 	
-	\item \textbf{Enhanced Traceability: } The automated generation of \gls{JSON} trace files and \gls{HTML} reports that link high-level \gls{AADL} models to low-level C++ artifacts, facilitating auditability. While this added ~250ms of generation time (Section~\ref{sec:exec_times}), it provides critical audit trails for safety certification (DO-178C/\gls{ISO} 26262)."
+	\item \textbf{Enhanced Traceability: } The automated generation of \gls{JSON} trace files and \gls{HTML} reports that link high-level \gls{AADL} models to low-level C++ artifacts, facilitating auditability. While this added ~250ms of generation time (Section~\ref{sec:exec_times}), it provides critical audit trails for safety certification (DO-178C/\gls{ISO} 26262).
 	
-	\item \textbf{Seamless Integration: } A user-friendly preference store implementation within the Eclipse environment that abstracts the complexity of the underlying metamodels. Which allowed even non-expert users (P2, P3) to configure the generator with a low error rate during validation (Section~\ref{sec:test_usabl_participant_character})."
+	\item \textbf{Seamless Integration: } A user-friendly preference store implementation within the Eclipse environment that abstracts the complexity of the underlying metamodels. Which allowed even non-expert users (P2, P3) to configure the generator with a low error rate during validation (Section~\ref{sec:test_usabl_participant_character}).
 \end{itemize}
 
 This work effectively removes a major barrier to the industrial adoption of \gls{RAMSES}, directing the way for its use in complex, heterogeneous cyber-physical systems.

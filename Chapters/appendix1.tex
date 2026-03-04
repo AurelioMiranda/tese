@@ -106,7 +106,7 @@ The downward trend in the first few runs can be attributed to common warmup effe
 \label{app:configs}
 
 
-\subsection*{Complete Project Configuration}
+\subsection{Complete Project Configuration}
 \label{app:config_first_batch}
 
 \begin{description}
@@ -122,15 +122,62 @@ The downward trend in the first few runs can be attributed to common warmup effe
 		\item[Generate:] \texttt{true}
 		\item[Include traceability:] \texttt{true}
 		\item[Include summary tables:] \texttt{true}
-		\item[Include ROS summaries:] \texttt{true}
+		\item[Include logic summaries:] \texttt{true}
 		\item[Show detected errors:] \texttt{true}
+		\item[Open automatically:] \texttt{true}
 	\end{description}
 	
-	\item[Decoupling] Enabled
+	\item[Business Logic]
+	\begin{description}
+		\item[Decoupling:] \texttt{true}
+		\item[Executor:] \texttt{SingleThread}
+	\end{description}
 	
-	\item[Comments] \texttt{true}
+	\item[Files]
+	\begin{description}
+		\item[Overwrite existing:] \texttt{true}
+		\item[Output directory:] \texttt{./generated}
+		\item[Header prefix:] \texttt{Telecom}
+	\end{description}
 	
-	\item[Traceability] \texttt{true}
+	\item[Extension]
+	\begin{description}
+		\item[preGenScript:] \texttt{./script1}
+		\item[postGenScript:] \texttt{./script2}
+	\end{description}
+	
+	\item[Comments]
+	\begin{description}
+		\item[Enabled:] \texttt{true}
+		\item[Copyright notice:] \texttt{(C) 2026 Telecom Project}
+		\item[Author:] \texttt{John Doe}
+	\end{description}
+	
+	\item[Traceability]
+	\begin{description}
+		\item[Enabled:] \texttt{true}
+		\item[Produce diagram:] \texttt{true}
+		\item[Create JSON:] \texttt{true}
+	\end{description}
+	
+	\item[Build Integration]
+	\begin{description}
+		\item[Generate source files:] \texttt{true}
+		\item[Generate Makefile:] \texttt{true}
+		\item[Generate package file:] \texttt{true}
+		\item[Generate launch file:] \texttt{true}
+	\end{description}
+	
+	\item[Legacy Libraries]
+	\begin{description}
+		\item[Include:] \texttt{false}
+		\item[Copy to project:] \texttt{false}
+	\end{description}
+	
+	\item[Target OS]
+	\begin{description}
+		\item[Operating system:] \texttt{Linux}
+	\end{description}
 \end{description}
 
 
@@ -145,7 +192,7 @@ The downward trend in the first few runs can be attributed to common warmup effe
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.7\textwidth]{configLanguageUMLRotated.png}
+\includegraphics[width=0.45\textwidth]{configLanguageUMLRotated.png}
 \caption{UML Diagram of the configuration language rotated 90 degrees for better view}
 \label{figapp:configLanguageUMLRotated}
 \end{figure}

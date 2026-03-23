@@ -28,7 +28,7 @@ A structured requirements elicitation session was conducted with an industry par
 	\item \textbf{Product Alignment:} Ensure consistency between the current development effort and the expected structure and functionality of the final \gls{RAMSES} product, including its user interface and dedicated code generation section.
 \end{enumerate}
 
-The session resulted in the validation of core functional features and the introduction of an architectural requirement regarding the separation of \gls{ROS}-specific and generic \texttt{C++} code, in essence, a few features were highlighted and prioritized in order to maintain a good development speed and an overall better plan. Most of the previously thought of features (\Glspl{identifier}, Traceability, Report, etc) were endorsed, however, a new feature was suggested by an expert \gls{ROS} developer: the separation of \gls{ROS} specific code and C++ specific code, meaning that code that is specific to \gls{ROS} was to be isolated as it is very similar along the various generated files and it provides many benefits such as increased portability and clear separation of concerns. 
+The session resulted in the validation of core functional features and the introduction of an architectural requirement regarding the separation of \gls{ROS}-specific and generic C++ code. Most of the previously thought of features (\Glspl{identifier}, Traceability, Report, etc) were endorsed, however, a new feature was suggested by an expert \gls{ROS} developer: the separation of \gls{ROS} specific code and C++ specific code, meaning that code that is specific to \gls{ROS} was to be isolated as it is very similar along the various generated files and it provides many benefits such as increased portability and clear separation of concerns. 
 
 \begin{tcolorbox}[colback=green!5, colframe=green!40!black] 
 	This meeting provided extremely valuable insight as the industry partner has been using \gls{ROS} for over seven years, effectively distilling their experience into actionable knowledge. 
@@ -38,7 +38,7 @@ The session resulted in the validation of core functional features and the intro
 \section{Implementation Flow} 
 \label{sec:impl_plan}
 
-In order to better understand what features were implemented, when and why, the implementation was planned and executed by layers: each layer depends on things done on previous layers, hence some features were developed before others. 
+In order to better understand what features were implemented, when and why, the implementation was planned and executed by layers: each layer depends on things done on previous layers, hence some features were developed before others. Essentially, a layered architecture.
 
 \bgroup
 \rowcolors{1}{}{GhostWhite}
@@ -66,7 +66,7 @@ In order to better understand what features were implemented, when and why, the 
 \end{xltabular}
 
 
-Table~\ref{tab:impl_plan} presents the planned order of feature implementation based on their dependencies. Some features required elements developed in previous steps for instance the Report which uses Traceability features. This dependency structure prevented rework by implementing features that provide necessary infrastructure before higher-level functionalities. This effectively mitigates the issues that arise when software features depend on each other, if the order was reversed the focus would need to constantly swift between features, the current ordering allows each feature to be developed with its dependencies already done and tested.
+Table~\ref{tab:impl_plan} presents the planned order of feature implementation based on their dependencies. Some features required elements developed in previous steps for instance the Report which uses Traceability features. This dependency structure prevented rework by implementing features that provide necessary infrastructure before higher-level functionalities. This effectively mitigates the issues that arise when software features depend on each other. If the order was reversed the focus would need to constantly shift between features. The current ordering allows each feature to be developed with its dependencies already done and tested.
 
 
 \subsection{Core and Metadata Layer}
@@ -91,7 +91,7 @@ The Core and Metadata Layer (Table~\ref{tab:core_and_meta}) includes foundationa
 \end{xltabular}
 
 
-This first layer served as a base for other features since it has fairly straightforward but very useful features.
+This first layer served as a basis for other features, forming the foundation of the systems layered architecture.
 
 
 \subsection{Structural Optimization Layer}
@@ -145,16 +145,16 @@ The last layer of implementation has a higher degree of abstraction and requires
 As the implementation methodology was done iteratively and following the plan discussed in Section~\ref{sec:impl_plan}, the first feature to implement was the naming conventions.
 
 
-\begin{tcolorbox}[colback=green!5, colframe=green!40!black] Implementation = "how \gls{RAMSES} interprets and applies the DSL to affect code generation". \end{tcolorbox}
+\begin{tcolorbox}[colback=green!5, colframe=green!40!black] Implementation describes how \gls{RAMSES} parses, interprets, and transforms the \gls{DSL} to affect produced code through its code generation mechanisms. \end{tcolorbox}
 
 
 \subsection{Naming Conventions}
 \label{sec:impl_name_conv}
 
-The implementation of naming conventions was straight forward since the demo developed in Section~\ref{sec:proof_of_concept} was substantial part of the complete mechanism. Using Acceleo we are able to modify the properties coming from the model as they are added into the C++ file, in this case, the name is formatted according to the selected convention. The main addition to the prototype work was the introduction of dynamic naming conventions that depend on the selected language, for example: in C++, classes are declared in PascalCase, whereas variables are declared in snake\_case, the following generated code illustrates that very well:
+The implementation of naming conventions was straightforward since the demo developed in Section~\ref{sec:proof_of_concept} was a substantial part of the complete mechanism. Using Acceleo we are able to modify the properties coming from the model as they are added into the C++ file. In this case, the name is formatted according to the selected convention. The main addition to the prototype work was the introduction of dynamic naming conventions that depend on the selected language. For example: in C++, classes are declared in PascalCase, whereas variables are declared in snake\_case, the following generated code illustrates that:
 
 \begin{verbatim}
-	class ImageDisplay : public rclcpp::Node
+class ImageDisplay : public rclcpp::Node
 {
 	public:
 	
@@ -166,7 +166,7 @@ The implementation of naming conventions was straight forward since the demo dev
 		nd_spinner_sub_ = this->create_subscription(...)
 \end{verbatim}
 
-As shown in the generated code, ImageDisplay and image\_subscriber\_sub\_ are both \glspl{identifier} but each one has a different format. In contrast, the previous implementation without configuration was strictly be \textit{Image\_Display} and \textit{Image\_Subscriber\_Sub\_}. These names come directly from the \gls{AADL} model as \textbf{\textit{Image\_Display} and \textit{Image\_Subscriber}}.
+As shown in the generated code, \texttt{ImageDisplay} and \texttt{image\_subscriber\_sub\_} are both \glspl{identifier} but each one has a different format. In contrast, the previous implementation without configuration would be \texttt{Image\_Display} and \texttt{Image\_Subscriber\_Sub\_}. These names come directly from the \gls{AADL} model as \textbf{\texttt{Image\_Display} and \texttt{Image\_Subscriber}}.
 
 To summarize, the whole naming convention implementation consisted in:
 
@@ -176,17 +176,17 @@ To summarize, the whole naming convention implementation consisted in:
 	\item Option to input a prefix or suffix in every \gls{identifier}\footnote{This affix is not affected by the naming convention.}.
 \end{itemize}
 
-This implementation was very important since the remaining features used it to the fullest, hence why it needed to be the first, on top of that, it improves readability and enforces language-specific best practices, which are critical in mixed-language projects (in the case of \gls{RAMSES}: C++ vs ROS).
+This implementation is central, as the remaining features depend heavily on it. For this reason, it was developed first. Additionally, it improves readability and enforces language-specific best practices, which are critical in mixed-language projects (in the case of \gls{RAMSES}: C++ and \gls{ROS}).
 
 \begin{tcolorbox}[colback=green!5, colframe=green!40!black] 
-	Note: There is a possibility that two names collide if they have the same naming structure (say ImageDisplay and imageDisplay), however, this would stem from a bad system design practice which \gls{AADL} discourages as identifiers are case-insensitive.
+	Note: There is a possibility that two names collide if they have the same naming structure (say ImageDisplay and imageDisplay). However, this would stem from a bad system design practice which \gls{AADL} discourages as identifiers are case-insensitive.
 \end{tcolorbox}
 
 
 \subsection{Comments}
 \label{sec:impl_comments}
 
-The implementation of dynamic code comments allow the user to get much more context on the code while preserving the ability to view raw, non-commented code. The way it works is pretty straight forward, the user can toggle the comments on or off, comments are dynamic according to their component and only provide essential info.
+The implementation of dynamic code comments allow the user to get much more context on the code while preserving the ability to view raw, non-commented code. The way it works is pretty straightforward. The user can toggle the comments on or off. Comments are dynamic according to their component and only provide essential info.
 
 \begin{figure}[htbp]
 	\centering
@@ -195,7 +195,7 @@ The implementation of dynamic code comments allow the user to get much more cont
 	\label{fig:comment}
 \end{figure}
 
-Figure~\ref{fig:comment} illustrates how the comments vary depending on the component, this also provides a degree of separation that helps developers understand where parts of the input model are being implemented.
+Figure~\ref{fig:comment} illustrates how the comments vary depending on the component. This also provides a degree of separation that helps developers understand where parts of the input model are being implemented.
 
 More examples of code comments (with before and after) can be found in the Appendix~\ref{app:comment}.
 
@@ -207,9 +207,9 @@ Code comments provide additional value to the code itself and help the flow of d
 \subsection{Traceability}
 \label{sec:impl_trace}
 
-The implementation of traceability is related with the report feature, however, traceability can exist without a report and a report can exist without traceability~\ref{sec:impl_report}. The main idea of traceability is to relate the coding files directly to the model so we are able to verify that a certain file came from a certain part of the model.
+The implementation of traceability is related with the report feature. However, traceability can exist without a report and a report can exist without traceability (See section~\ref{sec:impl_report}). The main idea of traceability is to relate the coding files directly to the model so we are able to verify that a certain file came from a certain part of the model.
 
-The base construction of the trace file was done in \gls{JSON}, this choice came from the fact that \gls{JSON} provides information while still maintaining a structure that can easily be ported elsewhere and can easily be machine readable.
+The base construction of the trace file was done in \gls{JSON}. This choice came from the fact that \gls{JSON} provides information while still maintaining a structure that can easily be ported elsewhere and can easily be machine readable.
 
 This is an example of the \gls{JSON} produced by a traceability analysis:
 

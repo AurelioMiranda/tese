@@ -122,7 +122,7 @@ In order to better understand the whole concept of the \gls{DSL} to be built dur
 \subsection{How it works}
 \label{sec:how_it_works}
 
-The selected feature to be implemented by the prototype was the \Gls{identifier} Modification option, which essentially means having a higher control over the generated function, variable, and class names in the generated code. This features was chosen since it is fairly straight forward to implement and also decently portable, as discussed in section~\ref{sec:config_language_characteristics}. 
+The selected feature to be implemented by the prototype was the \Gls{identifier} Modification option, which essentially means having a higher control over the generated function, variable, and class names in the generated code. This features was chosen since it is fairly straightforward to implement and also decently portable, as discussed in section~\ref{sec:config_language_characteristics}. 
 
 Lets take the following example:
 
@@ -202,7 +202,7 @@ In order to test the functionality and receive a third party opinion, a pilot us
 
 Upon doing this testing, users defined the feature as a flexible addition to coding generation with many application to real life and industry scenarios. Users also noted that this functionality improves information treatment between teams as different people have different ways to write models names, the prototype proves that naming normalization can also improve team cohesion.
 
-Users commented that this functionality supports the ability to create multiple versions of functionally equivalent code just with naming differences. This also aligns with the required feature of supporting coding standards for the selected language\footnote{Currently C++, however there are plans to include C.}, given that some languages require \glspl{identifier} to use a certain nomenclature~\cite{Google_cpp_style_guide, Python_coding_style}, which can clash with \gls{AADL} node names.
+Users commented that this functionality supports the ability to create multiple versions of functionally equivalent code just with naming differences. This also aligns with the required feature of supporting coding standards for the selected language, given that some languages require \glspl{identifier} to use a certain nomenclature~\cite{Google_cpp_style_guide, Python_coding_style}, which can clash with \gls{AADL} node names.
 
 Overall this prototype, although simple, was well received and proved to give value for the \gls{AADL} to code pipeline.
 
@@ -294,7 +294,7 @@ To validate the configuration language, we executed a test suite comprising 21 a
 	\item Erroneous inputs specifically designed to trigger validation diagnostics.
 \end{itemize}
 
-By comparing the generated artifacts against a set of expected "Golden Models," we verified that the generator maintains structural coherence across all 63 iterations, confirming the language's stability under stress.
+By comparing the generated artifacts against a set of expected "Golden Models", we verified that the generator maintains structural coherence across all 63 iterations, confirming the language's stability under stress.
 
 \subsection{Functionally Equal}
 
@@ -318,12 +318,12 @@ Each of these testing strategies plays a specific role in evaluating the system,
 \section{Research Limitations}
 \label{sec:research_limitations}
 
-Although the configuration language includes many features and has been designed with flexibility, usability, and maintainability in mind, this work has some limitations.
+Although the configuration language includes many features and has been designed with flexibility, usability, and maintainability in mind, this work has some limitations:
 
 \begin{itemize}
-	\item \textbf{Limited Scope of Configurable Aspects:} The \gls{DSL} focuses primarily on naming conventions, traceability, and legacy library integration. More advanced features such as behavioral configuration, cross-component constraints, or real-time performance tuning fall outside the scope of this work~\cite{software_product_lines_practices_and_patterns_2015}. Similarly, certain features were prioritized or excluded based on client feedback.
+	\item \textbf{Limited Scope of Configurable Aspects:} The \gls{DSL} focuses primarily on naming conventions, traceability, and legacy library integration. More advanced features such as behavioral configuration, cross-component constraints, or real-time performance tuning fall outside the scope of this work~\cite{software_product_lines_practices_and_patterns_2015}. Similarly, report and business logic separation were prioritized and protected areas excluded based on client feedback.
 	
-	\item \textbf{Restricted Evaluation Sample:} Usability and functional testing rely on a small set of representative examples and a limited number of user interactions~\cite{Bias_Mayhew_1994}. While including users with varying levels of technical expertise was kept in mind, the results may not generalize across all industrial contexts or teams.
+	\item \textbf{Restricted Evaluation Sample:} Usability and functional testing rely on a small set of representative examples and a limited number of user interactions~\cite{Bias_Mayhew_1994}. While including users with varying levels of technical expertise was kept in mind, the results may not generalize across all industrial contexts or teams since it would require a lot more users to make the study representative, from a statistics standpoint.
 	
 	\item \textbf{No Legacy Tool for Direct Comparison:} Since no previous configuration language exists for \gls{RAMSES} before and after comparisons relied on manual, potentially subjective assessments of workflow complexity. This limits the ability to measure productivity gains with high precision.
 	

@@ -40,7 +40,7 @@ The main testing environment for the tests in this sub section was the following
 	\item Ubuntu version 22.04.5 LTS
 \end{itemize}
 
-The regression tests applied at this time were limited since the previous version of the software did not include any code generation customization, only the simple transition from model to code (\gls{M2T}), which, after generating a \gls{ROS} project in both the previous code generator and the at the time current one (with the first batch of features implemented), it was possible to verify that both generators still produced the same practical output, essentially, the code produced by both generators yields the same functionality.
+The regression tests applied at this time were limited since the previous version of the software did not include any code generation customization, only the simple transition from model to code (\gls{M2T}), which, after generating a \gls{ROS} project in both the previous code generator and the at the time current one (with the first batch of features implemented), it was possible to verify that both generators still produced the same practical output. Essentially, the code produced by both generators yields the same functionality.
 
 The integration test part was done much more in depth since the goal was to intertwine the different new features and find out if they worked in perfect harmony as expected. The tests present in Table~\ref{tab:int_tests_1} were conducted.
 
@@ -58,7 +58,7 @@ The integration test part was done much more in depth since the goal was to inte
 	TC-INT-03 & Traceability & Ensure model elements map to the correct code location and report entry. & JSON and HTML show accurate paths and line numbers. \\
 	TC-INT-04 & Report Generation & Ensure generation metrics are passed from Java generator to report. & Report displays correct counts and settings. \\
 	TC-INT-05 & Code Quality \& Report Sync & Verify quality checker warnings appear in both XML and report. & Both outputs show the same warning details. \\
-	TC-INT-07 & Cross-Feature Stability & Test large models with custom \glspl{identifier}, comments, and style violations. & All features work together without breaking. \\
+	TC-INT-06 & Cross-Feature Stability & Test large models with custom \glspl{identifier}, comments, and style violations. & All features work together without breaking. \\
 \end{xltabular}
 
 After conducting these tests, the following was concluded:
@@ -86,7 +86,7 @@ After conducting these tests, the following was concluded:
 		\item The Java generator correctly embeds this warning into the final HTML report.
 	\end{enumerate}
 	
-	\item \textbf{TC-INT-07 - Cross-Feature Stability:} Used a large, complex model with:
+	\item \textbf{TC-INT-06 - Cross-Feature Stability:} Used a large, complex model with:
 	\begin{itemize}
 		\item Custom \glspl{identifier}
 		\item Extensive comments
@@ -102,11 +102,11 @@ After conducting these tests, the following was concluded:
 
 This latter stage of integration testing concentrated on the more architecture and runtime-oriented features of configuration, as well as revising the way in which testing was performed in order to better align with the modular design principles of \gls{RAMSES}. While tests in August concentrated on baseline correctness and compatibility, tests in October focused on verifying that these advanced configuration options (business logic decoupling, executor selection, file management, and build behavior) interoperate correctly and produce expected behavior when combined.
 
-The testing environment remained mostly the same, with the exception of the execution platform: testing was moved from a physical Ubuntu installation on Windows to a dedicated Linux virtual machine. The \gls{RAMSES} version was also updated to Oct 27, 2025 (commit 3eb5118b57903cc5077ad4218fc83e182cbab199).
+The testing environment remained mostly the same, with the exception of the execution platform: testing was moved from a physical Ubuntu installation on Windows to a dedicated Linux virtual machine. The \gls{RAMSES} version was also updated to Oct 27, 2025.
 
-The initial tests were conducted with a "parameterized" way in mind, meaning that the architecture prioritized code efficiency albeit with an addition of complexity. This in of itself is not an issue at all, the tests were still very efficient, accurate and highly maintainable\footnote{To add a new test only one function needs to be added, at least.}. However, the current \gls{RAMSES} architecture benefited more from running tests in an isolated, standalone form, meaning that it would be better if it was possible to run specific test of the generated code without the need to run the whole test strip. For this goal, the parameterized way of testing was inefficient, since it entails that every test is generic and there is no way to quickly modify specific parameters in a single test.
+The initial tests were conducted with a "parameterized" way in mind, meaning that the architecture prioritized code efficiency albeit with an addition of complexity. This in of itself is not an issue at all, the tests were still very efficient, accurate and highly maintainable, since to add a new test, at least one function needs to be added. However, the current \gls{RAMSES} architecture benefited more from running tests in an isolated, standalone form, meaning that it would be better if it was possible to run specific test of the generated code without the need to run the whole test strip. For this goal, the parameterized way of testing was inefficient, since it entails that every test is generic and there is no way to quickly modify specific parameters in a single test.
 
-So, the test class was re-written to have one method per test, per model. Meaning that instead of ten generic tests ran with parameterized values, there would be fifty \footnote{At that point in time, with five models.} specific tests, ten for each test model.
+So, the test class was re-written to have one method per test, per model. This means that instead of ten generic tests run with parameterized values, there would be fifty specific tests, ten for each test model, given that five models were considered at that point in time.
 
 The features tested in Section~\ref{sec:test_feature_one} were re-tested and their behavior remained, as expected, the same. On top of that, new integration tests were performed to ensure that new features behave as intended, mainly:
 
@@ -229,7 +229,7 @@ The change from plug-in tests to standalone revealed a clear advantage when it c
 
 
 
-\section{Usability Validation}
+\section{Usability Assessment}
 \label{sec:test_val}
 
 With the \gls{DSL} finalized and its features implemented it was then possible to assess how an end user will interact with the newly developed features. The object of study is the developed \gls{DSL} and configuration workflow it uses. The main purpose of this usability validation test is to evaluate, understand, and improve the code configuration \gls{DSL} and workflow.
@@ -297,7 +297,7 @@ To ensure the validity of the usability evaluation, it is important to clarify t
 	\item A robotics developer with practical experience in \gls{ROS} that represented a major demographic expected to interact with the generated code and configuration artifacts.
 \end{itemize}
 
-Given the availability constraints inherent in specialized domains such as \gls{AADL} and safety-critical modeling, the participant group for this study constitutes a convenience sample. According to Falessi \textit{et al.} (ST7/ST8)~\cite{Falessi_Juristo_Wohlin_Turhan_Münch_Jedlitschka_Oivo_2017}, convenience sampling is acceptable in empirical software engineering studies when the objective is exploratory evaluation, early-stage usability validation, and identification of practical issues affecting real users. While this sampling method limits statistical generalizability, it provides valuable insight into typical user behaviour within the actual intended user demographic.
+Given the availability constraints inherent in specialized domains such as \gls{AADL} and safety-critical modeling, the participant group for this study constitutes a convenience sample. According to Falessi \textit{et al.}~\cite{Falessi_Juristo_Wohlin_Turhan_Münch_Jedlitschka_Oivo_2017}, convenience sampling is acceptable in empirical software engineering studies when the objective is exploratory evaluation, early-stage usability validation, and identification of practical issues affecting real users. While this sampling method limits statistical generalizability, it provides valuable insight into typical user behaviour within the actual intended user demographic.
 
 To make this verification operational, each usability requirement introduced in Chapter~\ref{chap:challenges_and_requirements} is mapped to a specific dependent variable in the evaluation design. The requirement that the \gls{DSL} be human-readable and accessible to users with different technical backgrounds is assessed through learnability and effectiveness metrics, namely the time needed to complete configuration tasks and the rate of successfully completed steps. The requirement for low cognitive overhead and clarity of configuration rules is evaluated using the NASA-\gls{TLX} workload scale, which measures perceived mental demand, effort and frustration. The requirement that the \gls{DSL} support correct and error tolerant configuration is linked to the error rate and the qualitative analysis of error types. Similarly, the requirement for a declarative and predictable configuration is associated with efficiency metrics (task duration, need for backtracking) and with participant reports captured through the \gls{SUS} questionnaire. By associating each requirement with at least one measurable variable, the evaluation ensures that high level design goals such as readability, configurability, robustness, and accessibility are reflected in user experience and performance.
 

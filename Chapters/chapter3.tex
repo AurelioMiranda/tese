@@ -124,15 +124,15 @@ In order to better understand the whole concept of the \gls{DSL} to be built dur
 
 The selected feature to be implemented by the prototype was the \Gls{identifier} Modification option, which essentially means having a higher control over the generated function, variable, and class names in the generated code. This features was chosen since it is fairly straightforward to implement and also decently portable, as discussed in section~\ref{sec:config_language_characteristics}. 
 
-Lets take the following example:
+Lets take the following example shown in Figure~\ref{lst:node}.
 
-\begin{verbatim}
+\begin{lstlisting}[language=Java, caption={Example node class}, label={lst:node}]
 class MyNode : public rclcpp::Node {
 	public:
 	MyNode() : Node("my_node") {
 		(...)
 	}
-\end{verbatim}
+\end{lstlisting}
 
 A simple Node class has the class \gls{identifier} \texttt{MyNode}. In the case of \gls{RAMSES}, MyNode would be inherited from the \gls{AADL} model, meaning that, in order to change the code nomenclature of MyNode, we would have to either manually change the generated code or changing the name of the node in it is corresponding \gls{AADL} model file and then regenerate the code.
 

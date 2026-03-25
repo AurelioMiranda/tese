@@ -188,25 +188,25 @@ Major benefits of Acceleo are:
 \label{sec:example}
 
 Acceleo code is generated from .mtl templates, where it is defined how model elements are translated into text.
-Suppose the model contains a Class with the name MotorController. A basic Acceleo template looks like this:
+Suppose the model contains a Class with the name MotorController. A basic Acceleo template looks like the one in Figure~\ref{lst:acceleo}.
 
-\begin{verbatim}
+\begin{lstlisting}[language=Java, caption={Acceleo template example}, label={lst:acceleo}]
 [template public generateClass(c : Class)]
 public class [c.name/]
 {
 	// class body
 }
 [/template]
-\end{verbatim}
+\end{lstlisting}
 
-This would generate:
+Which would generate the code present in Figure~\ref{lst:result}
 
-\begin{verbatim}
+\begin{lstlisting}[language=Java, caption={Example of generated code}, label={lst:result}]
 public class MotorController
 {
 	// class body
 }
-\end{verbatim}
+\end{lstlisting}
 
 This example illustrates how Acceleo uses \gls{MD} templates to produce structured and consistent source code from high level models.
 

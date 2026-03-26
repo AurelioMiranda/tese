@@ -43,9 +43,9 @@ In this thesis, \gls{AADL} is used as the base modeling language. Other modeling
 \label{sec:ramses}
 \label{sec:ramsesIntro}
 
-\gls{RAMSES} is a \gls{M2T} transformation tool with the ability to generate code from \gls{AADL} models. Part of the greater Eclipse ecosystem, \gls{RAMSES} automates the transformation of architectural models into deployable source code, effectively achieving model-driven automation~\cite{MEM4CSD}.
+\gls{RAMSES} is a \gls{M2T} transformation tool with the ability to generate code from \gls{AADL} models. Part of the greater Eclipse ecosystem and used with \gls{Osate}, \gls{RAMSES} automates the transformation of architectural models into deployable source code, effectively achieving model-driven automation~\cite{MEM4CSD}.
  
-\gls{RAMSES} supports code generation in both \textbf{C} and \textbf{C++}, albeit in two different \gls{RAMSES} versions, C in the previous implementation and C++ in the current one. This makes it possible to use it in a broad variety of embedded development settings, depending on whether the target environment needs low-level procedural programming or more structured, object-oriented design paradigms.
+\gls{RAMSES} supports code generation in both C and C++, albeit in two different \gls{RAMSES} versions, C in the previous implementation and C++ in the current one. This makes it possible to use it in a broad variety of embedded development settings, depending on whether the target environment needs low-level procedural programming or more structured, object-oriented design paradigms.
  
 The tool does this by systematically associating \gls{AADL} model elements to their corresponding code structures. Processors, threads, communication channels, and data components declared in \gls{AADL} are mapped to their code counterparts, so, much of the \gls{boilerplate} and \gls{scaffolding} code otherwise written by hand is done automatically.
 

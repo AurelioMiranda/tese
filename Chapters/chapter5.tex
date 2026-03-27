@@ -32,7 +32,7 @@ The main testing environment for the tests in this sub section was the following
 \begin{itemize} 
 	\item Eclipse version 2024-03 (4.31)
 	\item OSATE2 version 2.16.0.vfinal
-	\item RAMSES2 version Aug 26, 2025 (commit 335579b6e58a188475e7a5e7ed099b9a549bfb25)
+	\item RAMSES2 version Aug 26, 2025
 	\item ROS 2 Humble Hawksbill
 	\item Acceleo version 3.7.15.202402190857
 	\item MDELab Workflow version 1.9.1.202402292002
@@ -299,10 +299,9 @@ To make this verification operational, each usability requirement introduced in 
 
 A total of 5 participants were selected for this study. All were familiar with \gls{AADL} and had experience with model-driven workflows, even though their backgrounds and technical depth varied. This group reflects the typical user base within the RAMSES ecosystem: developers, testers, and stakeholders who understand AADL semantics but may not necessarily be expert programmers. Participants remained anonymous.
 
-The number of participants was not random, many studies have shown that there are conflicting opinions regarding the perfect amount of users needed to verify the usability of an application. Carol Barnum~\cite{Barnum_2003} strongly concludes that Nielsen's~\cite{Nielsen_2024} 5 user minimum is not adequate for many full fledged applications and system diversity, user diversity, test goals and risk tolerance can help decide a more appropriate amount. That same principal applies here but in a different manner because we are not simply testing a complete application but only a specific integrated tool that is part of the broader system. It is correct to say that more users will yield better overall results, however, since this tool is aimed at a very specific user base, each test must be conducted without failure. 
-% TODO: im out of inspiration and this paragraph needs to be very concise, resume later
+The number of participants was not random. Many studies have shown that there are conflicting opinions regarding the perfect amount of users needed to verify the usability of an application. Carol Barnum~\cite{Barnum_2003} strongly concludes that Nielsen's~\cite{Nielsen_2024} 5 user minimum is not adequate for many full fledged applications and system diversity, user diversity, test goals and risk tolerance can help decide a more appropriate amount. That same principle applies here but in a different manner because we are not simply testing a complete application but only a specific integrated tool that is part of the broader system. It is correct to say that more users will yield better overall results.
 
-Out of all participants, only one of them interacted with a very early and incomplete version of the \gls{DSL} and, during the test, this participant did not entice any familiarization with the current \gls{DSL}, hence its safe to say that no participant understood what the \gls{DSL} was, what purpose it served and how to operate it before the execution of the test.
+Out of all participants, only one of them interacted with a very early and incomplete version of the \gls{DSL} and, during the test, this participant did not entice any familiarization with the current \gls{DSL}. Overall, participants were not familiar with the \gls{DSL} prior to the evaluation.
 
 \subsubsection{Participant Characterization}
 \label{sec:test_usabl_participant_character}
@@ -345,13 +344,13 @@ The participants were recruited via direct contact from professional networks as
 
 Out of all participants, only P2 had brief interactions with a very early and incomplete version of the \gls{DSL} that excluded the \gls{UI} itself. During the test, this participant did not demonstrate any prior knowledge of the current \gls{DSL} features, supporting the assumption that all participants approached the tasks essentially as beginners of the final system.
 
-The participants were not blinded to the end goal, which was presented as a "usability validation of a new code configuration workflow for \gls{RAMSES}." However, they were provided no task-specific guidance and were told the purpose of the test was to evaluate the tool, not the user. This minimized anxiety and the potential for a strong Hawthorne effect\footnote{When people behave differently because they know they are being watched}.
+The participants were not blinded to the end goal, which was presented as a "usability validation of a new code configuration workflow for \gls{RAMSES}." However, they were provided no task-specific guidance and were told the purpose of the test was to evaluate the tool, not the user. This minimized anxiety and the potential for a strong Hawthorne effect, which states that people behave differently when they know they are being watched~\cite{McCambridge2014Hawthorne}.
 
 
 \subsection{Experimental Materials}
 \label{sec:test_usabl_materials}
 
-To ensure the test is valid and able to be reproduced, the technical environment and all its artifacts were the same across all testing sessions. The objective was to create a representative and consistent workflow environment for \gls{RAMSES} users.
+To ensure the test was valid and reproducible, the technical environment and all its artifacts were the same across all testing sessions. This controlled setup reduces variability introduced by environmental factors, thereby supporting fair comparison between runs. Detailed documentation of the experimental setup was provided to support reproducibility, in line with the FAIR principles for scientific research~\cite{fair}. The objective was to create a representative and consistent workflow environment for \gls{RAMSES} users.
 
 \subsection{Hardware and Software Environment}
 \label{sec:test_usabl_materials_env}
@@ -364,7 +363,7 @@ The tests were conducted under the following configuration:
 
 \textbf{\gls{AADL} Editor}: \gls{Osate} version 2.16.0.vfinal, based on Eclipse 2024-03 (4.31). This serves as the primary development environment for \gls{AADL} model authoring and \gls{RAMSES} plugin execution.
 
-\textbf{Code Generation Tool}: The \gls{RAMSES} Code Generator, specifically the commit version 4de627aafdc2ea7c4940848b0dea7e293e382222, was utilized as an \gls{Osate} plug-in. This component is responsible for processing the \gls{AADL} model alongside the \gls{DSL} configuration file to produce the target code.
+\textbf{Code Generation Tool}: The \gls{RAMSES} Code Generator, specifically the commit version Dec 4 2025, was utilized as an \gls{Osate} plug-in. This component is responsible for processing the \gls{AADL} model alongside the \gls{DSL} configuration file to produce the target code.
 
 
 In order to conduct the tests, the \gls{AAXL2} model \textit{Sys\_Rvision\_Sys\_Rvision\_Pi4\_Instance.aaxl2} was provided as input along with pre and post generated dummy scripts, with the main output being the generated \gls{RAMSES} project, ready to compile and execute.
@@ -383,7 +382,7 @@ Each participant was asked to perform a sequence of tasks designed to cover ever
 	\item \textbf{Full Workflow Validation:} triggering code generation and verifying that the outputs (generated code, reports, trace files, etc) reflect the selected configuration.
 \end{itemize}
 
-Although it was not possible to test the entirety of the \gls{DSL} due to time, fatigue and stress constraints, the few options from every category means that it was possible to simulate a scenario close to real/industrial. Options such as selected the target language were prioritized over other options such as the copyright notice in the code comments section in order to maximize efficiency over time. The detailed task booklet can be found in the Appendix~\ref{app:task_book}.
+Although it was not possible to test the entirety of the \gls{DSL} due to time, fatigue and stress constraints, the few options from every category means that it was possible to simulate a scenario close to real/industrial. In particular, configuration options such as the target language selection were prioritised over less critical options, such as the inclusion of a copyright notice in the code comments section, in order to maximise efficiency within the available time. The detailed task booklet can be found in the Appendix~\ref{app:task_book}.
 
 The task sequence was intentionally designed to exercise the \gls{DSL} to near full extent without requiring prior explanation of its internal implementation with a low to medium difficulty level with each task. Moreover, the middle sections of the task booklet (sections B, C, D and E) were shuffled between candidates in order to mitigate the learning effects of a fixed order.
 
@@ -400,8 +399,8 @@ The interaction with the \gls{DSL} is being treated as the independent variable.
 \paragraph{Quantitative data}
 \label{sec:test_usabl_quant}
 
-The planned and methodical testing process along with the pilot test helped mitigate invalid runs entirely, this was very positive since it allowed for a better analysis of results and to the non-existence of discarding rules.
-Task time data was gathered using a stop watch, where each task essentially corresponded to a "lap" on the stop watch, then, task times were associated by order. This method, although highly accurate, required full attention to detail since if a task was skipped, the timing would be off on the rest of the tasks, nevertheless, it was somewhat practical since error, misunderstandings and help requests still had to be answered at the same time. Thanks to the pilot test and the screen recording of each test, the negative effects of the timing method were greatly reduced and the data was gathered cleanly.
+The planned and methodical testing process along with the pilot test helped mitigate invalid runs entirely. This was very positive since it allowed for a better analysis of results and to the non-existence of discarding rules.
+Task time data was gathered using a stop watch, where each task essentially corresponded to a "lap" on the stop watch, then, task times were associated by order. This method, although highly accurate, required full attention to detail since if a task was skipped, the timing would be off on the rest of the tasks. Nevertheless, it was somewhat practical since error, misunderstandings and help requests still had to be answered at the same time. Thanks to the pilot test and the screen recording of each test, the negative effects of the timing method were greatly reduced and the data was gathered cleanly.
 With the data now gathered, the processing consisted of averaging the time taken per task instead of the median since the time taken per task was relatively similar throughout the overall test, meaning that some tasks inadvertently took more time to be completed than others consistently throughout all the test.
 
 For every task and participant, the following metrics were recorded:
@@ -437,7 +436,7 @@ After completing all tasks, each participant completed two standardized question
 	\item \textbf{NASA \gls{TLX}} to assess perceived workload and cognitive demands.
 \end{itemize}
 
-The \gls{SUS} questionnaire was scored following the standard procedure defined by Brooke and the NASA-\gls{TLX} questionnaire was administered using the unweighted scoring method. Participants rated each of the six workload dimensions (mental demand, physical demand, temporal demand, effort, performance, and frustration) on a 0–100 scale. The overall workload score was computed as the arithmetic mean of the six dimension scores. The unweighted approach was selected to reduce participant burden and improve consistency across sessions, which is appropriate for exploratory usability evaluations with a limited sample size.
+The \gls{SUS}~\cite{Brookesus} questionnaire was scored following the standard procedure defined by Brooke and the NASA-\gls{TLX}~\cite{HART1988139} questionnaire was administered using the unweighted scoring method. Participants rated each of the six workload dimensions (mental demand, physical demand, temporal demand, effort, performance, and frustration) on a 0–100 scale. The overall workload score was computed as the arithmetic mean of the six dimension scores. The unweighted approach was selected to reduce participant burden and improve consistency across sessions, which is appropriate for exploratory usability evaluations with a limited sample size.
 
 These instruments provide widely accepted measures for usability and mental effort. They also enable a structured and comparable assessment.
 

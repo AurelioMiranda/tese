@@ -28,7 +28,7 @@ Key contributions of this work include:
 	
 	\item \textbf{Architectural Flexibility: } The ability to decouple business logic from the \gls{ROS} and select specific threading models (Executors). That allows the core business logic to be reused in non-\gls{ROS} contexts or ported to different middleware with minimal effort.
 	
-	\item \textbf{Enhanced Traceability: } The automated generation of \gls{JSON} trace files and \gls{HTML} reports that link high-level \gls{AADL} models to low-level C++ artifacts, facilitating auditability. While this added ~250ms of generation time (Section~\ref{sec:exec_times}), it provides critical audit trails for safety certification (DO-178C/\gls{ISO} 26262).
+	\item \textbf{Enhanced Traceability: } The automated generation of \gls{JSON} trace files and \gls{HTML} reports that link high-level \gls{AADL} models to low-level C++ artifacts, facilitating auditability. While this added ~250ms of generation time (Section~\ref{sec:exec_times}), it provides critical audit trails for safety certification (DO-178C/\gls{ISO} 26262)~\cite{do178C}~\cite{iso26262}.
 	
 	\item \textbf{Seamless Integration: } A user-friendly preference store implementation within the Eclipse environment that abstracts the complexity of the underlying metamodels. Which allowed even non-expert users (P2, P3) to configure the generator with a low error rate during validation (Section~\ref{sec:test_usabl_participant_character}).
 \end{itemize}

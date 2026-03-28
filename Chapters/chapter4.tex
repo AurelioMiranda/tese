@@ -99,6 +99,8 @@ This first layer served as a basis for other features, forming the foundation of
 
 The Structural Optimization Layer (Table~\ref{tab:struct_opt_layer}) focuses on improving code quality and efficiency. Standard compliance ensures generated code meets coding norms and best practices. Dead code detection and memory optimization reduce code bloat and resource consumption but require stable metadata and analysis frameworks built in previous layers. These features have higher complexity, reflecting the need for careful analysis and manipulation of generated code.
 
+\newpage
+
 \bgroup
 \rowcolors{1}{}{GhostWhite}
 \begin{xltabular}{\textwidth}{X X X}
@@ -374,6 +376,8 @@ By default, any forbidden character is replaced by an underline and spaces at th
 
 A good example of the result of this file header implementation is, based of the files in Section~\ref{sec:impl_ros_separation}, when adding the header \texttt{Nova"}, the result is as shown in Figure~\ref{lst:file_done}
 
+\newpage
+
 \begin{lstlisting}[language=Java, caption={File structure with header example}, label={lst:file_done}]
 	src/
 		 impl/
@@ -401,6 +405,8 @@ For those reasons, generation hooks were included in the configuration language.
 The integration of generation hooks leverages the existing workflow execution mechanism, which already supports extensibility at different stages of the generation pipeline. More technical details can be found in Section~\ref{sec:workflows_script_executor}.
 
 
+\newpage
+
 \subsection{Legacy Code Integration}
 \label{sec:impl_legacy_code}
 
@@ -427,6 +433,8 @@ The base for choosing the libraries is to analyze the properties of each process
 The reference mechanism is tied to the target operating system (Section~\ref{sec:impl_os}) in the sense that the code referenced depends on the \gls{OS} to establish a path. This fixes the issues with cross-platform development. For instance, it is possible to reference the libraries with a Linux path while using a Windows based machine. 
 
 This inclusion of the legacy code libraries was of extreme importance since it was one of the core goals of the thesis (see Section~\ref{sec:obj_and_contrib}) and it is a crucial step to a complete \gls{ROS} project generation.
+
+\newpage
 
 \subsection{Multiple Configurations}
 \label{sec:impl_multi_config}
